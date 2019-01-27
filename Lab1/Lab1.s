@@ -7,8 +7,8 @@ _start:
     mvn r3, #0x0000005f  @ Move -96d to R3
     movs r0, r3 @ STATUS SET - move r3->r1 and set status flag
     mov r1, r2  @ Move r2->r1
-    
-    mov r0, #0 	@indicate normal completion
+  
+    mov r0, #0	@indicate normal completion  
     mov r7, #1	@tell linux to terminate the program
     svc 0
     .end

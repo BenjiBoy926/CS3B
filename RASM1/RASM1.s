@@ -32,7 +32,8 @@ _start:
 
     @ Update the LCV for the loop
     _loopchange:
-        cmp r4, r5 
+        add r5, r5, #1
+	cmp r4, r5 
         bal _loopcheck
 
     _loopend:

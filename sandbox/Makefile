@@ -1,5 +1,6 @@
 EXEC = sandbox
 OBJS = sandbox.o
+LIB = ../macros/stdout.o ../macros/stdin.o
 
 # Compile and link all programs
 all: $(EXEC)

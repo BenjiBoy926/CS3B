@@ -1,8 +1,19 @@
 .global _start
+.global _end
 
 .data
 prompt: .ascii "Enter a whole number: "
-inbuff: .ascii ""
+inbuff: .word
+
+@ Register Table
+@ --------------
+@ r0 -> device   -> device of input/output
+@ r1 -> baseAddr -> base address of memory input/output
+@ r2 -> buffLen  -> length input/output
+@ r3 -> internal -> used in stdout/stdin
+
+@ r4 -> loopTimes -> number of times the loop runs
+@ r5 -> LCV       -> the number of times the loop has run
 
 .text
 _start:
@@ -28,6 +39,8 @@ _start:
         mov r2, #32
         bl _stdin
 
+	ldr r6, [r1]
+
         bal _loopchange
 
     @ Update the LCV for the loop
@@ -37,29 +50,8 @@ _start:
         bal _loopcheck
 
     _loopend:
-        bal _end
+	mov r0, #1
+    	mov r7, #1
+    	swi 0
+	.end
 
-_stdin:
-    mov r0, #0  @ Indicate standard input from the keyboard
-    mov r7, #3  @ Syscall number 3 for input
-    swi 0   @ Signal Linux to start routine
-    
-    @ Move link register back into program counter
-    @ It ONLY WORKS if the caller used "branch and link"
-    mov r15, r14
-
-_stdout:
-    mov r0, #1  @ Indicate standard output to the monitor
-    mov r7, #4  @ Syscall number 4 for output
-    swi 0   @ Signal Linux to start routine
-
-    @ Move link register back into program counter
-    @ It ONLY WORKS if the caller used "branch and link"
-    mov r15, r14
-
-@ Syscall to terminate the program
-_end:
-    mov r0, #1
-    mov r7, #1
-    swi 0
-    .end

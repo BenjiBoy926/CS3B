@@ -1,9 +1,11 @@
 .global _start
 
+.balign 4
 .data
 var1: .word 0
 var2: .word 0
 
+.balign 4
 .text
 _start:
 	# Store "3" in the data block at "var1"
@@ -18,12 +20,12 @@ _start:
 	ldr r1, =var1 
 	ldr r1, [r1]
 	# Store the update contents of the data block at "var2" into register 2
-	ldr r2, var2 
+	ldr r2, =var2 
 	ldr r2, [r2]
 	# Add the update contents of the data blocks "var1" and "var2"
 	add r0, r1, r2
 	# Signal Linux to terminate the program
 	mov r1, #0
 	mov r7, #1
-	swi 0
+	svc 0
 	

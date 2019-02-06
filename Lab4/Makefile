@@ -1,5 +1,5 @@
-EXEC = RASM1
-OBJS = RASM1.o
+EXEC = Lab4
+OBJS = Lab4.o
 LIB = ../macros/barnett.a ../macros/stdin.o ../macros/stdout.o
 
 # Compile and link all programs

@@ -6,7 +6,6 @@
 .data
 prompt: .asciz "Enter a whole number: "
 space: .asciz "   "
-addr: .skip 16  // Stores the addresses of the integers to be output
 
 // Array contains blocks of memory for the ascii inputs from the user
 inputstrings:

@@ -1,7 +1,7 @@
 .global _start
 .global _end
 
-.equ BUFSIZE, 50
+.equ BUFSIZE, 32
 
 .data
 prompt:     .asciz "Enter a whole number: "

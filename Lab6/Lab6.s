@@ -5,7 +5,6 @@
 
 .data
 prompt: .asciz "Enter a whole number: "
-space: .asciz "   "
 
 // Array contains blocks of memory for the ascii inputs from the user
 inputstrings:
@@ -58,7 +57,7 @@ _start:
         mov r2, #BUFSIZE
         bl getstring
 
-        @ Branch to ascint macro to convert data pointed to by r1 to an int
+        @ Branch to ascint macro to convert string pointed to by r1 to an int
         bl ascint32
         
         @ Store r0 into the current byte word pointed to by r6

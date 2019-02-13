@@ -57,12 +57,12 @@ _start:
         mov r2, #BUFSIZE
         bl getstring
 
-        @ Branch to ascint macro to convert string pointed to by r1 to an int
-        bl ascint32
+        @ Branch to ascint macro to convert data pointed to by r1 to an int and store the int in r0
+        mov r1, r4
+	bl ascint32
         
         @ Store r0 into the current byte word pointed to by r6
-        mov r1, r6
-        str r0, [r1]
+        str r0, [r6]
 
     _loopchange:
         @ Add the size of one item in the input array to

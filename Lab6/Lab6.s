@@ -59,7 +59,7 @@ _start:
 
         @ Branch to ascint macro to convert data pointed to by r1 to an int and store the int in r0
         mov r1, r4
-	bl ascint32
+	    bl ascint32
         
         @ Store r0 into the current byte word pointed to by r6
         str r0, [r6]

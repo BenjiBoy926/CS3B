@@ -11,7 +11,7 @@ minus:      .asciz " - "
 equals:     .asciz " = "
 leftparenthesis:   .byte 40
 rightparenthesis:  .byte 41
-endl:       .byte  13
+endl:       .byte  10
 
 // Array contains blocks of memory for the ascii inputs from the user
 inputstrings:
@@ -97,6 +97,9 @@ _start:
     ldr r1, =answerstr
     bl intasc32
 
+    // End the line
+    ldr r1, =endl
+    bl putch
     // Use r4 to iterate through the input strings
     ldr r4, =inputstrings
     // Put left parenthesis
@@ -114,10 +117,10 @@ _start:
     add r4, r4, #BUFSIZE
     bl putstring
     // Put right parenthesis
-    ld r1, =rightparenthesis
+    ldr r1, =rightparenthesis
     bl putch
     // Put minus sign
-    ld r1, =minus
+    ldr r1, =minus
     bl putstring
     // Put left parenthesis
     ldr r1, =leftparenthesis
@@ -133,7 +136,7 @@ _start:
     mov r1, r4
     bl putstring
     // Put right parenthesis
-    ld r1, =rightparenthesis
+    ldr r1, =rightparenthesis
     bl putch
     // Put plus symbol
     ldr r1, =equals
@@ -143,7 +146,7 @@ _start:
     bl putstring
     // End the line
     ldr r1, =endl
-    bl putch
+    bl putch	
 
     @ Service call to terminate the program
     mov r0, #0

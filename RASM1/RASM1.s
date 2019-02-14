@@ -200,7 +200,7 @@ _start:
         add r6, r6, #4
         bal _addrloopcheck
     
-    _addrloopchange:
+    _addrloopend:
         // Put an endline
         ldr r1, =endl
         bl putch

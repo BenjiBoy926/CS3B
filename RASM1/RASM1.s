@@ -183,8 +183,10 @@ _start:
         mov r0, r6
         // Store pointer to current string in r1
         mov r1, r4
+        // Store in r2 to display 2 nibbles
+        mov r2, #2
         // Convert r0 integer into string and store it in r1
-        bl intasc32
+        bl hexToChar
 
         // Display the integer
         mov r1, r4

@@ -1,6 +1,6 @@
 EXEC = RASM1
 OBJS = RASM1.o
-LIB = ../macros/barnett_12feb19.a ../macros/stdin.o ../macros/stdout.o
+LIB = ../macros/barnett_15feb19.a ../macros/stdin.o ../macros/stdout.o
 
 # Compile and link all programs
 all: $(EXEC)

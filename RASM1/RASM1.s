@@ -184,7 +184,7 @@ _start:
         // Store pointer to current string in r1
         mov r1, r4
         // Store in r2 to display 2 nibbles
-        mov r2, #2
+        mov r2, #8
         // Convert r0 integer into string and store it in r1
         bl hexToChar
 

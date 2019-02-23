@@ -1,8 +1,9 @@
 .global _start
 
-.equ BUFSIZE 12
-.equ CMP 0
+.equ BUFSIZE, 12
+.equ CMP, 0
 
+.data
 prompt: .asciz "Enter an integer: "
 // String input as an ascii code
 strinput: .skip BUFSIZE
@@ -11,6 +12,7 @@ strcmp: .skip BUFSIZE
 gemsg: .asciz " is greater than "
 lemsg: .asciz " is less than "
 eqmsg: .asciz " is equal to "
+endl: .byte 10
 
 /*
 REGISTER TABLE
@@ -21,7 +23,8 @@ r2 - input buffer, integer input
 r3 - address of message to output (greater than, equal to or less than message)
 --------------
 */
-
+.balign 4
+.text
 _start:
     // Output the prompt for user input
     ldr r1, =prompt
@@ -68,6 +71,9 @@ _start:
         // Output the number compared
         ldr r1, =strcmp
         bl putstring
+	// Put the endline character after output
+	ldr r1, =endl
+	bl putch
         // Terminate the program
         mov r0, #0
         mov r7, #1

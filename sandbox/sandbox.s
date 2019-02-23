@@ -2,7 +2,7 @@
 .global _end
 
 .data
-.balign 4
+.balign
 var: .word 4
 
 .text

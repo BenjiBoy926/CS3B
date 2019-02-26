@@ -37,6 +37,7 @@ _start:
     mov r2, #MIN
     mov r3, #MAX
     bl InRange
+    bl GetGrade
     // Linux syscall to terminate the program
     mov r0, #0
     mov r7, #1

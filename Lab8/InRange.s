@@ -27,5 +27,5 @@ InRange:
         mov r0, #1
     _end:
         // Branch back to the instruction specified by the link register
-        mov r15, r14
+        mov pc, lr
 

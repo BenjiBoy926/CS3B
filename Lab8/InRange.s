@@ -23,8 +23,9 @@ InRange:
         mov r0, #0
         bal _end
     // Branch here if the number is in range
-    _inrange
+    _inrange:
         mov r0, #1
     _end:
         // Branch back to the instruction specified by the link register
-        bx lr
+        mov r15, r14
+

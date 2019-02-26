@@ -7,7 +7,7 @@ all: $(EXEC)
 	
 # Link all programs
 $(EXEC): $(OBJS)
-	ld -o $(EXEC) $(OBJS)
+	ld -o $(EXEC) $(OBJS) $(LIB)
 
 # Build each object by assembling the assembly file of the same name
 %.o: %.s

@@ -4,7 +4,7 @@
 
 .data
 gradeLowerBounds: 
-.byte 90, 80, 70, 60
+.word 90, 80, 70, 60
 endGradeLowerBounds:
 
 /*

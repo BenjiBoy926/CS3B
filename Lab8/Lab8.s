@@ -65,6 +65,8 @@ _start:
         bge _end
         // Increment r0 to a lower letter grade
         add r0, r0, #1
+	// Check the looping condition again
+	bal _loopcheck
     _loopend:
         // If we got to this point, the student got an F,
         // so increment r0 past E to F
@@ -76,4 +78,5 @@ _start:
     mov r0, #0
     mov r7, #1
     swi 0
+    .end
 

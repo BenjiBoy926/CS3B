@@ -3,6 +3,9 @@
 .equ BUFSIZE, 12
 
 .data
+namePrompt:         .asciz "Author: "
+datePrompt:         .asciz "Date: "
+programPrompt:      .asciz "Program: "
 name:               .asciz "Codey Huntting"
 date:               .asciz "02/27/2019"
 program:            .asciz "Exam 1"
@@ -51,10 +54,37 @@ endaddrstrings:
 .balign 4
 _start:
     // Output the header of the program
-    ldr r0, =name
+    // Move argument addresses into different registers to preserve them
+    // Output name prompt
+    ldr r1, =namePrompt
+    bl putstring
+    // Put the author's name
+    ldr r1, =name
+    bl putstring
+    // Put an endline
+    ldr r1, =endl
+    bl putch
+    // Output date prompt
+    ldr r1, =datePrompt
+    bl putstring
+    // Put the date
     ldr r1, =date
-    ldr r2, =program
-    bl OutputHeader
+    bl putstring
+    // Put an endline
+    ldr r1, =endl
+    bl putch
+    // Output program name prompt
+    ldr r1, =programPrompt
+    bl putstring
+    // Put the author's name
+    ldr r1, =program
+    bl putstring
+    // Put and endline
+    ldr r1, =endl
+    bl putch
+    // Put one last endline
+    ldr r1, =endl
+    bl putch
 
     _inputloopinit:
         // Intialize base address and end address of the array of inputs

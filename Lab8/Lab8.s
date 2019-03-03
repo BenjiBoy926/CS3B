@@ -1,9 +1,16 @@
 .global _start
 
 .data
+// CONSTANTS
+.equ letterAsciiStart, 65
 .equ INBUFSIZE, 12
 .equ MIN, 0
 .equ MAX, 100
+// VARIABLES
+// Output in the header
+author:     .asciz "Codey Huntting"
+date:       .asciz "03/05/2019"
+program:    .asciz "Lab 8 - Grade"
 // String integer input by user
 strInput: .skip INBUFSIZE
 // String integer input by user converted to an integer
@@ -19,8 +26,6 @@ invalidRangeMsg:    .asciz "***ERROR*** number outside of valid range\n"
 // Prompt before printing the letter grade
 resultReport:       .asciz "Letter Grade is: "
 
-.equ letterAsciiStart, 65
-
 gradeLowerBounds: 
 .byte 90, 80, 70, 60
 endGradeLowerBounds:
@@ -28,6 +33,11 @@ endGradeLowerBounds:
 .balign 4
 .text
 _start:
+    // Output a header with the data about this program
+    ldr r0, =author
+    ldr r1, =date
+    ldr r2, =program
+    bl OutputHeader
     // Prompt user for input
     ldr r1, =inPrompt
     bl putstring

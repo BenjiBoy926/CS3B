@@ -5,7 +5,7 @@ namePrompt:     .asciz "Author:  "
 datePrompt:     .asciz "Date:    "
 programPrompt:  .asciz "Program: "
 endl:           .byte 10
-retAddr:	.word 0
+retAddr:	    .word 0
 
 /*
 void OutputHeader(r0 author, r1 date, r2 program)

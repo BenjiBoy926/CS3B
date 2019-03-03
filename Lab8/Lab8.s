@@ -2,7 +2,6 @@
 
 .data
 // CONSTANTS
-.equ letterAsciiStart, 65
 .equ INBUFSIZE, 12
 .equ MIN, 0
 .equ MAX, 100
@@ -26,10 +25,6 @@ invalidRangeMsg:    .asciz "***ERROR*** number outside of valid range\n"
 // Prompt before printing the letter grade
 resultReport:       .asciz "Letter Grade is: "
 
-gradeLowerBounds: 
-.word 90, 80, 70, 60
-endGradeLowerBounds:
-
 .balign 4
 .text
 _start:
@@ -45,18 +40,50 @@ _start:
     ldr r1, =strInput
     mov r2, #INBUFSIZE
     bl getstring
-    // Convert the strInput from r1 to an int - result stored in r0
-    ldr r1, =strInput
-    bl ascint32
-    // Check to see if integer input is within range of min-max
-    mov r1, r0
-    mov r2, #MIN
-    mov r3, #MAX
-    bl InRange
-    bl GetGrade
-    // Linux syscall to terminate the program
-    mov r0, #0
-    mov r7, #1
-    swi 0
-    .end
+    // Check to make sure that the input is a number
+    bal _inputvalid
+    // Check that input has only numbers
+    _inputvalid:
+        // Convert the strInput from r1 to an int - result stored in r0
+        ldr r1, =strInput
+        bl ascint32
+        // Check to see if integer input is within range of min-max
+        mov r1, r0
+        mov r2, #MIN
+        mov r3, #MAX
+        bl InRange
+        // Check contents of r0 to see if int value is in range
+        cmp r0, #0
+        bne _inputinrange
+    _inputinvalid:
+        // Output invalid value message
+        ldr r1, =invalidValMsg
+        bl putstring
+        bal _end
+    _inputinrange:
+        // Get the letter grade if input is out of range    
+        bl GetGrade
+        // Store letter grade in r4 for safekeeping
+        mov r4, r0
+        // Title string for reporting result
+        ldr r1, =resultReport
+        bl putstring
+        // Put grade character currently stored by r0
+        mov r1, r0
+        bl putch
+        // Put an endline
+        ldr r1, =endl
+        bl putch
+        bal _end
+    _inputoutrange:
+        // Output appropriate error message if input is out of range
+        ldr r1, =invalidRangeMsg
+        bl putstring
+        bal _end
+    _end:
+        // Linux syscall to terminate the program
+        mov r0, #0
+        mov r7, #1
+        swi 0
+        .end
 

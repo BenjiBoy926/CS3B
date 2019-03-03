@@ -1,10 +1,11 @@
 .global OutputHeader
 
 .data
-namePrompt:     .asciz "Author: "
-datePrompt:     .asciz "Date: "
+namePrompt:     .asciz "Author:  "
+datePrompt:     .asciz "Date:    "
 programPrompt:  .asciz "Program: "
 endl:           .byte 10
+retAddr:	.word 0
 
 /*
 void OutputHeader(r0 author, r1 date, r2 program)
@@ -22,6 +23,9 @@ OutputHeader:
     mov r3, r0
     mov r4, r1
     mov r5, r2
+    // Preserve the current contents of the link register
+    ldr r1, =retAddr
+    str r14, [r1]
     // Output name prompt
     ldr r1, =namePrompt
     bl putstring
@@ -52,9 +56,8 @@ OutputHeader:
     // Put one last endline
     ldr r1, =endl
     bl putch
-    // Make the program counter move back to the 
-    // instruction pointed to by the link register
-    mov pc, lr
-    .end
-
+    // Make the program counter point back
+    // to the the address it came from
+    ldr r0, =retAddr
+    ldr r15, [r0]
 

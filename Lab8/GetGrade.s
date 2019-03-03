@@ -1,8 +1,7 @@
 .global GetGrade
 
-.equ letterAsciiStart, 65
-
 .data
+.equ letterAsciiStart, 65
 gradeLowerBounds: 
 .word 90, 80, 70, 60
 endGradeLowerBounds:
@@ -32,13 +31,14 @@ GetGrade:
     _loopbody:
         // Load r3 with current grade lower bound
         // LCV simultaneously updated, here
-        ldr r3, [r2], #1
+        ldr r3, [r2], #4
         // Break out of the loop if grade 
         // is greater than current grade lower bound
         cmp r1, r3
         bge _end
         // Increment r0 to a lower letter grade
         add r0, r0, #1
+	bal _loopcheck
     _loopend:
         // If we got to this point, the student got an F,
         // so increment r0 past E to F

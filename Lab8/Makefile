@@ -1,5 +1,5 @@
 EXEC = Lab8
-OBJS = Lab8.o InRange.o GetGrade.o
+OBJS = Lab8.o InRange.o GetGrade.o OutputHeader.o
 LIB = ../macros/barnett_15feb19.a
 
 # Compile and link all programs

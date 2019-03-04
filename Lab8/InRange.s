@@ -12,10 +12,10 @@ Behaviour is undefined if r2 > r3
 InRange:
     // Branch to "out of range" label if num < min
     cmp r1, r2
-    ble _outrange
+    blt _outrange
     // Branch to "out of range" label if num > max
     cmp r1, r3
-    bge _outrange
+    bgt _outrange
     // If we make it to here, we know the number is in range
     bal _inrange
     // Branch here if the number is out of range

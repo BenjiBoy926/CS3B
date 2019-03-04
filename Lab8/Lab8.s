@@ -40,13 +40,13 @@ _start:
     ldr r1, =strInput
     mov r2, #INBUFSIZE
     bl getstring
-    // Check to make sure that the input is a number
-    bal _inputvalid
+	// Try to conver the string to an integer
+	ldr r1, =strInput
+	bl ascint32
+    // Ascint32 sets the carry flag if conversion is impossible
+	bcs _inputinvalid
     // Check that input has only numbers
     _inputvalid:
-        // Convert the strInput from r1 to an int - result stored in r0
-        ldr r1, =strInput
-        bl ascint32
         // Check to see if integer input is within range of min-max
         mov r1, r0
         mov r2, #MIN

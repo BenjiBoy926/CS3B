@@ -24,6 +24,8 @@ invalidValMsg:      .asciz "***ERROR*** invalid value\n"
 invalidRangeMsg:    .asciz "***ERROR*** number outside of valid range\n"
 // Prompt before printing the letter grade
 resultReport:       .asciz "Letter Grade is: "
+// Stores the letter grade
+letterGrade:	    .byte 0
 
 .balign 4
 .text
@@ -55,6 +57,7 @@ _start:
         // Check contents of r0 to see if int value is in range
         cmp r0, #0
         bne _inputinrange
+        beq _inputoutrange
     _inputinvalid:
         // Output invalid value message
         ldr r1, =invalidValMsg
@@ -64,12 +67,13 @@ _start:
         // Get the letter grade if input is out of range    
         bl GetGrade
         // Store letter grade in r4 for safekeeping
-        mov r4, r0
+        ldr r1, =letterGrade
+	str r0, [r1]
         // Title string for reporting result
         ldr r1, =resultReport
         bl putstring
         // Put grade character currently stored by r0
-        mov r1, r0
+        ldr r1, =letterGrade
         bl putch
         // Put an endline
         ldr r1, =endl

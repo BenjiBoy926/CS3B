@@ -24,7 +24,10 @@ invalidValMsg:      .asciz "***ERROR*** invalid value\n"
 invalidRangeMsg:    .asciz "***ERROR*** number outside of valid range\n"
 // Prompt before printing the letter grade
 resultReport:       .asciz "Letter Grade is: "
+// Message output when the program termintates
+goodbyeMsg:  	    .asciz "Lab 8.1 Complete!\n"
 // Stores the letter grade
+.balign 4
 letterGrade:	    .byte 0
 
 .balign 4
@@ -48,11 +51,11 @@ _start:
         bl ascint32
         // If integer input is negative, exit the loop
         cmp r0, #0
-        blt _end:
+        blt _end
         // "Clear" the cpsr with simple move instruction
-        mov s r1, #1
+        movs r1, #1
         // If "carry" is set and r0 is 0, the string could not be converted to an integer
-        cmp cs r0, #0
+        cmpcs r0, #0
         beq _inputinvalid 
         _inputvalid:
             // Check to see if integer input is within range of min-max
@@ -68,7 +71,7 @@ _start:
             // Output invalid value message
             ldr r1, =invalidValMsg
             bl putstring
-            bal _end
+            bal _loopend
         _inputinrange:
             // Get the letter grade if input is out of range    
             bl GetGrade
@@ -84,18 +87,21 @@ _start:
             // Put an endline
             ldr r1, =endl
             bl putch
-            bal _end
+            bal _loopend
         _inputoutrange:
             // Output appropriate error message if input is out of range
             ldr r1, =invalidRangeMsg
             bl putstring
-            bal _end
+            bal _loopend
     _loopend:
         // Put an endline and loop again
         ldr r1, =endl
         bl putch
         bal _loopbody
     _end:
+	// Output goodbye message
+	ldr r1, =goodbyeMsg
+	bl putstring
         // Linux syscall to terminate the program
         mov r0, #0
         mov r7, #1

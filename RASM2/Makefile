@@ -1,5 +1,5 @@
 EXEC = RASM2
-OBJS = RASM2.o GetIntInput.o OutputHeader.o
+OBJS = RASM2.o GetIntInput.o OutputHeader.o OutputCalculationResult.o
 LIB = ../macros/barnett_15feb19.a
 
 # Compile and link all programs

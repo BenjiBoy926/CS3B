@@ -22,17 +22,31 @@ sum:        .word 0
 diff:       .word 0
 product:    .word 0
 quotient:   .word 0
+remainder:  .word 0
 // Sum/difference/product/quotient 
 // converted to strings
 sumStr:         .skip INBUFSIZE
 diffStr:        .skip INBUFSIZE
 productStr:     .skip INBUFSIZE
 quotientStr:    .skip INBUFSIZE
+remainder:      .skip INBUFSIZE
+// Messages that precede the report of the mathematical reports
+sumMsg:         .asciz "The sum is:        "
+diffMsg:        .asciz "The difference is: "
+productMsg:     .asciz "The product is:    "
+quotientMsg:    .asciz "The quotient is:   "
+remainderMsg:   .asciz "The remainder is:  "
+// Strings used to put together the correct 
+// overflow message in the event of an overflow
+addingOverflowMsg:      .asciz "OVERFLOW OCCURRED WHEN ADDING\n"
+subtractingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN SUBTRACTING\n"
+multiplyingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN MULTIPLYING\n"
+dividingOverflowMsg:    .asciz "OVERFLOW OCCURRED WHEN DIVIDING\n"
 // Message output when the program termintates
 goodbyeMsg:  	    .asciz "Thanks for using my program! Have a good day!\n"
-// Stores the letter grade
+// Endline
 .balign 4
-letterGrade:	    .byte 0
+endl:   .byte 10
 
 .balign 4
 .text
@@ -42,7 +56,49 @@ _start:
     ldr r1, =date
     ldr r2, =program
     bl OutputHeader
+
+    /*
+    GETTING TWO NUMBERS AS INPUT
+    */
+    // Get the first integer and store the result
     bl GetIntInput
+    ldr r1, =intInput1
+    str r0, [r1]
+    // Get the second integer and store the result
+    bl GetIntInput
+    ldr r1, =intInput2
+    str r0, [r1]
+    // Store first integer
+    ldr r8, =intInput1
+    str r8, [r8]
+    // Store second integer
+    ldr r9, =intInput2
+    str r9, [r9]
+
+    /*
+    SUM OF TWO NUMBERS AND OUTPUT
+    */
+    adds r0, r8, r9
+    ldr r1, =sumMsg
+    ldr r2, =addingOverflowMsg
+    bl OutputCalculationResult
+
+    /*
+    DIFFERENCE OF TWO NUMBERS AND OUTPUT
+    */
+    subs r0, r8, r9
+    ldr r1, =diffMsg
+    ldr r2, =subtractingOverflowMsg
+    bl OutputCalculationResult
+
+    /*
+    MULTIPLY TWO NUMBERS AND OUTPUT
+    */
+    muls r0, r8, r9
+    ldr r1, =diffMsg
+    ldr r2, =subtractingOverflowMsg
+    bl OutputCalculationResult
+
     @ _loopbody:
     @     // Prompt user for input
     @     ldr r1, =inPrompt

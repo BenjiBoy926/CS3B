@@ -29,7 +29,7 @@ sumStr:         .skip INBUFSIZE
 diffStr:        .skip INBUFSIZE
 productStr:     .skip INBUFSIZE
 quotientStr:    .skip INBUFSIZE
-remainder:      .skip INBUFSIZE
+remainderStr:   .skip INBUFSIZE
 // Messages that precede the report of the mathematical reports
 sumMsg:         .asciz "The sum is:        "
 diffMsg:        .asciz "The difference is: "
@@ -68,12 +68,15 @@ _start:
     bl GetIntInput
     ldr r1, =intInput2
     str r0, [r1]
-    // Store first integer
+    // Put an endline
+    ldr r1, =endl
+    bl putch
+    // Store first integer in a register
     ldr r8, =intInput1
-    str r8, [r8]
-    // Store second integer
+    ldr r8, [r8]
+    // Store second integer in another register
     ldr r9, =intInput2
-    str r9, [r9]
+    ldr r9, [r9]
 
     /*
     SUM OF TWO NUMBERS AND OUTPUT
@@ -117,8 +120,8 @@ _start:
     MULTIPLY TWO NUMBERS AND OUTPUT
     */
     muls r0, r8, r9
-    ldr r1, =diffMsg
-    ldr r2, =subtractingOverflowMsg
+    ldr r1, =productMsg
+    ldr r2, =multiplyingOverflowMsg
     bl OutputCalculationResult
 
     // Linux syscall to terminate the program

@@ -1,4 +1,4 @@
-.global OutputCalculationResults
+.global OutputCalculationResult
 
 .data
 // Max size the result can be - max number of digits in a number
@@ -13,10 +13,11 @@ resultDescriptPtr: 	.word 0
 // Store pointer to the string that describes an overflow error
 overflowMsgPtr:		.word 0
 // Endling character byte
-.balign 4	endl:	.byte 10
+.balign 4	
+endl:	.byte 10
 
 /*
-(void) OutputCalculationResults(r0 result, r1 resultDescriptPtr, 
+(void) OutputCalculationResult(r0 result, r1 resultDescriptPtr, 
 r2 overflowMsgPtr, cpsr status)
 ----------------------------------------------------------------
 Output the result of a calculation, given a descriptor of the result, and a message if the calculation resulted in an overflow. The subroutine assumes
@@ -30,7 +31,7 @@ MODS:
 
 .text
 .balign 4
-OutputCalculationResults:
+OutputCalculationResult:
 	ldr r4, =returnAddr
 	str lr, [r4]
 	// Save the arguments before calling other subroutines
@@ -50,7 +51,7 @@ OutputCalculationResults:
     // Put an endline
     ldr r1, =endl
     bl putch
-    bal _end:
+    bal _end
     _overflow:
         // Output the appropriate overflow error message
         mov r1, r5
@@ -60,3 +61,4 @@ OutputCalculationResults:
 		ldr lr, =returnAddr
 		ldr lr, [lr]
 		bx lr
+		.end

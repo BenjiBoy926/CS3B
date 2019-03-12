@@ -1,7 +1,7 @@
 .global GetIntInput
 
 .data
-.equ INBUFSIZE, 512
+.equ INBUFSIZE, 12
 // Return address, stored to preserve the value
 retAddr:	.word 0
 // Prompt for input
@@ -42,7 +42,7 @@ GetIntInput:
 		beq _inputinvalid
 		// Input is too big if r0 = 0 and overflow flag is set
 		cmpvs r0, #0
-		beq _inputoverflow
+		bvs _inputoverflow
 		// If we make it past the previous branches, branch to the end
 		bal _inputsuccess
 	_inputinvalid:

@@ -44,6 +44,8 @@ multiplyingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN MULTIPLYING\n"
 dividingOverflowMsg:    .asciz "OVERFLOW OCCURRED WHEN DIVIDING\n"
 // Message output when the program termintates
 goodbyeMsg:  	    .asciz "Thanks for using my program! Have a good day!\n"
+// TEMP
+resultStr:	.skip INBUFSIZE
 // Endline
 .balign 4
 endl:   .byte 10
@@ -132,7 +134,7 @@ _start:
     // Put an endline
     ldr r1, =endl
     bl putch
-    bal _end:
+    bal _end
     _overflow:
         // Output the appropriate overflow error message
         mov r1, r5

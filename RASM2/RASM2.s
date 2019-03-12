@@ -61,7 +61,38 @@ _start:
     GETTING TWO NUMBERS AS INPUT
     */
     // Get the first integer and store the result
-    bl GetIntInput
+    _inloop:
+		// Output the input prompt
+		ldr r1, =inputPrompt
+		bl putstring 
+		// Get string input from the user
+		ldr r1, =strInput
+		mov r2, #INBUFSIZE
+		bl getstring
+		// Convert the input to an integer
+		ldr r1, =strInput
+		bl ascint32
+		// Input is invalid if r0 = 0 and carry flag is set
+		cmpcs r0, #0
+		beq _inputinvalid
+		// Input is too big if r0 = 0 and overflow flag is set
+		cmpvs r0, #0
+		beq _inputoverflow
+		// If we make it past the previous branches, branch to the end
+		bal _inputsuccess
+	_inputinvalid:
+		// Output invalid message
+		ldr r1, =inputInvalidMsg
+		bl putstring
+		// Branch back to the input loop
+		bal _inloop
+	_inputoverflow:
+		// Output overflow message
+		ldr r1, =inputOverflowMsg
+		bl putstring
+		//Branch back to the input loop
+		bal _inloop
+	_inputsuccess:
     ldr r1, =intInput1
     str r0, [r1]
     // Get the second integer and store the result

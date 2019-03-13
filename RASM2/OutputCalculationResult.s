@@ -20,7 +20,8 @@ endl:	.byte 10
 (void) OutputCalculationResult(r0 result, r1 resultDescriptPtr, 
 r2 overflowMsgPtr, cpsr status)
 ----------------------------------------------------------------
-Output the result of a calculation, given a descriptor of the result, and a message if the calculation resulted in an overflow. The subroutine assumes
+Output the result of a calculation, given a descriptor of the result, 
+and a message if the calculation resulted in an overflow. The subroutine assumes
 that the cpsr was updated when the result was calculated
 ----------------------------------------------------------------
 MODS:

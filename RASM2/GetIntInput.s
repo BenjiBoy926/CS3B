@@ -1,7 +1,7 @@
 .global GetIntInput
 
 .data
-.equ INBUFSIZE, 12
+.equ INBUFSIZE, 512
 // Return address, stored to preserve the value
 retAddr:	.word 0
 // Prompt for input
@@ -37,7 +37,7 @@ GetIntInput:
 		// Convert the input to an integer
 		ldr r1, =strInput
 		bl ascint32
-		// Input is too big if r0 = 0 and overflow flag is set
+		// Input is too big if overflow flag is set
 		bvs _inputoverflow
 		// Input is invalid if r0 = 0 and carry flag is set
 		cmpcs r0, #0

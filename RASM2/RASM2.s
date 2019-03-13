@@ -47,10 +47,6 @@ goodbyeMsg:  	    .asciz "Thanks for using my program! Have a good day!\n"
 // Endline
 .balign 4
 endl:   .byte 10
-inputPrompt:        .asciz "Enter a number: "
-strInput:           .skip INBUFSIZE
-inputInvalidMsg:    .asciz "INPUT INVALID"
-inputOverflowMsg:   .asciz "INPUT OVERFLOW"
 
 .balign 4
 .text
@@ -65,37 +61,7 @@ _start:
     GETTING TWO NUMBERS AS INPUT
     */
     // Get the first integer and store the result
-    _inloop:
-		// Output the input prompt
-		ldr r1, =inputPrompt
-		bl putstring 
-		// Get string input from the user
-		ldr r1, =strInput
-		mov r2, #INBUFSIZE
-		bl getstring
-		// Convert the input to an integer
-		ldr r1, =strInput
-		bl ascint32
-		// Input is too big if r0 = 0 and overflow flag is set
-		bvs _inputoverflow
-		// Input is invalid if r0 = 0 and carry flag is set
-		cmpcs r0, #0
-		beq _inputinvalid
-		// If we make it past the previous branches, branch to the end
-		bal _inputsuccess
-	_inputinvalid:
-		// Output invalid message
-		ldr r1, =inputInvalidMsg
-		bl putstring
-		// Branch back to the input loop
-		bal _inloop
-	_inputoverflow:
-		// Output overflow message
-		ldr r1, =inputOverflowMsg
-		bl putstring
-		//Branch back to the input loop
-		bal _inloop
-	_inputsuccess:
+    bl GetIntInput
     ldr r1, =intInput1
     str r0, [r1]
     // Get the second integer and store the result
@@ -129,8 +95,8 @@ _start:
     MULTIPLY TWO NUMBERS AND OUTPUT
     */
     muls r0, r8, r9
-    ldr r1, =diffMsg
-    ldr r2, =subtractingOverflowMsg
+    ldr r1, =productMsg
+    ldr r2, =multiplyingOverflowMsg
     bl OutputCalculationResult
 
     // Linux syscall to terminate the program

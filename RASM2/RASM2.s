@@ -97,6 +97,13 @@ _start:
     ldr r2, =multiplyingOverflowMsg
     bl OutputCalculationResult
 
+    /*
+    DIVIDE TWO NUMBERS AND OUTPUT
+    */
+    mov r1, r8
+    mov r2, r9
+    bl idiv
+
     // Linux syscall to terminate the program
     mov r0, #0
     mov r7, #1

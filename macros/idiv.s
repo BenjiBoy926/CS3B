@@ -29,7 +29,7 @@ idiv:
 
 	cmp dividend, #0 
 	beq _if__divbyzero
-	bal _endif_divbyzero
+	bal _endif__divbyzero
 	_if__divbyzero:
 		// Simultaneously set CARRY and OVERFLOW
 		mov absDivisor, #0x80000000

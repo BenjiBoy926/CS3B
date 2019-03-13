@@ -3,6 +3,7 @@
 .data
 // CONSTANTS
 .equ INBUFSIZE, 512
+.equ MAXDIGITS, 12
 .equ MIN, 0
 .equ MAX, 100
 // VARIABLES
@@ -10,10 +11,7 @@
 author:     .asciz "Codey Huntting"
 date:       .asciz "03/13/2019"
 program:    .asciz "RASM2"
-// Strings input by the user
-strInput1:  .skip INBUFSIZE
-strInput2:  .skip INBUFSIZE
-// Strings input by the user converted into integers
+// Integers input by the user converted into integers
 intInput1:  .word 0
 intInput2:  .word 0
 // Sum/difference/product/quotient 
@@ -23,13 +21,13 @@ diff:       .word 0
 product:    .word 0
 quotient:   .word 0
 remainder:  .word 0
-// Sum/difference/product/quotient 
+// Sum/difference/product/quotient/remainder 
 // converted to strings
-sumStr:         .skip INBUFSIZE
-diffStr:        .skip INBUFSIZE
-productStr:     .skip INBUFSIZE
-quotientStr:    .skip INBUFSIZE
-remainder:      .skip INBUFSIZE
+sumStr:         .skip MAXDIGITS
+diffStr:        .skip MAXDIGITS
+productStr:     .skip MAXDIGITS
+quotientStr:    .skip MAXDIGITS
+remainderStr:   .skip MAXDIGITS
 // Messages that precede the report of the mathematical reports
 sumMsg:         .asciz "The sum is:        "
 diffMsg:        .asciz "The difference is: "

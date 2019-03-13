@@ -15,6 +15,8 @@ Return the result of the integer division r1 / r2
 --------------------------------
 */
 
+.text
+.balign 4
 idiv:
 	// Branch to end if dividend is 0
 	cmp dividend, #0
@@ -101,7 +103,7 @@ idiv:
 	If the divisor/dividend have opposite signs, invert the quotient
 	-------------
 	*/
-	
+
 	// If opposite sign flag is set, branch to if
 	// Otherwise, branch past if
 	cmp oppositeSign, #1

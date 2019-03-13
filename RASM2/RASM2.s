@@ -2,7 +2,7 @@
 
 .data
 // CONSTANTS
-.equ INBUFSIZE, 12
+.equ INBUFSIZE, 512
 .equ MIN, 0
 .equ MAX, 100
 // VARIABLES
@@ -29,7 +29,7 @@ sumStr:         .skip INBUFSIZE
 diffStr:        .skip INBUFSIZE
 productStr:     .skip INBUFSIZE
 quotientStr:    .skip INBUFSIZE
-remainderStr:   .skip INBUFSIZE
+remainder:      .skip INBUFSIZE
 // Messages that precede the report of the mathematical reports
 sumMsg:         .asciz "The sum is:        "
 diffMsg:        .asciz "The difference is: "
@@ -44,11 +44,13 @@ multiplyingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN MULTIPLYING\n"
 dividingOverflowMsg:    .asciz "OVERFLOW OCCURRED WHEN DIVIDING\n"
 // Message output when the program termintates
 goodbyeMsg:  	    .asciz "Thanks for using my program! Have a good day!\n"
-// TEMP
-resultStr:	.skip INBUFSIZE
 // Endline
 .balign 4
 endl:   .byte 10
+inputPrompt:        .asciz "Enter a number: "
+strInput:           .skip INBUFSIZE
+inputInvalidMsg:    .asciz "INPUT INVALID"
+inputOverflowMsg:   .asciz "INPUT OVERFLOW"
 
 .balign 4
 .text
@@ -74,12 +76,11 @@ _start:
 		// Convert the input to an integer
 		ldr r1, =strInput
 		bl ascint32
+		// Input is too big if r0 = 0 and overflow flag is set
+		bvs _inputoverflow
 		// Input is invalid if r0 = 0 and carry flag is set
 		cmpcs r0, #0
 		beq _inputinvalid
-		// Input is too big if r0 = 0 and overflow flag is set
-		cmpvs r0, #0
-		beq _inputoverflow
 		// If we make it past the previous branches, branch to the end
 		bal _inputsuccess
 	_inputinvalid:
@@ -101,15 +102,12 @@ _start:
     bl GetIntInput
     ldr r1, =intInput2
     str r0, [r1]
-    // Put an endline
-    ldr r1, =endl
-    bl putch
-    // Store first integer in a register
+    // Store first integer
     ldr r8, =intInput1
-    ldr r8, [r8]
-    // Store second integer in another register
+    str r8, [r8]
+    // Store second integer
     ldr r9, =intInput2
-    ldr r9, [r9]
+    str r9, [r9]
 
     /*
     SUM OF TWO NUMBERS AND OUTPUT
@@ -117,29 +115,7 @@ _start:
     adds r0, r8, r9
     ldr r1, =sumMsg
     ldr r2, =addingOverflowMsg
-    // Save the arguments before calling other subroutines
-	mov r4, r1
-	mov r5, r2
-	// Check for an overflow error
-    bvs _overflow
-    // Convert r0 to a string
-    ldr r1, =resultStr
-    bl intasc32
-    // Output message
-    mov r1, r4
-    bl putstring
-    // Output the calculation result
-    ldr r1, =resultStr
-    bl putstring
-    // Put an endline
-    ldr r1, =endl
-    bl putch
-    bal _end
-    _overflow:
-        // Output the appropriate overflow error message
-        mov r1, r5
-        bl putstring
-    _end:
+    bl OutputCalculationResult
 
     /*
     DIFFERENCE OF TWO NUMBERS AND OUTPUT
@@ -153,8 +129,8 @@ _start:
     MULTIPLY TWO NUMBERS AND OUTPUT
     */
     muls r0, r8, r9
-    ldr r1, =productMsg
-    ldr r2, =multiplyingOverflowMsg
+    ldr r1, =diffMsg
+    ldr r2, =subtractingOverflowMsg
     bl OutputCalculationResult
 
     // Linux syscall to terminate the program

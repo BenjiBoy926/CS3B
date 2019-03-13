@@ -37,12 +37,11 @@ GetIntInput:
 		// Convert the input to an integer
 		ldr r1, =strInput
 		bl ascint32
+		// Input is too big if r0 = 0 and overflow flag is set
+		bvs _inputoverflow
 		// Input is invalid if r0 = 0 and carry flag is set
 		cmpcs r0, #0
 		beq _inputinvalid
-		// Input is too big if r0 = 0 and overflow flag is set
-		cmpvs r0, #0
-		bvs _inputoverflow
 		// If we make it past the previous branches, branch to the end
 		bal _inputsuccess
 	_inputinvalid:

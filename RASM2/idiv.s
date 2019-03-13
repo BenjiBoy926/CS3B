@@ -29,7 +29,7 @@ idiv:
 	oppositeSign = 0 if divisor and dividend have the same signs
 	-----------------------
 	*/
-	// Check to see if r1 is positive or negative
+	// Check to see if divisor is positive or negative
 	cmp divisor, #0
 	bge _elif__divisorpos
 	// If r1 is negative, branch here

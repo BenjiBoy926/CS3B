@@ -103,6 +103,9 @@ _start:
     mov r1, r8
     mov r2, r9
     bl idiv
+    ldr r1, =quotientMsg
+    ldr r2, =dividingOverflowMsg
+    bl OutputCalculationResult
 
     // Linux syscall to terminate the program
     mov r0, #0

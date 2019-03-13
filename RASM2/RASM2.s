@@ -39,7 +39,7 @@ remainderMsg:   .asciz "The remainder is:  "
 addingOverflowMsg:      .asciz "OVERFLOW OCCURRED WHEN ADDING\n"
 subtractingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN SUBTRACTING\n"
 multiplyingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN MULTIPLYING\n"
-dividingOverflowMsg:    .asciz "OVERFLOW OCCURRED WHEN DIVIDING\n"
+divByZeroMsg:           .asciz "Cannot divide by zero. There is no quotient or remainder\n"
 // Message output when the program termintates
 goodbyeMsg:  	    .asciz "Thanks for using my program! Have a good day!\n"
 // Endline
@@ -66,6 +66,9 @@ _start:
     bl GetIntInput
     ldr r1, =intInput2
     str r0, [r1]
+    // Put an endline
+    ldr r1, =endl
+    bl putch
     // Store first integer
     ldr r8, =intInput1
     ldr r8, [r8]
@@ -103,9 +106,19 @@ _start:
     mov r1, r8
     mov r2, r9
     bl idiv
-    ldr r1, =quotientMsg
-    ldr r2, =dividingOverflowMsg
-    bl OutputCalculationResult
+    // idiv sets the overflow flag if there's divide by zero
+    bvs _if__divbyzero
+    // Output error message for divide by zero
+    _if__divbyzero:
+        ldr r1, =divByZeroMsg
+        bl putstring
+        bal _endif__divbyzero
+    // Output result for successful divide
+    _else__divbyzero:
+        ldr r1, =quotientMsg
+        ldr r2, =dividingOverflowMsg
+        bl OutputCalculationResult
+    _endif__divbyzero:
 
     // Linux syscall to terminate the program
     mov r0, #0

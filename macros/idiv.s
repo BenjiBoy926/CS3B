@@ -1,6 +1,7 @@
 .global idiv
 
 .data
+// REGISTER TABLE
 quotient 	 	.req r0
 divisor 		.req r1
 dividend		.req r2
@@ -12,15 +13,34 @@ oppositeSign 	.req r5
 r0 idiv(r1 divisor, r2 dividend)
 --------------------------------
 Return the result of the integer division r1 / r2
+oVerflow flag is set if dividend is zero
 --------------------------------
 */
 
 .text
 .balign 4
 idiv:
-	// Branch to end if dividend is 0
-	cmp dividend, #0
-	beq _end
+	/*
+	PRECHECK divide by zero
+	-----------------------
+	If dividend is zero, set the overflow flag and branch to end
+	-----------------------
+	*/
+
+	cmp dividend, #0 
+	beq _if__divbyzero
+	bal _endif_divbyzero
+	_if__divbyzero:
+		// Simultaneously set CARRY and OVERFLOW
+		mov absDivisor, #0x80000000
+		mov absDividend, #0x1
+		subs oppositeSign, absDivisor, absDividend
+		// Clear CARRY without changing OVERFLOW
+		mov quotient, #0x10
+		asrs quotient, #1
+		// Branch to the end
+		bal _end
+	_endif__divbyzero:
 
 	/*
 	SETUP oppositeSign flag

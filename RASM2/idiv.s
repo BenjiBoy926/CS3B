@@ -95,6 +95,8 @@ idiv:
 		ble _endwhile__absdivisor_gez
 		// Increment quotient
 		add quotient, quotient, #1
+		// Branch back to start of loop
+		bal _while__absdivisor_gez
 	_endwhile__absdivisor_gez:
 	
 	/*

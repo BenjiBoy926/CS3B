@@ -78,6 +78,7 @@ _start:
     bl idiv
     // idiv sets the overflow flag if there's divide by zero
     bvs _if__divbyzero
+    bal _else__divbyzero
     // Output error message for divide by zero
     _if__divbyzero:
         ldr r1, =divByZeroMsg

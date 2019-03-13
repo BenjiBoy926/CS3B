@@ -68,10 +68,10 @@ _start:
     str r0, [r1]
     // Store first integer
     ldr r8, =intInput1
-    str r8, [r8]
+    ldr r8, [r8]
     // Store second integer
     ldr r9, =intInput2
-    str r9, [r9]
+    ldr r9, [r9]
 
     /*
     SUM OF TWO NUMBERS AND OUTPUT

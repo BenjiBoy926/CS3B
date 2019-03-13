@@ -91,8 +91,8 @@ idiv:
 	_while__absdivisor_gez:
 		// Subtract the dividend from the divisor
 		subs absDivisor, absDivisor, absDividend
-		// Branch to end of divisor < 0
-		ble _endwhile__absdivisor_gez
+		// Branch to end if divisor < 0
+		blt _endwhile__absdivisor_gez
 		// Increment quotient
 		add quotient, quotient, #1
 		// Branch back to start of loop
@@ -116,4 +116,6 @@ idiv:
 		sub quotient, #1
 		mvn quotient, quotient
 	_endif__oppositesign_b:
-	bx lr
+
+	_end:
+		bx lr

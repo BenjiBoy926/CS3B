@@ -115,7 +115,7 @@ _start:
     */
     mov r1, r8
     mov r2, r9
-    bl mod
+    bl remainder
     ldr r1, =remainderMsg
     ldr r2, =divByZeroMsg
     bl OutputCalculationResult

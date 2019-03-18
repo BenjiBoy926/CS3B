@@ -111,7 +111,6 @@ idiv:
 	_while__absdivisor_gez:
 		// Subtract the dividend from the divisor, and compare them
 		subs absDivisor, absDivisor, absDividend
-		cmp absDivisor, absDividend
 		// Branch to end if divisor < 0
 		blt _endwhile__absdivisor_gez
 		// Increment quotient

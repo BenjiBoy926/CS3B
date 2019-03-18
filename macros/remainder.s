@@ -1,4 +1,4 @@
-.global mod
+.global remainder
 
 .data
 remainder 	.req r0
@@ -8,16 +8,16 @@ dividend	.req r2
 retAddr:	.word 0
 
 /*
-r0 mod(r1 divisor, r2 dividend)
--------------------------------
-Return the calculation r1 % r2
+r0 remainder(r1 divisor, r2 dividend)
+-------------------------------------
+Return the signed remainder after the integer division r1 / r2
 Overflow is set if r2 = 0
--------------------------------
+-------------------------------------
 */
 
 .text
 .balign 4
-mod:
+remainder:
 	// Store the current contents of the link register
 	ldr r0, =retAddr
 	str lr, [r0]

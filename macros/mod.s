@@ -26,7 +26,7 @@ mod:
 	// Branch straight to the end if overflow is set
 	bvs _end
 	// Multiply the result of the division by the dividend
-	mul remainder, remainder, dividend
+	mul remainder, dividend, remainder
 	// Subtract the divisor from the remainder
 	sub remainder, divisor, remainder  
 	_end:

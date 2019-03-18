@@ -16,11 +16,11 @@ intInput1:  .word 0
 intInput2:  .word 0
 // Sum/difference/product/quotient 
 // of the two numbers input by the user
-sum:        .word 0
-diff:       .word 0
-product:    .word 0
-quotient:   .word 0
-remainder:  .word 0
+sum:            .word 0
+diff:           .word 0
+product:        .word 0
+quotient:       .word 0
+remainderVar:   .word 0
 // Sum/difference/product/quotient/remainder 
 // converted to strings
 sumStr:         .skip MAXDIGITS

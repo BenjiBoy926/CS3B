@@ -49,3 +49,4 @@ safemul:
 	_end:
 	// Pop values of registers off of stack
 	pop {r1, r2, pc}
+	

@@ -68,30 +68,18 @@ idiv:
 
 	// Initialize r0, the loop counter
 	mov quotient, #0
-
-	// Store the absolute value of the divisor
-	mov absDivisor, divisor
-	cmp absDivisor, #0
-	// Branch to correct if header
-	ble _if__absdivisorneg
-	bal _endif__absdivisorneg
-	// If value is negative, subtract and move the logical negative
-	_if__absdivisorneg:
-		sub absDivisor, #1
-		mvn absDivisor, absDivisor
-	_endif__absdivisorneg:
-
-	// Store the absolute value of the dividend
-	mov absDividend, dividend
-	cmp absDividend, #0
-	// Branch to correct if header
-	ble _if__absdividendneg
-	bal _endif__absdividendneg
-	// If value is negative, subtract and move the logical negative
-	_if__absdividendneg:
-		sub absDividend, #1
-		mvn absDividend, absDividend
-	_endif__absdividendneg:
+	// Push r0 and r1 onto the stack before using the subroutine
+	push {r0, r1}
+	// Get the absolute value of the divisor
+	mov r1, divisor
+	bl abs
+	mov absDivisor, r0
+	// Get the absolute value of the dividend
+	mov r1, dividend
+	bl abs
+	mov absDividend, r0
+	// Pop r0 and r1 off of the stack now that subroutine is finished
+	pop {r0, r1}
 
 	// Loop while the divisor is greater than or equal to zero
 	_while__absdivisor_gez:
@@ -115,13 +103,13 @@ idiv:
 	// If opposite sign flag is set, branch to if
 	// Otherwise, branch past if
 	cmp oppositeSign, #1
-	beq _if__oppositesign_b
-	bal _endif__oppositesign_b
+	beq _if__oppositesign
+	bal _endif__oppositesign
 	// If signs are opposite, negate the quotient
-	_if__oppositesign_b:
-		sub quotient, #1
-		mvn quotient, quotient
-	_endif__oppositesign_b:
+	_if__oppositesign:
+		mov r1, quotient
+		bl negate
+	_endif__oppositesign:
 
 	_end:
 		pop {r1-r12, pc}

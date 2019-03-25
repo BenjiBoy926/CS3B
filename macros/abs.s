@@ -16,10 +16,8 @@ abs:
 	// Branch to correct if header
 	ble _if__numneg
 	bal _endif__numneg
-	// If value is negative, subtract and move the logical negative
+	// If value is negative, negate r1 and store it in r0
 	_if__numneg:
-		sub absNum, #1
-		mvn absNum, absNum
+		bl negate
 	_endif__numneg:
 		bx lr
-		

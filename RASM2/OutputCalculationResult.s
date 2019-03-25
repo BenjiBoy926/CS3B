@@ -16,6 +16,7 @@ overflowMsgPtr:		.word 0
 .balign 4	
 endl:	.byte 10
 
+
 /*
 (void) OutputCalculationResult(r0 result, r1 resultDescriptPtr, 
 r2 overflowMsgPtr, cpsr status)
@@ -33,7 +34,7 @@ MODS:
 .text
 .balign 4
 OutputCalculationResult:
-	stmia sp!, {r0-r12, lr}
+	push {r0-r12, lr}
 	// Save the arguments before calling other subroutines
 	mov r4, r1
 	mov r5, r2
@@ -58,5 +59,5 @@ OutputCalculationResult:
         bl putstring
     _end:
 		// Grab and go back to the stored return address
-		ldmdb sp!, {r0-r12, pc}
+		pop {r0-r12, pc}
 		.end

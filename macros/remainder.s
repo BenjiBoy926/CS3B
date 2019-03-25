@@ -18,6 +18,7 @@ Overflow is set if r2 = 0
 .text
 .balign 4
 remainder:
+	push {r1-r12, lr}
 	// Store the current contents of the link register
 	ldr r0, =retAddr
 	str lr, [r0]
@@ -37,7 +38,5 @@ remainder:
 		mvn remainder, remainder
 	_end:
 		// Restore the return address and branch back to it
-		ldr lr, =retAddr
-		ldr lr, [lr]
-		bx lr
+		push {r1-r12, pc}
 		

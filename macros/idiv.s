@@ -20,6 +20,9 @@ oVerflow flag is set if dividend is zero
 .text
 .balign 4
 idiv:
+	// Preserce register contents on the stack
+	push {r1-r12, lr}
+
 	/*
 	PRECHECK divide by zero
 	-----------------------
@@ -138,4 +141,4 @@ idiv:
 	_endif__oppositesign_b:
 
 	_end:
-		bx lr
+		push {r1-r12, pc}

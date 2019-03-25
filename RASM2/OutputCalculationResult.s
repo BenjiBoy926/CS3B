@@ -25,16 +25,12 @@ Output the result of a calculation, given a descriptor of the result,
 and a message if the calculation resulted in an overflow. The subroutine assumes
 that the cpsr was updated when the result was calculated
 ----------------------------------------------------------------
-MODS:
-	r4
-	r5
-----------------------------------------------------------------
 */
 
 .text
 .balign 4
 OutputCalculationResult:
-	push {r0-r12, lr}
+	push {r0-r12, cpsr, lr}
 	// Save the arguments before calling other subroutines
 	mov r4, r1
 	mov r5, r2
@@ -59,5 +55,5 @@ OutputCalculationResult:
         bl putstring
     _end:
 		// Grab and go back to the stored return address
-		pop {r0-r12, pc}
+		pop {r0-r12, cpsr, pc}
 		.end

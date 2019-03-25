@@ -24,8 +24,7 @@ can be interpreted as an int, and that the integer is not too big
 .text
 GetIntInput:
 	// Store the contents of the link register
-	ldr r1, =retAddr
-	str lr, [r1]
+	push {r1-r12, lr}
 	_inloop:
 		// Output the input prompt
 		ldr r1, =inputPrompt
@@ -58,6 +57,4 @@ GetIntInput:
 		bal _inloop
 	_inputsuccess:
 		// Branch back to the return address saved at the start
-		ldr lr, =retAddr
-		ldr lr, [lr]
-		bx lr
+		push {r1-r12, pc}

@@ -25,12 +25,9 @@ remainder:
 	mul remainder, dividend, remainder
 	// Subtract the divisor from the remainder
 	subs remainder, divisor, remainder  
-	// If remainder is negative, force it to be positive
-	blt _if__remneg
-	bal _end
-	_if__remneg:
-		sub remainder, #1
-		mvn remainder, remainder
+	// Take the absolute value of the current remainder
+	mov r1, remainder
+	bl abs
 	_end:
 		// Restore the return address and branch back to it
 		pop {r1-r12, pc}

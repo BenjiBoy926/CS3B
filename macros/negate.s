@@ -12,3 +12,4 @@ negate:
 	sub r0, #1
 	mvn r0, r0
 	bx lr
+	

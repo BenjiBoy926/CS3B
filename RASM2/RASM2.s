@@ -39,7 +39,7 @@ remainderMsg:   .asciz "The remainder is:  "
 addingOverflowMsg:      .asciz "OVERFLOW OCCURRED WHEN ADDING\n"
 subtractingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN SUBTRACTING\n"
 multiplyingOverflowMsg: .asciz "OVERFLOW OCCURRED WHEN MULTIPLYING\n"
-divByZeroMsg:           .asciz "Cannot divide by zero!\n"
+divByZeroMsg:           .asciz "No result - cannot divide by zero\n"
 // Message output when the program termintates
 goodbyeMsg: .asciz "Thanks for using my program! Have a good day!\n"
 // Endline

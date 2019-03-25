@@ -38,5 +38,5 @@ remainder:
 		mvn remainder, remainder
 	_end:
 		// Restore the return address and branch back to it
-		push {r1-r12, pc}
+		pop {r1-r12, pc}
 		

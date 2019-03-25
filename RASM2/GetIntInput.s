@@ -57,4 +57,4 @@ GetIntInput:
 		bal _inloop
 	_inputsuccess:
 		// Branch back to the return address saved at the start
-		push {r1-r12, pc}
+		pop {r1-r12, pc}

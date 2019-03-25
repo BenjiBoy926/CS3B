@@ -30,7 +30,7 @@ that the cpsr was updated when the result was calculated
 .text
 .balign 4
 OutputCalculationResult:
-	push {r0-r12, cpsr, lr}
+	push {r0-r12, lr}
 	// Save the arguments before calling other subroutines
 	mov r4, r1
 	mov r5, r2
@@ -55,5 +55,5 @@ OutputCalculationResult:
         bl putstring
     _end:
 		// Grab and go back to the stored return address
-		pop {r0-r12, cpsr, pc}
+		pop {r0-r12, pc}
 		.end

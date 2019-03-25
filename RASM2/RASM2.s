@@ -102,7 +102,9 @@ _start:
         /*
         MULTIPLY TWO NUMBERS AND OUTPUT
         */
-        muls r0, r8, r9
+        mov r1, r8
+        mov r2, r9
+        bl safemul
         ldr r1, =productMsg
         ldr r2, =multiplyingOverflowMsg
         bl OutputCalculationResult

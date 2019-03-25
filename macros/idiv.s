@@ -20,7 +20,7 @@ oVerflow flag is set if dividend is zero
 .text
 .balign 4
 idiv:
-	// Preserce register contents on the stack
+	// Preserve register contents on the stack
 	push {r1-r12, lr}
 
 	/*
@@ -34,13 +34,8 @@ idiv:
 	beq _if__divbyzero
 	bal _endif__divbyzero
 	_if__divbyzero:
-		// Simultaneously set CARRY and OVERFLOW
-		mov absDivisor, #0x80000000
-		mov absDividend, #0x1
-		subs oppositeSign, absDivisor, absDividend
-		// Clear CARRY without changing OVERFLOW
-		mov quotient, #0x10
-		asrs quotient, #1
+		// Set the overflow flag
+		bl setv
 		// Branch to the end
 		bal _end
 	_endif__divbyzero:
@@ -52,28 +47,16 @@ idiv:
 	oppositeSign = 0 if divisor and dividend have the same signs
 	-----------------------
 	*/
-	// Check to see if divisor is positive or negative
-	cmp divisor, #0
-	bge _elif__divisorpos
-	// If r1 is negative, branch here
-	_if__divisorneg:
-		cmp dividend, #0
-		// If r2 is positive, they have opposite signs
-		bge _if__oppositesign_a
-		bal _elif__samesign_a
-	// If r1 is positive, branch here
-	_elif__divisorpos:
-		cmp dividend, #0
-		// If r2 is positive, they have the same sign
-		bge _elif__samesign_a
-	// Branch here if divisor/dividend have opposite sign
-	_if__oppositesign_a:
-		mov oppositeSign, #1
-		bal _endif__oppositesign_a
-	// Branch here if divisor/dividend have same sign
-	_elif__samesign_a:
-		mov oppositeSign, #0
-	_endif__oppositesign_a:
+	// Preserve r0-r2 for use as arguments in the next subroutine
+	push {r0-r2}
+	// Check to see if divisor and dividend have opposite signs
+	mov r1, divisor
+	mov r2, dividend
+	bl oppositesigns
+	// Store result of subroutine
+	mov oppositeSign, r0
+	// Restore r0-r2 with data previously pushed onto stack
+	pop {r0, r2}
 
 	/*
 	FUNCTION BODY

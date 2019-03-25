@@ -135,7 +135,7 @@ _start:
         bl putch
         ldr r1, =goodbyeMsg
         bl putstring
-        ldr r1, endl
+        ldr r1, =endl
         bl putch
         // Linux syscall to terminate the program
         mov r0, #0

@@ -20,10 +20,14 @@ safemul:
 	// Get the absolute value of the first number
 	bl abs
 	mov r1, r0
+	// Push r1 onto the stack so it can be used as an argument
+	push {r1}
 	// Get the absolute value of the second number
 	mov r1, r2
 	bl abs
 	mov r2, r0
+	// Pop r1 now that the subroutine is finished using it
+	pop {r1}
 	// Start the product off at 0
 	mov product, #0
 	_while__r1gtz:
@@ -49,4 +53,3 @@ safemul:
 	_end:
 	// Pop values of registers off of stack
 	pop {r1, r2, pc}
-	

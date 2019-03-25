@@ -127,7 +127,10 @@ _start:
         ldr r2, =divByZeroMsg
         bl OutputCalculationResult
 
-        // Branch back to the start of the loop
+        // Put an endline
+        ldr r1, =endl
+        bl putch
+        // Go back to the beginning of the loop
         bal _while__inputexists
     _endwhile__inputexists:
         // Output the goodbye message

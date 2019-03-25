@@ -33,8 +33,7 @@ MODS:
 .text
 .balign 4
 OutputCalculationResult:
-	ldr r4, =returnAddr
-	str lr, [r4]
+	stmia sp!, {r0-r12, lr}
 	// Save the arguments before calling other subroutines
 	mov r4, r1
 	mov r5, r2
@@ -59,7 +58,5 @@ OutputCalculationResult:
         bl putstring
     _end:
 		// Grab and go back to the stored return address
-		ldr lr, =returnAddr
-		ldr lr, [lr]
-		bx lr
+		ldmdb sp!, {r0-r12, pc}
 		.end

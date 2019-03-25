@@ -18,14 +18,14 @@ oppositesigns:
 	cmp num1, #0
 	bge _elif__num1pos
 	// If r1 is negative, branch here
-	_if__divisorneg:
+	_if__num1neg:
 		cmp num2, #0
 		// If r2 is positive, they have opposite signs
 		bge _if__oppositesign
 		bal _elif__samesign
 	// If r1 is positive, branch here
 	_elif__num1pos:
-		cmp dividend, #0
+		cmp num2, #0
 		// If r2 is positive, they have the same sign
 		bge _elif__samesign
 	// Branch here if divisor/dividend have opposite sign

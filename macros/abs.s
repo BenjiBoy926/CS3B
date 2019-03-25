@@ -22,3 +22,4 @@ abs:
 		mvn absNum, absNum
 	_endif__numneg:
 		bx lr
+		

@@ -17,6 +17,7 @@ r0 GetIntInput()
 ----------------
 Get an input for any integer. Checks to makes sure that the string
 can be interpreted as an int, and that the integer is not too big
+If the user enters nothing, the subroutine exits and the zero flag is set
 ----------------
 */
 
@@ -33,6 +34,9 @@ GetIntInput:
 		ldr r1, =strInput
 		mov r2, #INBUFSIZE
 		bl getstring
+		// Check to see if the user entered anything
+		cmp r0, #0
+		beq _inputsuccess
 		// Convert the input to an integer
 		ldr r1, =strInput
 		bl ascint32

@@ -55,73 +55,90 @@ _start:
     ldr r2, =program
     bl OutputHeader
 
-    /*
-    GETTING TWO NUMBERS AS INPUT
-    */
-    // Get the first integer and store the result
-    bl GetIntInput
-    ldr r1, =intInput1
-    str r0, [r1]
-    // Get the second integer and store the result
-    bl GetIntInput
-    ldr r1, =intInput2
-    str r0, [r1]
-    // Put an endline
-    ldr r1, =endl
-    bl putch
-    // Store first integer
-    ldr r8, =intInput1
-    ldr r8, [r8]
-    // Store second integer
-    ldr r9, =intInput2
-    ldr r9, [r9]
+    _while__inputexists:
+        /*
+        GETTING TWO NUMBERS AS INPUT
+        */
+        // Get the first integer and store the result
+        bl GetIntInput
+        // Branch to end if no input is given
+        beq _endwhile__inputexists
+        // Store the input
+        ldr r1, =intInput1
+        str r0, [r1]
+        // Get the second integer and store the result
+        bl GetIntInput
+        // Branch to end if no input is given
+        beq _endwhile__inputexists
+        // Store the input
+        ldr r1, =intInput2
+        str r0, [r1]
+        // Put an endline
+        ldr r1, =endl
+        bl putch
+        // Store first integer
+        ldr r8, =intInput1
+        ldr r8, [r8]
+        // Store second integer
+        ldr r9, =intInput2
+        ldr r9, [r9]
 
-    /*
-    SUM OF TWO NUMBERS AND OUTPUT
-    */
-    adds r0, r8, r9
-    ldr r1, =sumMsg
-    ldr r2, =addingOverflowMsg
-    bl OutputCalculationResult
+        /*
+        SUM OF TWO NUMBERS AND OUTPUT
+        */
+        adds r0, r8, r9
+        ldr r1, =sumMsg
+        ldr r2, =addingOverflowMsg
+        bl OutputCalculationResult
 
-    /*
-    DIFFERENCE OF TWO NUMBERS AND OUTPUT
-    */
-    subs r0, r8, r9
-    ldr r1, =diffMsg
-    ldr r2, =subtractingOverflowMsg
-    bl OutputCalculationResult
+        /*
+        DIFFERENCE OF TWO NUMBERS AND OUTPUT
+        */
+        subs r0, r8, r9
+        ldr r1, =diffMsg
+        ldr r2, =subtractingOverflowMsg
+        bl OutputCalculationResult
 
-    /*
-    MULTIPLY TWO NUMBERS AND OUTPUT
-    */
-    muls r0, r8, r9
-    ldr r1, =productMsg
-    ldr r2, =multiplyingOverflowMsg
-    bl OutputCalculationResult
+        /*
+        MULTIPLY TWO NUMBERS AND OUTPUT
+        */
+        muls r0, r8, r9
+        ldr r1, =productMsg
+        ldr r2, =multiplyingOverflowMsg
+        bl OutputCalculationResult
 
-    /*
-    DIVIDE TWO NUMBERS AND OUTPUT
-    */
-    mov r1, r8
-    mov r2, r9
-    bl idiv
-    ldr r1, =quotientMsg
-    ldr r2, =divByZeroMsg
-    bl OutputCalculationResult
+        /*
+        DIVIDE TWO NUMBERS AND OUTPUT
+        */
+        mov r1, r8
+        mov r2, r9
+        bl idiv
+        ldr r1, =quotientMsg
+        ldr r2, =divByZeroMsg
+        bl OutputCalculationResult
 
-    /*
-    REMAINDER OF TWO NUMBERS AND OUTPUT
-    */
-    mov r1, r8
-    mov r2, r9
-    bl remainder
-    ldr r1, =remainderMsg
-    ldr r2, =divByZeroMsg
-    bl OutputCalculationResult
+        /*
+        REMAINDER OF TWO NUMBERS AND OUTPUT
+        */
+        mov r1, r8
+        mov r2, r9
+        bl remainder
+        ldr r1, =remainderMsg
+        ldr r2, =divByZeroMsg
+        bl OutputCalculationResult
 
-    // Linux syscall to terminate the program
-    mov r0, #0
-    mov r7, #1
-    swi 0
-    .end
+        // Branch back to the start of the loop
+        bal _while__inputexists
+    _endwhile__inputexists:
+        // Output the goodbye message
+        ldr r1, =endl
+        bl putch
+        ldr r1, =goodbyeMsg
+        bl putstring
+        ldr r1, endl
+        bl putch
+        // Linux syscall to terminate the program
+        mov r0, #0
+        mov r7, #1
+        swi 0
+        .end

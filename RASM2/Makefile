@@ -16,6 +16,6 @@ $(EXEC): $(OBJS)
 %.o: %.s
 	as -g -o $@ $<	
 
-# Clear out object files and executables
+# Remove generated files
 clean:
-	rm -f *.o
+	rm -f $(EXEC) *.o

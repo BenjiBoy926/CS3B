@@ -56,7 +56,7 @@ idiv:
 	// Store result of subroutine
 	mov oppositeSign, r0
 	// Restore r0-r2 with data previously pushed onto stack
-	pop {r0, r2}
+	pop {r0-r2}
 
 	/*
 	FUNCTION BODY

@@ -20,3 +20,4 @@ setv:
 	// Pop registers locally used off of the stack
 	pop {r0, r1, r2}
 	bx lr
+	

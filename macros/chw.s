@@ -12,7 +12,7 @@ to a signed word value
 */
 
 chw:
-	cmp hword, #0
+	cmp hword, #7fff
 	blt _if__hwordneg
 	bal _elif__hwordpos
 	_if__hwordneg:

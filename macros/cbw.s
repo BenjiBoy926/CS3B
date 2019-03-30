@@ -12,7 +12,7 @@ to a signed word value
 */
 
 cbw:
-	cmp byte, #7f
+	cmp byte, #0x7f
 	bgt _if__byteneg
 	bal _elif__bytepos
 	_if__byteneg:

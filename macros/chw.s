@@ -12,8 +12,11 @@ to a signed word value
 */
 
 chw:
-	cmp hword, #7fff
-	blt _if__hwordneg
+	mov r2, #0xff
+	mov r3, #0x7f00
+	orr r2, r2, r3
+	cmp hword, r2
+	bgt _if__hwordneg
 	bal _elif__hwordpos
 	_if__hwordneg:
 		mov word, #0xff000000

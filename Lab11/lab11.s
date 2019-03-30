@@ -48,20 +48,23 @@ _start:
 	// Grab bVal1
 	ldr r4, =bVal1
 	ldrb r4, [r4]
-	// Convert bVal1 to halfword
+	// Convert bVal1 to word
 	mov r1, r4
-	bl cbh
+	bl cbw
 	// Store converted value in r9
 	mov r9, r0
 
 	// Grab bVal2
 	ldr r4, =bVal2
 	ldrb r4, [r4]
-	// Convert bVal2 to halfword
+	// Convert bVal2 to word
 	mov r1, r4
-	bl cbh
+	bl cbw
 	// Store converted value in r10
 	mov r10, r0
+
+	// Multiply bVal2 and sVal1 as halfwords
+	mul r11, r10, r7
 
 	// Terminate the program
 	mov r0, #0

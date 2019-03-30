@@ -16,7 +16,8 @@ chw:
 	blt _if__hwordneg
 	bal _elif__hwordpos
 	_if__hwordneg:
-		mov word, #0xffff0000
+		mov word, #0xff000000
+		orr word, word, #0x00ff0000 
 		orr word, word, hword
 		bal _endif__hwordneg
 	_elif__hwordpos:

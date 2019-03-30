@@ -1,10 +1,13 @@
-EXEC = sandbox
-OBJS = sandbox.o
-LIB = ../macros/stdout.o ../macros/stdin.o
+EXEC = exec
+SOURCES = $(wildcard *.s)
+OBJS = $(SOURCES:.s=.o)
+LIB = $(wildcard ../macros/*.a) $(wildcard ../macros/*.o)
 
 # Compile and link all programs
 all: $(EXEC)
 	
+objects: $(OBJS)
+
 # Link all programs
 $(EXEC): $(OBJS)
 	ld -o $(EXEC) $(OBJS) $(LIB)
@@ -13,6 +16,6 @@ $(EXEC): $(OBJS)
 %.o: %.s
 	as -g -o $@ $<	
 
-# Clear out object files and executables
+# Remove generated files
 clean:
-	rm -f *.o
+	rm -f $(EXEC) *.o

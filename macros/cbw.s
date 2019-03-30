@@ -24,3 +24,4 @@ cbw:
 		mov word, byte
 	_endif__byteneg:
 		bx lr
+

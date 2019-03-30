@@ -17,6 +17,7 @@ _start:
 	bl cbh
 	// Store converted value in r5
 	mov r5, r0
+
 	// Grab bVal2
 	ldr r4,=bVal2
 	ldrb r4, [r4]
@@ -25,6 +26,7 @@ _start:
 	bl cbh
 	// Store converted value in r5
 	mov r6, r0
+
 	// Grab sVal1
 	ldr r4, =sVal1
 	ldrh r4, [r4]
@@ -33,32 +35,37 @@ _start:
 	bl chw
 	// Store converted sVal1 in r7
 	mov r7, r0
+
 	// Grab sVal1
 	ldr r4, =sVal2
 	ldrh r4, [r4]
 	// Convert sVal1 to a word
 	mov r1, r4
 	bl chw
-	// Store converted sVal1 in r7
+	// Store converted sVal1 in r8
 	mov r8, r0
+
 	// Grab bVal1
 	ldr r4, =bVal1
 	ldrb r4, [r4]
 	// Convert bVal1 to halfword
 	mov r1, r4
 	bl cbh
-	// Store converted value in r5
+	// Store converted value in r9
 	mov r9, r0
-	// Grab bVal1
-	ldr r4, =bVal1
+
+	// Grab bVal2
+	ldr r4, =bVal2
 	ldrb r4, [r4]
-	// Convert bVal1 to halfword
+	// Convert bVal2 to halfword
 	mov r1, r4
 	bl cbh
-	// Store converted value in r5
+	// Store converted value in r10
 	mov r10, r0
+
 	// Terminate the program
 	mov r0, #0
 	mov r7, #1
 	swi 0
 	.end
+

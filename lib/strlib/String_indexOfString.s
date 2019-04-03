@@ -18,7 +18,7 @@ String_indexOfString:
 	// If the first string is smaller than the second,
 	mov r5, r0
 	cmp r4, r5
-	blt // end
+	//blt // end
 	// Initialize r3. 
 	// R3 points to the part of the bigger string we are currently
 	// comparing to the smaller string

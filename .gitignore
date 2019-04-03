@@ -1,3 +1,5 @@
+**/[Ee]xec
+*.a
 *.o
 *.pdf
 *.docx

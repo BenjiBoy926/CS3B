@@ -28,7 +28,7 @@ factorial:
 		// Restore r1 and multiply 
 		// the result of the recusive call
 		pop {r1}
-		mul r0, r0, r1
+		mul r0, r1, r0
 		// Pop lr into the pc
 		pop {pc}
 

@@ -1,15 +1,15 @@
-.global String_length
+.global strlen
 
 /*
-r0 String_length(r1 str)
-------------------------
+r0 strlen(r1 str)
+-----------------
 Given a pointer to an area of memory, counts the 
 number of bytes until it finds a zero. Great for
 getting the length of a null-terminated string
-------------------------
+-----------------
 */
 
-String_length:
+strlen:
 	mov r0, #0
 	mov r2, r1
 	len__while__byte_not_zero:

@@ -9,14 +9,19 @@ at the given index
 */
 
 String_indexOfFrom:
-	// Preserve r2 and link register
-	push {lr, r2}
+	// Preserve r2, r3 and link register
+	push {r2-r3, lr}
 	// Get a pointer to the part of the string
 	// starting at the index
 	mov r2, r3
 	bl String_indexPtr
-	// Restore r2, preserve r3
-	pop {r2}
+	// Restore r2 and r3
+	pop {r2-r3}	
+	// If indexPtr returned null pointer,
+	// the index is out of range of the string
+	cmp r0, #0
+	beq _if__index_out_of_range
+	// Preserve r3 so it is not modified in the next subroutine
 	push {r3}
 	// Find the index of the character
 	// starting at the part of the string
@@ -30,6 +35,11 @@ String_indexOfFrom:
 	beq _end
 	// Add the starting index to the index in the other string
 	add r0, r0, r3
+	bal _end
+	// If index given is out of range, 
+	// return = -1
+	_if__index_out_of_range:
+		mvn r0, #0
 	_end:
 		// Pop the preserved lr into the program counter
 		pop {pc}

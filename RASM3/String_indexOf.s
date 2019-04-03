@@ -31,3 +31,4 @@ String_indexOf:
 		mvn r0, #0
 	_end:
 		bx lr
+

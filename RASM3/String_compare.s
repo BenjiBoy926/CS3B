@@ -1,4 +1,4 @@
-.global String_stringCompare
+.global String_compare
 
 /*
 r0 String_stringCompare(r1 str, r2 otherStr)
@@ -14,7 +14,7 @@ at the beginning of the other
 --------------------------------------------
 */
 
-String_stringCompare:
+String_compare:
 	// Preserve r4, r5 and the link register
 	push {r4, r5, lr}
 	_while__bytes_equal__AND__neither_null_encountered:

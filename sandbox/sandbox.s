@@ -18,7 +18,7 @@ _start:
 	ldrh r1, [r1]
 
 	ldr r1, =bvar
-	ldrb r1, [r1] 
+	ldr r1, [r1] 
     	
 	mov r0, #0
 	mov r7, #1

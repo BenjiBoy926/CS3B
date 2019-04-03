@@ -24,7 +24,8 @@ _start:
 	ldr r1, =endl
 	bl putch
 	// Get the length of the string
-	bl String_length
+	ldr r1, =str1
+	bl strlen
 	// Output the length of the string
 	ldr r1, =strlenprompt
 	bl putstring
@@ -44,7 +45,8 @@ _start:
 	ldr r1, =endl
 	bl putch
 	// Get the length of the string
-	bl String_length
+	ldr r1, =str2
+	bl strlen
 	// Output the length of the string
 	ldr r1, =strlenprompt
 	bl putstring
@@ -64,7 +66,8 @@ _start:
 	ldr r1, =endl
 	bl putch
 	// Get the length of the string
-	bl String_length
+	ldr r1, =str3
+	bl strlen
 	// Output the length of the string
 	ldr r1, =strlenprompt
 	bl putstring

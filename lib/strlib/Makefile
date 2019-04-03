@@ -1,4 +1,4 @@
-LIB = codey.a
+LIB = string.a
 SOURCES = $(wildcard *.s)
 ASFLAGS = -g
 

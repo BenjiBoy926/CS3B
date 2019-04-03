@@ -20,7 +20,7 @@ String_indexOfFrom:
 	// If indexPtr returned null pointer,
 	// the index is out of range of the string
 	cmp r0, #0
-	beq _if__index_out_of_range
+	beq iof__if__index_out_of_range
 	// Preserve r3 so it is not modified in the next subroutine
 	push {r3}
 	// Find the index of the character
@@ -32,14 +32,14 @@ String_indexOfFrom:
 	pop {r3}
 	// If r0 = -1, branch to end and return it
 	cmp r0, #0xffffffff
-	beq _end
+	beq iof__end
 	// Add the starting index to the index in the other string
 	add r0, r0, r3
-	bal _end
+	bal iof__end
 	// If index given is out of range, 
 	// return = -1
-	_if__index_out_of_range:
+	iof__if__index_out_of_range:
 		mvn r0, #0
-	_end:
+	iof__end:
 		// Pop the preserved lr into the program counter
 		pop {pc}

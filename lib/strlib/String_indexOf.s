@@ -11,7 +11,7 @@ pointed to by r1
 String_indexOf:
 	mov r0, #0
 	mov r3, r1
-	_while__bytenotequal:
+	io__while__byte_not_equal:
 		// Load the byte pointed to by r1
 		// Increment r1's address after
 		ldrb r3, [r1], #1
@@ -19,16 +19,16 @@ String_indexOf:
 		// we reached the end of the string, 
 		// and the byte could not be found
 		cmp r3, #0
-		beq _if__bytenotfound
+		beq io__if__byte_not_found
 		// Branch to the end if current byte matches
 		cmp r3, r2
-		beq _end
+		beq io__end
 		// Increment each time an unequal byte is compared
 		add r0, r0, #1
-		bal _while__bytenotequal
-	_if__bytenotfound:
+		bal io__while__byte_not_equal
+	io__if__byte_not_found:
 		// If byte was not found, return value is -1
 		mvn r0, #0
-	_end:
+	io__end:
 		bx lr
 

@@ -36,10 +36,10 @@ String_compare:
 	// before finding unequal characters
 	_if__either_null_encountered:
 		mov r0, #1
-		bal _end
+		bal cmp__end
 	// Branch here if unequal bytes are found in the strings
 	_if__bytes_unequal:
 		mov r0, #0
-	_end:
+	cmp__end:
 		// Restore r4/r5 and put lr value in the pc
 		pop {r4, r5, pc}

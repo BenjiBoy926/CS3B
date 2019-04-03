@@ -9,8 +9,6 @@ Uses recursion
 */
 
 factorial:
-	// Preserve link register
-	push {lr}
 	// Base case if r1 <= 1
 	cmp r1, #1
 	ble _factorial__base_case
@@ -19,9 +17,9 @@ factorial:
 	// In the base case, return 1
 	_factorial__base_case:
 		mov r0, #1
-		pop {pc}
+		bx lr
 	_factorial__recursive_case:
-		push {r1}
+		push {r1, lr}
 		// Compute the factorial of r1 - 1
 		sub r1, r1, #1
 		bl factorial

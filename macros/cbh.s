@@ -12,13 +12,13 @@ Convert a signed byte value to a halfword
 
 cbh:
 	cmp byte, #0x7f
-	bgt _if__byteneg
-	bal _elif__bytepos
-	_if__byteneg:
+	bgt cbh__if__byteneg
+	bal cbh__elif__bytepos
+	cbh__if__byteneg:
 		mov hword, #0x0000ff00
 		orr hword, hword, byte
-		bal _endif__byteneg
-	_elif__bytepos:
+		bal cbh__endif__byteneg
+	cbh__elif__bytepos:
 		mov hword, byte
-	_endif__byteneg:
+	cbh__endif__byteneg:
 		bx lr

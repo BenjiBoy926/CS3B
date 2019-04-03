@@ -16,25 +16,25 @@ r0 = 1 if the numbers have the same signs
 oppositesigns:
 	// Check to see if num1 is positive or negative
 	cmp num1, #0
-	bge _elif__num1pos
+	bge oppositesigns__elif__num1pos
 	// If r1 is negative, branch here
-	_if__num1neg:
+	oppositesigns__if__num1neg:
 		cmp num2, #0
 		// If r2 is positive, they have opposite signs
-		bge _if__oppositesign
-		bal _elif__samesign
+		bge oppositesigns__if__oppositesign
+		bal oppositesigns__elif__samesign
 	// If r1 is positive, branch here
-	_elif__num1pos:
+	oppositesigns__elif__num1pos:
 		cmp num2, #0
 		// If r2 is positive, they have the same sign
-		bge _elif__samesign
+		bge oppositesigns__elif__samesign
 	// Branch here if divisor/dividend have opposite sign
-	_if__oppositesign:
+	oppositesigns__if__oppositesign:
 		mov flag, #1
-		bal _endif__oppositesign
+		bal oppositesigns__endif__oppositesign
 	// Branch here if divisor/dividend have same sign
-	_elif__samesign:
+	oppositesigns__elif__samesign:
 		mov flag, #0
-	_endif__oppositesign:
+	oppositesigns__endif__oppositesign:
 		bx lr
 	

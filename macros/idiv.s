@@ -31,14 +31,14 @@ idiv:
 	*/
 
 	cmp dividend, #0 
-	beq _if__divbyzero
-	bal _endif__divbyzero
-	_if__divbyzero:
+	beq idiv__if__divbyzero
+	bal idiv__endif__divbyzero
+	idiv__if__divbyzero:
 		// Set the overflow flag
 		bl setv
 		// Branch to the end
 		bal _end
-	_endif__divbyzero:
+	idiv__endif__divbyzero:
 
 	/*
 	SETUP oppositeSign flag
@@ -82,16 +82,16 @@ idiv:
 	pop {r0, r1}
 
 	// Loop while the divisor is greater than or equal to zero
-	_while__absdivisor_gez:
+	idiv__while__absdivisor_gez:
 		// Subtract the dividend from the divisor, and compare them
 		subs absDivisor, absDivisor, absDividend
 		// Branch to end if divisor < 0
-		blt _endwhile__absdivisor_gez
+		blt idiv__endwhile__absdivisor_gez
 		// Increment quotient
 		add quotient, quotient, #1
 		// Branch back to start of loop
-		bal _while__absdivisor_gez
-	_endwhile__absdivisor_gez:
+		bal idiv__while__absdivisor_gez
+	idiv__endwhile__absdivisor_gez:
 	
 	/*
 	FINAL CLEANUP
@@ -103,13 +103,13 @@ idiv:
 	// If opposite sign flag is set, branch to if
 	// Otherwise, branch past if
 	cmp oppositeSign, #1
-	beq _if__oppositesign
-	bal _endif__oppositesign
+	beq idiv__if__oppositesign
+	bal idiv__endif__oppositesign
 	// If signs are opposite, negate the quotient
-	_if__oppositesign:
+	idiv__if__oppositesign:
 		mov r1, quotient
 		bl negate
-	_endif__oppositesign:
+	idiv__endif__oppositesign:
 
-	_end:
+	idiv__end:
 		pop {r1-r12, pc}

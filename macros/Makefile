@@ -1,14 +1,11 @@
-EXEC = exec
+LIB = codey.a
 SOURCES = $(wildcard *.s)
-OBJS = $(SOURCES:.s=.o)
+ASFLAGS = -g
 
-# Build all objects
-objects: $(OBJS)
+# Build the library file
+lib:
+	as $(ASFLAGS) -o $(LIB) $(SOURCES) 
 
-# Build each object by assembling the assembly file of the same name
-%.o: %.s
-	as -g -o $@ $<	
-
-# Clear out object files and executables
+# Clear out generated lib file
 clean:
-	rm -f *.o
+	rm -f $(LIB)

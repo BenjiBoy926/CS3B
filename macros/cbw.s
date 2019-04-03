@@ -13,14 +13,14 @@ to a signed word value
 
 cbw:
 	cmp byte, #0x7f
-	bgt _if__byteneg
-	bal _elif__bytepos
-	_if__byteneg:
+	bgt cbw__if__byteneg
+	bal cbw__elif__bytepos
+	cbw__if__byteneg:
 		mov word, #0xffffff00
 		orr word, word, byte
-		bal _endif__byteneg
-	_elif__bytepos:
+		bal cbw__endif__byteneg
+	cbw__elif__bytepos:
 		mov word, byte
-	_endif__byteneg:
+	cbw__endif__byteneg:
 		bx lr
 

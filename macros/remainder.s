@@ -20,7 +20,7 @@ remainder:
 	// Get the division r1 / r2
 	bl idiv
 	// Branch straight to the end if overflow is set
-	bvs _end
+	bvs remainder__end
 	// Multiply the result of the division by the dividend
 	mul remainder, dividend, remainder
 	// Subtract the divisor from the remainder
@@ -28,7 +28,7 @@ remainder:
 	// Take the absolute value of the current remainder
 	mov r1, remainder
 	bl abs
-	_end:
+	remainder__end:
 		// Restore the return address and branch back to it
 		pop {r1-r12, pc}
 		

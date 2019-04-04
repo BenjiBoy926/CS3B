@@ -8,20 +8,23 @@ Find the index of the other string in this string
 */
 
 String_indexOfString:
-	push {r1-r2, r4-r5, lr}
+	// Preserve registers from calling routine
+	push {r4-r5, lr}
 	// Get the length of the first string
+	push {r1, r2}
 	bl strlen
 	mov r4, r0
+	pop {r1, r2}
 	// Get the length of the other string
+	push {r1, r2}
 	mov r1, r2
 	bl strlen
+	pop {r1, r2}
 	// If the first string is smaller than the second,
 	// return string not found
 	mov r5, r0
 	cmp r4, r5
 	blt ios__if__string_not_found
-	// Restore r1 and r2
-	pop {r1-r2}
 	// Use r3 as the current index
 	mov r3, #0
 	ios__while__byte_not_null:

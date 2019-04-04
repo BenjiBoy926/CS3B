@@ -1,7 +1,7 @@
 EXEC = exec
 SOURCES = $(wildcard *.s)
 OBJS = $(SOURCES:.s=.o)
-LIB = $(wildcard ../macros/*.a) $(wildcard ../macros/*.o)
+LIB = $(wildcard ../lib/*/*.a)
 
 # Compile and link all programs
 all: $(EXEC)

@@ -1,9 +1,9 @@
 .global String_toUpperCase
 
 .data
-ASCII_LOWERCASE_START 	.equ 97
-ASCII_LOWERCASE_END		.equ 122
-ASCII_CASE_DIFF			.equ 32
+.equ ASCII_LOWERCASE_START, 97
+.equ ASCII_LOWERCASE_END, 122
+.equ ASCII_CASE_DIFF, 32
 
 /*
 void String_toUpperCase(r1 str)
@@ -46,3 +46,4 @@ String_toUpperCase:
 		bal toup__while__byte_not_zero
 	toup__end:
 		pop {pc}
+		

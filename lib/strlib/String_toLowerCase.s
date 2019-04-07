@@ -8,7 +8,7 @@
 /*
 void String_toLowerCase(r1 str)
 -------------------------------
-Converts each undercase letter in a string to uppercase
+Converts each uppercase letter in a string to lowercase
 -------------------------------
 */
 
@@ -17,12 +17,12 @@ Converts each undercase letter in a string to uppercase
 String_toLowerCase:
 	push {lr}
 	mov r2, r1
-	toup__while__byte_not_zero:
+	tolow__while__byte_not_zero:
 		// Load the byte currently pointed to by r1
 		ldrb r1, [r2]
 		// Check to see if this is the end of the string
 		cmp r0, #0
-		beq toup__end
+		beq tolow__end
 		// Check to see if the current byte r1
 		// is a lowercase letter
 		push {r1, r2}
@@ -33,16 +33,16 @@ String_toLowerCase:
 		// If the current character is lower case character,
 		// change it to upper case
 		cmp r0, #1
-		beq change_lowercase_letter
+		beq change_uppercase_letter
 		// Branch to update loop
-		bal toup__while__byte_not_zero__loop_update
-	change_lowercase_letter:
+		bal tolow__while__byte_not_zero__loop_update
+	change_uppercase_letter:
 		// Subtract case difference from current byte,
 		// and store result in current pointer of string
 		add r0, r1, #ASCII_CASE_DIFF
 		strb r0, [r2]
-	toup__while__byte_not_zero__loop_update:
+	tolow__while__byte_not_zero__loop_update:
 		add r2, r2, #1
-		bal toup__while__byte_not_zero
-	toup__end:
+		bal tolow__while__byte_not_zero
+	tolow__end:
 		pop {pc}

@@ -28,3 +28,4 @@ String_findPtr:
 		mov r0, #0
 	fptr__end:
 		bx lr
+		

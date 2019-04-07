@@ -21,7 +21,7 @@ String_toUpperCase:
 		// Load the byte currently pointed to by r1
 		ldrb r1, [r2]
 		// Check to see if this is the end of the string
-		cmp r0, #0
+		cmp r1, #0
 		beq toup__end
 		// Check to see if the current byte r1
 		// is a lowercase letter
@@ -39,8 +39,8 @@ String_toUpperCase:
 	change_lowercase_letter:
 		// Subtract case difference from current byte,
 		// and store result in current pointer of string
-		sub r0, r1, #ASCII_CASE_DIFF
-		strb r0, [r2]
+		sub r1, r1, #ASCII_CASE_DIFF
+		strb r1, [r2]
 	toup__while__byte_not_zero__loop_update:
 		add r2, r2, #1
 		bal toup__while__byte_not_zero

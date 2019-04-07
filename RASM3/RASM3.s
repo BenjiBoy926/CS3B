@@ -16,7 +16,7 @@ _start:
 	// Replace 'l' with 'k' in "Hello"
 	ldr r1, =str1
 	mov r2, #'l'
-	mov r3, #'1'
+	mov r3, #'k'
 	bl String_replace
 	// Display the string
 	ldr r1, =str1

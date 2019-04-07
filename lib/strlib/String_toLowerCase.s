@@ -28,7 +28,7 @@ String_toLowerCase:
 		push {r1, r2}
 		mov r2, #ASCII_UPPERCASE_START
 		mov r3, #ASCII_UPPERCASE_END
-		bl inrange
+		bl String_inrange
 		pop {r1, r2}
 		// If the current character is lower case character,
 		// change it to upper case

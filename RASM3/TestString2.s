@@ -1,10 +1,15 @@
 .global TestString2
 
+.data
+endl:	.byte 10
+
 /*
 void TestString2(r1 str)
 ------------------------
 */
 
+.text
+.balign 4
 TestString2:
 	push {r4, lr}
 	mov r4, r1

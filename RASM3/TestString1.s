@@ -8,6 +8,8 @@ void TestString(r1 str)
 -----------------------
 */
 
+.text
+.balign 4
 TestString1:
 	push {r4, lr}
 	mov r4, r1

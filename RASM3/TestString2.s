@@ -18,12 +18,18 @@ TestString2:
 	bl putstring
 	ldr r1, =endl
 	bl putch
-	// Change cases in both strings
+	// Change cases in string
 	mov r1, r4
 	bl String_toLowerCase
+	// Output string
+	mov r1, r4
+	bl putstring
+	ldr r1, =endl
+	bl putch
+	// Change case in string the other way
 	mov r1, r4
 	bl String_toUpperCase
-	// Display the string
+	// Output string
 	mov r1, r4
 	bl putstring
 	ldr r1, =endl

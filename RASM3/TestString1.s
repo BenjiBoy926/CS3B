@@ -21,9 +21,15 @@ TestString1:
 	// Change cases in both strings
 	mov r1, r4
 	bl String_toUpperCase
+	// Output string
+	mov r1, r4
+	bl putstring
+	ldr r1, =endl
+	bl putch
+	// Change case in string
 	mov r1, r4
 	bl String_toLowerCase
-	// Display the string
+	// Output string
 	mov r1, r4
 	bl putstring
 	ldr r1, =endl

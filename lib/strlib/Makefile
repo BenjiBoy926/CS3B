@@ -1,4 +1,4 @@
-LIB = string.a /usr/lib/arm-linux-gnueabihf/libc.so
+LIB = string.a
 SOURCES = $(wildcard *.s)
 ASMFLAGS = -g
 

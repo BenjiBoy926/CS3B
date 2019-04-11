@@ -6,6 +6,8 @@ str2: 	.asciz "12345"
 str3:	.asciz "Hello nUMBer 123"
 endl:	.byte 10
 
+.data
+.balign 4
 _start:
 	ldr r1, =str1
 	bl putstring

@@ -13,7 +13,7 @@ with the characters in r1 followed by the characters in r2
 
 String_concat:
 	// Preserve arguments and the link register
-	push {r1, r2, r4, r5 lr}
+	push {r1, r2, r4, r5, lr}
 	// Get the length of string r1 and put it into r4
 	bl strlen
 	mov r4, r0

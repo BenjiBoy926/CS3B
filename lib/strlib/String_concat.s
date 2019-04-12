@@ -16,28 +16,29 @@ String_concat:
 	push {r1, r2, r4, r5, lr}
 	// Get the length of string r1 and put it into r4
 	bl strlen
+	pop {r1, r2}
 	mov r4, r0
 	// Get the length of string in r2
 	mov r1, r2
+	push {r1, r2}
 	bl strlen
+	pop {r1, r2}
 	mov r5, r0
 	// Allocate memory the size of both strings,
 	// plus one for the null terminator
 	add r0, r4, r5
 	add r0, r0, #1
+	push {r1, r2}
 	bl malloc
-	// Restore r1, the pointer to the original string 
-	// in the first argument
-	pop {r1}
-	// 
+	pop {r1, r2}
+	// Copy data from r1 into r0
 	mov r2, r0
 	mov r3, r4
-	push {r0}
+	push {r0-r2}
 	bl memcpy
-	pop {r0}
-	// Pop the pointer to the original string
-	// in the second argument into r1
-	pop {r1}
+	pop {r0-r2}
+	// Prepare arguments for memcpy: r1 = source
+	mov r1, r2
 	// Prepare arguments for memcpy: r2 = destination
 	// Set destination to basePointer + sizeOfFirstString
 	add r2, r0, r4

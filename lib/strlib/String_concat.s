@@ -50,4 +50,5 @@ String_concat:
 	bl memcpy
 	// Restore registers, putting preserved link register contents
 	// into the program counter
+	mov r0, r8
 	pop {r4-r7, pc}

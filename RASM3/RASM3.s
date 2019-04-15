@@ -571,7 +571,7 @@ _start:
 	bl String_concat
 
 	// Concat input string 1 and 2 together
-	ldr r1, =s1
+	ldr r1, r0
 	ldr r2, =s2
 	bl String_concat
 	

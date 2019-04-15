@@ -130,7 +130,7 @@ String_concat:
 	push {r4-r8, lr}
 	mov r4, r1
 	mov r5, r2
-	// Get the length of string r1 and put it into r4
+	// Get the length of string r1 and put it into r6
 	mov r1, r4
 	bl strlen
 	mov r6, r0

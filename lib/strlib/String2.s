@@ -533,7 +533,7 @@ String_lastIndexOfString:
 	lios__end:
 		// Check to see if index is negative
 		cmp r6, #0
-		blt lios__index_negative
+		blt lios__if__index_negative
 		bal lios__endif__index_negative
 		// If the index is any negative, make sure it's exacly -1
 		lios__if__index_negative:

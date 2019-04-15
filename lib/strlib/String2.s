@@ -433,6 +433,117 @@ String_lastIndexOf:
 		pop {r4-r7, pc}
 
 /*
+r0 String_lastIndexOfFrom(r1 str, r2 char, r3 startIndex)
+-----------------------------------------------------
+Find that last index of a character in the string, starting
+at the given index
+-----------------------------------------------------
+*/
+
+String_lastIndexOfFrom:
+	// Preserve r2, r3 and link register
+	push {r2-r3, lr}
+	// Get a pointer to the part of the string
+	// starting at the index
+	mov r2, r3
+	bl String_indexPtr
+	// Restore r2 and r3
+	pop {r2-r3}	
+	// If indexPtr returned null pointer,
+	// the index is out of range of the string
+	cmp r0, #0
+	beq iof__if__index_out_of_range
+	// Preserve r3 so it is not modified in the next subroutine
+	push {r3}
+	// Find the index of the character
+	// starting at the part of the string
+	// in the index specified
+	mov r1, r0
+	bl String_lastIndexOf
+	// Restore r3
+	pop {r3}
+	// If r0 = -1, branch to end and return it
+	cmp r0, #0xffffffff
+	beq iof__end
+	// Add the starting index to the index in the other string
+	add r0, r0, r3
+	bal iof__end
+	// If index given is out of range, 
+	// return = -1
+	iof__if__index_out_of_range:
+		mvn r0, #0
+	iof__end:
+		// Pop the preserved lr into the program counter
+		pop {pc}
+
+
+/*
+r0 String_lastIndexOfString(r1 str, r2 otherStr)
+------------------------------------------------
+Find the last occurrence of the given character sequence
+------------------------------------------------
+*/
+
+String_lastIndexOfString:
+	// Preserve registers from calling routine
+	push {r4-r8, lr}
+	// Get the length of the first string
+	push {r1, r2}
+	bl strlen
+	mov r4, r0
+	pop {r1, r2}
+	// Get the length of the other string
+	push {r1, r2}
+	mov r1, r2
+	bl strlen
+	mov r5, r0
+	pop {r1, r2}
+	// Preserve the length of the other string in r8
+	mov r8, r5
+	// Move the negative of the length 
+	// of the second string into r6
+	mvn r6, r8
+	add r6, r6, #1
+	// If the first string is smaller than the second,
+	// return string not found
+	cmp r4, r5
+	blt lios__end
+	// r4 and r5 will be used to keep values of r1 and r2, respectively
+	mov r4, r1
+	mov r5, r2
+	// Use r7 to use indexOfString on different parts of the string
+	mov r7, r1
+	lios__while__index_valid:
+		// Find the index of the other string in the index
+		// of the current part of the string to check
+		mov r1, r7
+		mov r2, r5
+		bl String_indexOfString
+		// Load the next byte of the bigger string into r4
+		cmp r0, #-1
+		beq lios__end
+		// Add the current index plus the length of the other string
+		add r6, r6, r0
+		add r6, r6, r8
+		// Move r7 to point to the character 
+		// one past the substring found in the string
+		add r7, r7, r0
+		add r7, r7, r8
+		bal lios__while__index_valid
+	lios__end:
+		// Check to see if index is negative
+		cmp r6, #0
+		blt lios__index_negative
+		bal lios__endif__index_negative
+		// If the index is any negative, make sure it's exacly -1
+		lios__if__index_negative:
+			mvn r6, #0
+		lios__endif__index_negative:
+		// Move the index into r0 and return
+		mov r0, r6 
+		pop {r4-r8, pc}
+
+/*
 void String_replace(r1 str, r2 initialChar, r3 replaceChar)
 ------------------------------------------------------------
 Search the string for all occurrences of initialChar and replace

@@ -452,7 +452,7 @@ String_lastIndexOfFrom:
 	// If indexPtr returned null pointer,
 	// the index is out of range of the string
 	cmp r0, #0
-	beq iof__if__index_out_of_range
+	beq liof__if__index_out_of_range
 	// Preserve r3 so it is not modified in the next subroutine
 	push {r3}
 	// Find the index of the character
@@ -464,15 +464,15 @@ String_lastIndexOfFrom:
 	pop {r3}
 	// If r0 = -1, branch to end and return it
 	cmp r0, #0xffffffff
-	beq iof__end
+	beq liof__end
 	// Add the starting index to the index in the other string
 	add r0, r0, r3
-	bal iof__end
+	bal liof__end
 	// If index given is out of range, 
 	// return = -1
-	iof__if__index_out_of_range:
+	liof__if__index_out_of_range:
 		mvn r0, #0
-	iof__end:
+	liof__end:
 		// Pop the preserved lr into the program counter
 		pop {pc}
 

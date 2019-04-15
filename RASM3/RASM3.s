@@ -39,16 +39,16 @@ strTest9:	.asciz	"9.  String_startsWith_2(s1, Cat): "
 strTest10:	.asciz	"10. String_endsWith(s1, in the hat.): "
 
 // String test prompts: String2.a (Codey)
-strTest11:	.asciz  "11. String_indexOf_1(s2, g): 			"
-strTest12:	.asciz	"12. String_indexOf_2(s2, g, 9): 		"
-strTest13:	.asciz	"13. String_indexOf_3(s2, egg): 		"
-strTest14:	.asciz	"14. String_lastIndexOf_1(s2, g): 		"
-strTest15:	.asciz	"15. String_lastIndexOf_2(s2, g, 9):	"
-strTest16:	.asciz	"16. String_lastIndexOf_3(s2, egg):		"
-strTest17:	.asciz	"17. String_replace(s1, C, B):			"
-strTest18:	.asciz	"18. String_toLowerCase(s1):			"
-strTest19:	.asciz	"19. String_toUpperCase(s1):			"
-strTest20:	.asciz	"20. String_concat(s1, <space>) + String_concat(s1, s2):\n"	
+strTest11:	.asciz  "11. String_indexOf_1(s2, g): "
+strTest12:	.asciz	"12. String_indexOf_2(s2, g, 9): "
+strTest13:	.asciz	"13. String_indexOf_3(s2, egg): "
+strTest14:	.asciz	"14. String_lastIndexOf_1(s2, g): "
+strTest15:	.asciz	"15. String_lastIndexOf_2(s2, g, 9): "
+strTest16:	.asciz	"16. String_lastIndexOf_3(s2, egg): "
+strTest17:	.asciz	"17. String_replace(s1, C, B): "
+strTest18:	.asciz	"18. String_toLowerCase(s1): "
+strTest19:	.asciz	"19. String_toUpperCase(s1): "
+strTest20:	.asciz	"20. String_concat(s1, <space>) + String_concat(s1, s2): "	
 
 length:		.skip 	12	@ Used to store length of variable for output
 output:		.skip 	100	@ Used to store output when needed
@@ -565,10 +565,6 @@ _start:
 	ldr r1, =strTest20
 	bl putstring
 
-	// Put endline
-	ldr r1, =cCR
-	bl putch
-
 	// Concat a space to the first string
 	ldr r1, =s1
 	ldr r2, =substring5
@@ -605,7 +601,7 @@ _start:
 
 Boolean_output:
 	push 	{R4-R8, R10-R11, LR}
-	push	{SP}
+	// push	{SP}
 
 	cmp	r0, #1		@ Compares to determine whether true or false
 	beq	true		@ If equal branch to true, else false
@@ -626,7 +622,7 @@ true:
 	bl	putch		@ Outputs an endline character
 
 return:
-	pop	{SP}
+	// pop	{SP}
 	pop 	{R4-R8, R10-R11, LR}
 
 	bx	LR

@@ -20,8 +20,11 @@ strPrompt7:	.asciz	"Please enter starting index for check on s1: "
 strTrue:	.asciz	"TRUE"
 strFalse:	.asciz	"FALSE"
 
-strTest:	.asciz	"(Joseph) String1.a Tests #1-10:"
+// String test prompts: general
+strTest:		.asciz	"(Joseph) String1.a Tests #1-10:"
 strTestCont:	.asciz 	"(Cody) String2.a Tests #11-20:" 
+
+// String test prompts: String1.a (Joseph)
 strTest1:	.asciz	"1.  Lengths of s1, s2, s3: "
 strTest2a:	.asciz	"2a. String_equals(s1, s3): "
 strTest2b:	.asciz	"2b. String_equals(s1, s1): "
@@ -35,8 +38,21 @@ strTest8:	.asciz	"8.  String_startsWith_1(s1, hat., 11): "
 strTest9:	.asciz	"9.  String_startsWith_2(s1, Cat): "
 strTest10:	.asciz	"10. String_endsWith(s1, in the hat.): "
 
+// String test prompts: String2.a (Codey)
+strTest11:	.asciz  "11. String_indexOf_1(s2, g): 			"
+strTest12:	.asciz	"12. String_indexOf_2(s2, g, 9): 		"
+strTest13:	.asciz	"13. String_indexOf_3(s2, egg): 		"
+strTest14:	.asciz	"14. String_lastIndexOf_1(s2, g): 		"
+strTest15:	.asciz	"15. String_lastIndexOf_2(s2, g, 9):	"
+strTest16:	.asciz	"16. String_lastIndexOf_3(s2, egg):		"
+strTest17:	.asciz	"17. String_replace(s1, C, B):			"
+strTest18:	.asciz	"18. String_toLowerCase(s1):			"
+strTest19:	.asciz	"19. String_toUpperCase(s1):			"
+strTest20:	.asciz	"20. String_concat(s1, <space>) + String_concat(s1, s2):\n"	
+
 length:		.skip 	12	@ Used to store length of variable for output
 output:		.skip 	100	@ Used to store output when needed
+intBuffer:	.skip	13	@ Used to store a string representation of numbers to output
 s1:		.skip 	100	@ Used to store user input (limited to 100 characters)
 s2:		.skip 	100	@ Used to store user input (limited to 100 characters)
 s3:		.skip 	100	@ Used to store user input (limited to 100 characters)
@@ -45,6 +61,9 @@ s4:		.skip 	100	@ Used to store sopy of s1 (limited to 100 characters)
 subString1:	.skip 	100	@ Used to store user input in test8
 subString2:	.skip	100	@ Used to store uner input in test9
 subString3:	.skip	100	@ Used to store user input in test10
+
+substring4:	.asciz	"egg"	@ Used to test against user in input in tests 13 and 16
+substring5:	.asciz  " "		@ Used to concatenate to the first input string in test 20
 
 cCR:		.byte 	10,0	@ Used to print a Caridge Return (aka endline)
 cCO:		.ascii 	","	@ Used to print a comma
@@ -364,14 +383,210 @@ _start:
 	ldr 	r1, =cCR	@ Set point to store a caridge return
 	bl 	putch		@ Call subroutine to print
 
+	// Put another carriage return
+	ldr 	r1, =cCR
+	bl putch
+
+	/*
+	CODEY'S TESTS
+	*/
+
 	ldr	r1, =strTestCont
 	bl	putstring	@ Outputs header for String2.a tests
 
 	ldr 	r1, =cCR	@ Set point to store a caridge return
 	bl 	putch		@ Call subroutine to print
 
-	@Codey's tests
+	/*
+	TEST 11
+	*/
+
+	// Output the prompt
+	ldr	r1, =strTest11
+	bl putstring
+
+	// Get the index of 'g' in the second string
+	ldr r1, =s2
+	mov r2, #'g'
+	bl String_indexOf
+
+	// Print the index followed by endline
+	bl print_int_and_endline
+
+	/*
+	TEST 12
+	*/
+
+	// Output the prompt
+	ldr	r1, =strTest12
+	bl putstring
+
+	// Get the index of 'g' in the second string
+	ldr r1, =s2
+	mov r2, #'g'
+	mov r3, #9
+	bl String_indexOfFrom
+
+	// Print the index followed by endline
+	bl print_int_and_endline
+
+	/*
+	TEST 13
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest13
+	bl putstring
+
+	// Find the index of "egg" in the second input string
+	ldr r1, =s2
+	ldr r2, =substring4
+	bl String_indexOfString
+
+	// Print the index followed by endline
+	bl print_int_and_endline
+
+	/*
+	TEST 14
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest14
+	bl putstring
+
+	// Find the index of "g" in the second input string
+	ldr r1, =s2
+	mov r2, #'g'
+	bl String_lastIndexOf
+
+	// Print the index followed by endline
+	bl print_int_and_endline
+
+	/*
+	TEST 15
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest15
+	bl putstring
+
+	// Find the index of "g" in the second input string
+	ldr r1, =s2
+	mov r2, #'g'
+	mov r3, #9
+	bl String_lastIndexOfFrom
 	
+	// Print the index followed by endline
+	bl print_int_and_endline
+
+	/*
+	TEST 16
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest16
+	bl putstring
+
+	// Find the index of "egg" in the second input string
+	ldr r1, =s2
+	ldr r2, =substring4
+	bl String_lastIndexOfString
+	
+	// Print the index followed by endline
+	bl print_int_and_endline
+
+	/*
+	TEST 17
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest17
+	bl putstring
+
+	// Replace 'C' with 'B' in first input string
+	ldr r1, =s1
+	mov r2, #'C'
+	mov r3, #'B'
+	bl String_replace
+	
+	// Output string after replace
+	ldr r1, =s1
+	bl putstring
+
+	// End the line
+	ldr r1, =cCR
+	bl putch
+
+	/*
+	TEST 18
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest18
+	bl putstring
+
+	// Convert first input string to lower case
+	ldr r1, =s1
+	bl String_toLowerCase
+	
+	// Output string after change
+	ldr r1, =s1
+	bl putstring
+
+	// End the line
+	ldr r1, =cCR
+	bl putch
+	
+	/*
+	TEST 19
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest19
+	bl putstring
+
+	// Convert first input string to upper case
+	ldr r1, =s1
+	bl String_toUpperCase
+	
+	// Output string after change
+	ldr r1, =s1
+	bl putstring
+
+	// End the line
+	ldr r1, =cCR
+	bl putch
+
+	/*
+	TEST 20
+	*/
+
+	// Output the prompt
+	ldr r1, =strTest20
+	bl putstring
+
+	// Put endline
+	ldr r1, =cCR
+	bl putch
+
+	// Concat a space to the first string
+	ldr r1, =s1
+	ldr r2, =substring5
+	bl String_concat
+
+	// Concat input string 1 and 2 together
+	ldr r1, =s1
+	ldr r2, =s2
+	bl String_concat
+	
+	// Output string after replace
+	mov r1, r0
+	bl putstring
+
+	// End the line
+	ldr r1, =cCR
+	bl putch
+
 	b	exit
 
 
@@ -415,6 +630,29 @@ return:
 	pop 	{R4-R8, R10-R11, LR}
 
 	bx	LR
+
+/*
+void print_int_and_endline(r0 int)
+----------------------------------
+Output the integer in r0 followed by carriage return
+----------------------------------
+*/
+print_int_and_endline:
+	push {lr}
+	
+	// Convert r0 to ascii and store in buffer
+	ldr r1, =intBuffer
+	bl intasc32
+	
+	// Output the integer string
+	ldr r1, =intBuffer
+	bl putstring
+
+	// Put a carriage return
+	ldr r1, =cCR
+	bl putch
+
+	pop {pc}
 
 
 exit:

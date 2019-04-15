@@ -1,4 +1,4 @@
-@ Subroutine String_length: This method returns the number os characters in a string
+@ Subroutine String_length2: This method returns the number os characters in a string
 @
 @ Entering register contents:
 @	R1: Contains the string
@@ -9,9 +9,9 @@
 @
 @ All required AAPC registers are preserved, as well as R1 and R2
 
-	.global 	String_length
+	.global 	String_length2
 
-String_length:
+String_length2:
 	push 	{R4-R8, R10-R11}
 	push	{SP}
 	push	{R1, R2, LR}	@ Saves all registers
@@ -138,7 +138,7 @@ String_copy:
 	push	{SP}
 	push	{R1, R2, LR}
 
-	bl	String_length	@ Calls string length and returns the length into r0
+	bl	String_length2	@ Calls string length and returns the length into r0
 	bl	String_malloc	@ Creates a new dynamic string to store copy
 	push	{r0}		@ Saves the new string
 
@@ -180,7 +180,7 @@ String_substring_1:
 	push	{SP}
 	push	{R1-R3, LR}
 
-	bl	String_length		@ Gets the length of r0
+	bl	String_length2		@ Gets the length of r0
 	mov	r4, r0
 
 	cmp	r2, r3
@@ -243,7 +243,7 @@ String_substring_2:
 	push	{SP}
 	push	{R3, LR}
 
-	bl	String_length		@ Gets the length of r0
+	bl	String_length2		@ Gets the length of r0
 	sub	r3 , r0, #1		@ assigns end index to length - 1
 
 	bl	String_substring_1	@ gets the substring assigned to r0
@@ -273,7 +273,7 @@ String_charAt:
 	push	{SP}
 	push	{R1-R3, LR}
 
-	bl	String_length		@ Get the length of r0
+	bl	String_length2		@ Get the length of r0
 	mov	r3, r0
 
 	cmp	r2, r3
@@ -315,7 +315,7 @@ String_startsWith_1:
 	push	{SP}
 	push	{R1-R3, LR}
 
-	bl	String_length
+	bl	String_length2
 	mov	r4, r0
 
 	cmp	r3, r4
@@ -415,12 +415,12 @@ String_endsWith:
 	push	{SP}
 	push	{R1-R3, LR}
 
-	bl	String_length			@ Gets the string length into r0
+	bl	String_length2			@ Gets the string length into r0
 	mov	r3, r0
 	push	{r1}				@ Saves the string
 
 	mov	r1, r2
-	bl	String_length
+	bl	String_length2
 	mov	r4, r0
 	pop	{r1}				@ Loads the string
 

@@ -13,7 +13,7 @@
 
 String_length2:
 	push 	{R4-R8, R10-R11}
-	push	{SP}
+	// push {sp}
 	push	{R1, R2, LR}	@ Saves all registers
 
 	mov	r0, #0		@ Initialize counter
@@ -29,7 +29,7 @@ loop:
 
 return:
 	pop	{R1, R2, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11} @ Restores all registers
 
 	bx	LR
@@ -52,7 +52,7 @@ return:
 String_equals:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R1-R3, LR}
 
 	mov	r0, #1			@ Initialize boolean to true
@@ -72,7 +72,7 @@ loop1:
 
 return1:
 	pop	{R1-R3, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -95,7 +95,7 @@ return1:
 String_equalsIgnoreCase:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R1, R2, LR}
 
 	bl	String_copy		@ Calls string copy and returns result into r0
@@ -113,7 +113,7 @@ String_equalsIgnoreCase:
 	bl	String_equals		@ Calls string equals, if equal r0 will return 1, else 0
 
 	pop	{R1, R2, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -135,7 +135,7 @@ String_equalsIgnoreCase:
 String_copy:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R1, R2, LR}
 
 	bl	String_length2	@ Calls string length and returns the length into r0
@@ -154,7 +154,7 @@ loop2:
 return2:
 	pop	{r0}		@ Loads the new copied string to be returned
 	pop	{R1, R2, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -177,7 +177,7 @@ return2:
 String_substring_1:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R1-R3, LR}
 
 	bl	String_length2		@ Gets the length of r0
@@ -217,7 +217,7 @@ bad_index3:
 return3:
 	pop	{R0}			@ Loads substring back into r0
 	pop	{R1-R3, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -240,7 +240,7 @@ return3:
 String_substring_2:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R3, LR}
 
 	bl	String_length2		@ Gets the length of r0
@@ -249,7 +249,7 @@ String_substring_2:
 	bl	String_substring_1	@ gets the substring assigned to r0
 
 	pop	{R3, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -270,7 +270,7 @@ String_substring_2:
 
 String_charAt:
 	push 	{R4-R8, R10-R11}
-	push	{SP}
+	// push {sp}
 	push	{R1-R3, LR}
 
 	bl	String_length2		@ Get the length of r0
@@ -288,7 +288,7 @@ bad_index4:
 
 return4:
 	pop	{R1-R3, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -312,7 +312,7 @@ return4:
 String_startsWith_1:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R1-R3, LR}
 
 	bl	String_length2
@@ -344,7 +344,7 @@ bad_index5:
 
 return5:
 	pop	{R1-R3, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -366,7 +366,7 @@ return5:
 String_startsWith_2:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R1-R3, LR}
 
 	mov	r0, #0			@ Initialize r0
@@ -389,7 +389,7 @@ loop6:
 
 return6:
 	pop	{R1-R3, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -412,7 +412,7 @@ return6:
 String_endsWith:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R1-R3, LR}
 
 	bl	String_length2			@ Gets the string length into r0
@@ -433,7 +433,7 @@ String_endsWith:
 
 return7:
 	pop	{R1-R3, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -455,7 +455,7 @@ return7:
 String_set_ovfl:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R0}
 
 	mov	R0, #0x80000000		@ MSB = 1
@@ -464,7 +464,7 @@ String_set_ovfl:
 	asrs	R0, #1			@ R0 = 0x1 -> C = 0, V unchanged
 
 	pop	{R0}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -485,14 +485,14 @@ String_set_ovfl:
 
 String_malloc:
 	push 	{R4-R8, R10-R11}
-	push	{SP}
+	// push {sp}
 	push	{R1-R3, R12, LR}
 
 	add	R0, #1			@ Reserve space for null
 	bl	malloc
 
 	pop	{R1-R3, R12, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 
@@ -513,7 +513,7 @@ String_malloc:
 String_toLowerCase:
 	push 	{R4-R8, R10-R11}
 	
-	push	{SP}
+	// push {sp}
 	push	{R0, R1, LR}
 
 loop8:
@@ -537,7 +537,7 @@ storing_char:
 
 return8:
 	pop	{R0, R1, LR}
-	pop	{SP}
+	// pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR
 .end

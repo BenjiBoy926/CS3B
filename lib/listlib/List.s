@@ -78,6 +78,24 @@ outside the bounds of the list
 .global List_get
 
 /*
+void List_set(r0 list, r1 index, r2 dataPtr, r3 dataLen)
+--------------------------------------------------------
+Replace the data pointer in the node at the given index with
+a copy of the data at the given dataPtr
+--------------------------------------------------------
+*/
+.global List_set
+
+/*
+void List_setstr(r0 list, r1 index, r2 str)
+-------------------------------------------
+Assumes the data pointer points to a string of memory with a
+null terminator, and sets the data pointer of the node
+-------------------------------------------
+*/
+.global List_setstr
+
+/*
 r0 =prevNode, r1 =currentNode List_getNodePair(r0 list, r1 index)
 -----------------------------------------------------------------
 Given a list and an index in the list, return the node at the index
@@ -235,10 +253,89 @@ List_get:
 
 	// Return the current node's data pointer
 	bl List_getNodePair
-	ldr r0, [r1]
 
-	pop {pc}
+	// Check to see if current is null and branch accordingly
+	cmp r1, #0
+	beq lget__elif__current_is_null
+
+	// If current is not null, return its data pointer
+	lget__if__current_not_null:
+		ldr r0, [r1]
+		bal lget__end
+	// If current is null, return null
+	lget__elif__current_is_null:
+		mov r0, #0
+	lget__end:
+		pop {pc}
 	
+// void List_set(r0 list, r1 index, r2 dataPtr, r3 dataLen)
+List_set:
+	push {r4-r8, r10-r12, lr}
+	
+	// Preserve values of argument registers
+	mov r4, r0
+	mov r5, r1
+	mov r6, r2
+	mov r7, r3
+
+	// Get the node pair at the given index
+	bl List_getNodePair
+
+	// Branch to end if current is null
+	cmp r1, #0
+	beq lset__end
+
+	lset__if__current_not_null:
+		// Store current node
+		mov r8, r1
+
+		// Allocate a data segment of the size of the data
+		mov r0, r7
+		bl malloc
+		mov r10, r0
+
+		// Copy the data given into the new
+		// data allocated
+		mov r1, r6
+		mov r2, r10
+		mov r3, r7
+		bl memcpy
+		
+		// Free the data pointed to by the node to change
+		ldr r0, [r8]
+		bl free
+
+		// Store the new pointer in the data pointer
+		// of the current node
+		str r10, [r8]
+
+	lset__end:
+		pop {r4-r8, r10-r12, pc}
+
+// void List_setstr(r0 list, r1 index, r2 str)
+List_setstr:
+	push {r4-r8, r10-r12, lr}
+
+	// Preserve arguments in variable registers
+	mov r4, r0
+	mov r5, r1
+	mov r6, r2
+
+	// Get the length of the string
+	mov r1, r5
+	bl strlen
+	mov r7, r0
+
+	// Set the data in the node,
+	// plus one for the null terminator
+	mov r0, r4
+	mov r1, r5
+	mov r2, r6
+	add r3, r7, #1
+	bl List_set
+
+	pop {r4-r8, r10-r12, pc}	
+
 // r0 =prevNode, r1 =currentNode List_getNodePair(r0 list, r1 index)
 List_getNodePair:
 	push {r4-r8, r10-r12, lr}

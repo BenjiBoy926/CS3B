@@ -7,6 +7,7 @@ str3:	.asciz "I'm good, how are you, Codey?!"
 str4:	.asciz "Now let's see here..."
 str5:	.asciz "Ah! Now let's just hope it works...!"
 find:	.asciz "heLLo"
+replace:	.asciz "Will it change?"
 cCR:	.byte 10
 
 .text
@@ -28,51 +29,43 @@ _start:
 	ldr r1, =str3
 	bl List_addstr
 
-	mov r0, r4
-	ldr r1, =str4
-	bl List_addstr
-
-	mov r0, r4
-	ldr r1, =str5
-	bl List_addstr
-
-	// Output the list
+	// Print all elements
 	mov r0, r4
 	ldr r1, =putstring_and_endline
 	bl List_foreach
 	ldr r1, =cCR
 	bl putch
 
-	// Remove from an index
 	mov r0, r4
-	mov r1, #2
-	bl List_remove
+	ldr r1, =replace
+	mov r2, #1
+	bl List_setstr
 
-	// Output the list
-	mov r0, r4
-	ldr r1, =putstring_and_endline
-	bl List_foreach
-	ldr r1, =cCR
-	bl putch
-
-	// Remove from an index
-	mov r0, r4
-	mov r1, #0
-	bl List_remove
-
-	// Output the list
+	// Print all elements
 	mov r0, r4
 	ldr r1, =putstring_and_endline
 	bl List_foreach
 	ldr r1, =cCR
 	bl putch
 
-	// Remove from an index
 	mov r0, r4
-	mov r1, #2
-	bl List_remove
+	ldr r1, =replace
+	mov r2, #-1
+	bl List_setstr
 
-	// Output the list
+	// Print all elements
+	mov r0, r4
+	ldr r1, =putstring_and_endline
+	bl List_foreach
+	ldr r1, =cCR
+	bl putch
+
+	mov r0, r4
+	ldr r1, =replace
+	mov r2, #8
+	bl List_setstr
+
+	// Print all elements
 	mov r0, r4
 	ldr r1, =putstring_and_endline
 	bl List_foreach

@@ -30,7 +30,7 @@ _start:
 	ldr r1, =find
 	ldr r2, =String_contains
 	ldr r3, =putstring_and_endline
-	bl List_foreachcmp
+	bl List_foreach_cmp
 
 	mov r0, #0
 	mov r7, #1

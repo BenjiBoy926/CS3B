@@ -371,7 +371,7 @@ List_foreach_cmp:
 		lforeachcmp__do_action:
 			ldr r1, [r10]
 			blx r8
-		lforeachcmp__skip_action
+		lforeachcmp__skip_action:
 
 		// Load current node pointer with its own next pointer
 		ldr r10, [r10, #4]

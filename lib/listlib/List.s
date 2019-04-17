@@ -633,6 +633,36 @@ List_printMatch:
 
 	pop {pc}
 
+// void <destructor>(r0 list)
+d__List:
+	push {r4-r8, r10-r12, lr}
+
+	// Preserve the arguments in non-volatile registers
+	mov r4, r0
+	
+	mov r5, #0		// Use r5 as the "previous" node pointer
+	ldr r6, [r4]	// Use r5 as the "current" pointer, starting at the head
+
+	dl__while__current_not_null:
+		// Compare the current node with null
+		cmp r6, #0
+		beq dl__end
+	
+		// Update previous to current, 
+		// update current to the node after it
+		mov r5, r6
+		ldr r6, [r6, #4]
+		
+		// Delete the previous node
+		mov r0, r5
+		bl d__Node
+
+		// Branch back to loop
+		bal dl__while__current_not_null
+
+	dl__end:
+		pop {r4-r8, r10-r12, pc}
+
 // void print_string_and_endline(r1 str)
 print_string_and_endline:
 	push {lr}

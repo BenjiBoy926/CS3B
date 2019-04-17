@@ -55,9 +55,9 @@ _start:
 	svc 0
 
 // (r1 = string)
-pustring_and_endline:
-	mov r1, r0
+putstring_and_endline:
+	push {lr}
 	bl putstring
 	ldr r1, =cCR
 	bl putch
-	bx lr
+	pop {pc}

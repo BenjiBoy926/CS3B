@@ -36,6 +36,10 @@ provided that the register points to a block of data that represents a list
 ---------------------
 */
 
+/******************
+FUNCTION PROTOTYPES
+*******************/
+
 /*
 r0 =node <constructor>(r0 dataPtr, r1 dataLen)
 ----------------------------------------------
@@ -147,8 +151,8 @@ actionRoutine is a subroutine with the following signature:
 .global List_foreach
 
 /*
-void List_foreachcmp(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
---------------------------------------------------------------------------------
+void List_foreachMatch(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
+---------------------------------------------------------------------------------
 Given a list and data pointer, go through each node in the list and perform the
 given action for each data pointer where the given comparer returns true
 
@@ -158,9 +162,26 @@ Where r0 = 1 if the data is equal and r0 = 0 if they are unequal
 
 actionRoutine is a suroutine with the following signature:
 	void action(r1 dataPtr)
-----------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 */
-.global List_foreachcmp
+.global List_foreachMatch
+
+/*
+void List_print(r0 list)
+------------------------
+Interprets all data pointers in all nodes as null-terminated
+strings and attempts to print out the ascii representation
+------------------------
+*/
+.global List_print
+
+/*
+void List_printMatch(r0 list, r1 dataPtr, r2 comparerRoutine)
+-------------------------------------------------------------
+Print all data for which the comparer routine returns true (r0 = 1)
+-------------------------------------------------------------
+*/
+.global List_printMatch
 
 /*
 void <destructor>(r0 list)
@@ -170,10 +191,33 @@ Destoy the list by freeing memory of all the nodes in the list
 */
 .global d__List
 
+/*
+void print_string_and_endline(r1 str)
+-------------------------------------
+Print the null-terminated string pointed to by r1,
+followed by a carriage return
+-------------------------------------
+*/
+.global print_string_and_endline
+
 // Let the dynamic linker resolve references
 // to malloc and free
 .extern malloc
 .extern free
+
+/***********
+DATA SEGMENT
+************/
+
+.data
+cCR:	.byte 10	// Carriage return ascii code
+
+/*************
+IMPLEMENTATION
+**************/
+
+.text
+.balign 4
 
 // r0 =node <constructor>(r0 dataPtr, r1 dataLen)
 Node:
@@ -524,10 +568,10 @@ List_foreach:
 	lforeach__end:
 		pop {r4-r8, r10-r12, pc}
 
-// void List_foreachcmp(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
+// void List_foreachMatch(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
 // r0 =boolean cmp(r1 data1, r2 data2)
 // void action(r1 dataPtr)
-List_foreachcmp:
+List_foreachMatch:
 	push {r4-r8, r10-r12, lr}
 
 	// Preserve the arguments in non-volatile registers
@@ -538,10 +582,10 @@ List_foreachcmp:
 	
 	ldr r10, [r4]	// Use r6 as the "current" pointer, starting at the head
 
-	lforeachcmp__while__current_not_null:
+	lforeachmatch__while__current_not_null:
 		// Compare the current node with null
 		cmp r10, #0
-		beq lforeachcmp__end
+		beq lforeachmatch__end
 	
 		// Branch to the routine that compares the data
 		// in the current pointer with the pointer given
@@ -552,19 +596,52 @@ List_foreachcmp:
 		// Do the action if r0 is true,
 		// otherwise skip the action
 		cmp r0, #0
-		bne lforeachcmp__do_action
-		bal lforeachcmp__skip_action
+		bne lforeachmatch__do_action
+		bal lforeachmatch__skip_action
 
 		// Load r1 with the data pointer of the current node
 		// and branch to the action routine
-		lforeachcmp__do_action:
+		lforeachmatch__do_action:
 			ldr r1, [r10]
 			blx r8
-		lforeachcmp__skip_action:
+		lforeachmatch__skip_action:
 
 		// Load current node pointer with its own next pointer
 		ldr r10, [r10, #4]
-		bal lforeachcmp__while__current_not_null
+		bal lforeachmatch__while__current_not_null
 
-	lforeachcmp__end:
+	lforeachmatch__end:
 		pop {r4-r8, r10-r12, pc}
+
+// void List_print(r0 list)
+List_print:
+	push {lr}
+
+	// Put each string plus an endline 
+	ldr r1, =print_string_and_endline
+	bl List_foreach
+
+	pop {pc}
+
+// void List_printMatch(r0 list, r1 dataPtr, r2 comparerRoutine)
+List_printMatch:
+	push {lr}
+
+	// Print string and endline for each match by the comparer routine
+	ldr r3, =print_string_and_endline
+	bl List_foreachMatch
+
+	pop {pc}
+
+// void print_string_and_endline(r1 str)
+print_string_and_endline:
+	push {lr}
+
+	// Display string specified
+	bl putstring
+
+	// Put an endline
+	ldr r1, =cCR
+	bl putch
+
+	pop {pc}

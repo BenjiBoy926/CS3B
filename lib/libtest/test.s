@@ -22,64 +22,22 @@ _start:
 	bl List_addstr
 
 	mov r0, r4
+	bl List_print
+
+	mov r0, r4
 	ldr r1, =str2
 	bl List_addstr
+
+	mov r0, r4
+	bl List_print
 
 	mov r0, r4
 	ldr r1, =str3
 	bl List_addstr
 
-	// Print all elements
 	mov r0, r4
-	ldr r1, =putstring_and_endline
-	bl List_foreach
-	ldr r1, =cCR
-	bl putch
-
-	mov r0, r4
-	mov r1, #1
-	ldr r2, =replace
-	bl List_setstr
-
-	// Print all elements
-	mov r0, r4
-	ldr r1, =putstring_and_endline
-	bl List_foreach
-	ldr r1, =cCR
-	bl putch
-
-	mov r0, r4
-	mov r1, #-1
-	ldr r2, =replace
-	bl List_setstr
-
-	// Print all elements
-	mov r0, r4
-	ldr r1, =putstring_and_endline
-	bl List_foreach
-	ldr r1, =cCR
-	bl putch
-
-	mov r0, r4
-	mov r1, #8
-	ldr r2, =replace
-	bl List_setstr
-
-	// Print all elements
-	mov r0, r4
-	ldr r1, =putstring_and_endline
-	bl List_foreach
-	ldr r1, =cCR
-	bl putch
+	bl List_print
 
 	mov r0, #0
 	mov r7, #1
 	svc 0
-
-// (r1 = string)
-putstring_and_endline:
-	push {lr}
-	bl putstring
-	ldr r1, =cCR
-	bl putch
-	pop {pc}

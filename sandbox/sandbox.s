@@ -13,15 +13,20 @@ _start:
 	
 	mov r7, #5
 	svc 0
+	mov r4, r0
 
+	mov r0, r4
 	ldr r1, =str
 	mov r2, #13
 	
 	mov r7, #3
 	svc 0
     	
+	mov r0, r4
+	mov r7, #6
+	svc 0
+
 	mov r0, #0
 	mov r7, #1
 	svc 0
     .end
-

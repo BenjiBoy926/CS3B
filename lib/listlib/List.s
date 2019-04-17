@@ -377,7 +377,7 @@ List_remove:
 	// list to the node after the node to delete
 	lrm__elif__previous_is_null:
 		ldr r2, [r1, #4]
-		srt r2, [r4]
+		str r2, [r4]
 
 	lrm__endif__previous_not_null:
 

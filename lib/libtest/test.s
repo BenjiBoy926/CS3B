@@ -6,7 +6,7 @@ str2:	.asciz "How are you, world?!"
 str3:	.asciz "I'm good, how are you, Codey?!"
 str4:	.asciz "Now let's see here..."
 str5:	.asciz "Ah! Now let's just hope it works...!"
-find:	.asciz "heLLo"
+find:	.asciz "WOrld"
 replace:	.asciz "Will it change?"
 cCR:	.byte 10
 
@@ -22,21 +22,17 @@ _start:
 	bl List_addstr
 
 	mov r0, r4
-	bl List_print
-
-	mov r0, r4
 	ldr r1, =str2
 	bl List_addstr
-
-	mov r0, r4
-	bl List_print
 
 	mov r0, r4
 	ldr r1, =str3
 	bl List_addstr
 
 	mov r0, r4
-	bl List_print
+	ldr r1, =find
+	ldr r2, =String_containsIgnoreCase
+	bl List_printMatch
 
 	mov r0, #0
 	mov r7, #1

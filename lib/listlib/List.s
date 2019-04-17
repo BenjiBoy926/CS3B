@@ -385,7 +385,7 @@ List_remove:
 	// branch past the if statement
 	ldr r2, [r4, #4]
 	cmp r1, r2
-	bne lrm__endif__current_is_not_tail
+	bne lrm__endif__current_is_tail
 
 	// If current node is the tail node,
 	// update the tail to point to previous node

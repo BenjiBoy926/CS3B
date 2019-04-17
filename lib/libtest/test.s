@@ -46,7 +46,7 @@ _start:
 	// Remove from an index
 	mov r0, r4
 	mov r1, #2
-	bl String_remove
+	bl List_remove
 
 	// Output the list
 	mov r0, r4
@@ -58,7 +58,7 @@ _start:
 	// Remove from an index
 	mov r0, r4
 	mov r1, #0
-	bl String_remove
+	bl List_remove
 
 	// Output the list
 	mov r0, r4
@@ -70,7 +70,7 @@ _start:
 	// Remove from an index
 	mov r0, r4
 	mov r1, #2
-	bl String_remove
+	bl List_remove
 
 	// Output the list
 	mov r0, r4

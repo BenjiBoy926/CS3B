@@ -78,6 +78,15 @@ outside the bounds of the list
 .global List_get
 
 /*
+r0 =prevNode, r1 =currentNode List_getNodePair(r0 list, r1 index)
+-----------------------------------------------------------------
+Given a list and an index in the list, return the node at the index
+in r1 and return the node before the index in r0 
+-----------------------------------------------------------------
+*/
+.global List_getNodePair
+
+/*
 void List_add(r0 list, r1 dataPtr, r2 dataLen)
 ----------------------------------------------
 Add a node to the list by copying #dataLen bytes
@@ -120,7 +129,7 @@ actionRoutine is a subroutine with the following signature:
 .global List_foreach
 
 /*
-void List_foreach_cmp(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
+void List_foreachcmp(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
 --------------------------------------------------------------------------------
 Given a list and data pointer, go through each node in the list and perform the
 given action for each data pointer where the given comparer returns true
@@ -133,7 +142,7 @@ actionRoutine is a suroutine with the following signature:
 	void action(r1 dataPtr)
 ----------------------------------------------------------------------------
 */
-.global List_foreach_cmp
+.global List_foreachcmp
 
 /*
 void <destructor>(r0 list)
@@ -187,6 +196,22 @@ Node:
 
 	pop {r4-r8, r10-r12, pc}
 
+// void <destructor>(r0 node)
+d__Node:
+	push {r4, lr}
+
+	mov r4, r0
+
+	// Free the memory pointed to by the node's data pointer
+	ldr r0, [r4]
+	bl free
+
+	// Free the memory used to hold the data pointer and next pointer
+	mov r0, r4
+	bl free
+
+	pop {r4, pc}
+
 // r0 =list <constructor>()
 List:
 	push {r4-r8, r10-r12, lr}
@@ -206,47 +231,65 @@ List:
 
 // r0 =dataPtr List_get(r0 list, r1 index)
 List_get:
+	push {lr}
+
+	// Return the current node's data pointer
+	bl List_getNodePair
+	ldr r0, [r1]
+
+	pop {pc}
+	
+// r0 =prevNode, r1 =currentNode List_getNodePair(r0 list, r1 index)
+List_getNodePair:
 	push {r4-r8, r10-r12, lr}
 
 	// Branch to fail case if index is less than zero
 	cmp r1, #0
-	blt lget__fail_case
+	blt lgetnp__fail_case
 
-	ldr r2, [r0]	// Assign the head pointer to r2
+	mov r2, #0	// Use r2 as a pointer to the previous node
 
-	lget__while__index_not_zero__and__current_not_null:
+	// Use r3 as a pointer to the current node
+	// Start at the list's head pointer
+	ldr r3, [r0]	
+
+	lgetnp__while__index_not_zero__and__current_not_null:
 		// If the current node pointer is null,
 		// branch to fail case
-		cmp r2, #0
-		beq lget__fail_case
+		cmp r3, #0
+		beq lgetnp__fail_case
 
 		// Branch to found case if 
 		// current index is zero
 		cmp r1, #0
-		ble lget__found_case
+		ble lgetnp__found_case
 
+		// Update previous with current pointer
+		mov r2, r3
 		// Load the current node pointer 
 		// with it's own "next" pointer
-		ldr r2, [r2, #4]
+		ldr r3, [r3, #4]
 		// Decrement the index
 		sub r1, r1, #1
 
 		// Branch back to loop start
-		bal lget__while__index_not_zero__and__current_not_null
+		bal lgetnp__while__index_not_zero__and__current_not_null
 
 	// In the failure case, return null pointer
-	lget__fail_case:
+	lgetnp__fail_case:
 		mov r0, #0
-		bal lget__end
+		mov r1, #0
+		bal lgetnp__end
 
-	// In the correct case, return the first word
-	// pointed to by r2, the data pointer of the node
-	lget__found_case:
-		ldr r0, [r2]
+	// In the correct case, return r2 as the previous node
+	// and return r1 as the current node
+	lgetnp__found_case:
+		mov r0, r2
+		mov r1, r3
 
-	lget__end:
+	lgetnp__end:
 		pop {r4-r8, r10-r12, pc}
-	
+
 // void List_add(r0 list, r1 dataPtr, r2 dataLen)
 List_add:
 	push {r4-r8, r10-r12, lr}
@@ -308,7 +351,56 @@ List_addstr:
 
 	pop {r4-r8, r10-r12, pc}	
 
+// void List_remove(r0 list, r1 index)
+List_remove:
+	push {r4-r8, r10-r12, lr}
+
+	// Preserve argument registers
+	mov r4, r0
+	mov r5, r1
+
+	// Get the node to delete in r1 and the node before it in r0
+	bl List_getNodePair
+
+	// Check the previous pointer and branch
+	cmp r0, #0
+	beq lrm__elif__previous_is_null
+
+	// If previous node is not null, make previous point
+	// to the node after current
+	lrm__if__previous_not_null:
+		ldr r2, [r1, #4]
+		str r2, [r0, #4]
+		bal lrm__endif__previous_not_null
+
+	// If the previous node is null, update the head of the 
+	// list to the node after the node to delete
+	lrm__elif__previous_is_null:
+		ldr r2, [r1, #4]
+		srt r2, [r4]
+
+	lrm__endif__previous_not_null:
+
+	// If the current node is not the tail node,
+	// branch past the if statement
+	ldr r2, [r4, #4]
+	cmp r1, r2
+	bne lrm__endif__current_is_not_tail
+
+	// If current node is the tail node,
+	// update the tail to point to previous node
+	lrm__if__current_is_tail:
+		str r0, [r4, #4]
+	lrm__endif__current_is_tail:
+
+	// Destroy the current node
+	mov r0, r1
+	bl d__Node
+
+	pop {r4-r8, r10-r12, pc}
+
 // void List_foreach(r0 list, r1 actionRoutine)
+// void actionRoutine(r1 dataPtr)
 List_foreach:
 	push {r4-r8, r10-r12, lr}
 
@@ -335,10 +427,10 @@ List_foreach:
 	lforeach__end:
 		pop {r4-r8, r10-r12, pc}
 
-// void List_foreach_cmp(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
+// void List_foreachcmp(r0 list, r1 dataPtr, r2 comparerRoutine, r3 actionRoutine)
 // r0 =boolean cmp(r1 data1, r2 data2)
 // void action(r1 dataPtr)
-List_foreach_cmp:
+List_foreachcmp:
 	push {r4-r8, r10-r12, lr}
 
 	// Preserve the arguments in non-volatile registers

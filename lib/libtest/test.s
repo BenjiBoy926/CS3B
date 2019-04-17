@@ -4,6 +4,8 @@
 str1:	.asciz "Hello, world!"
 str2:	.asciz "How are you, world?!"
 str3:	.asciz "I'm good, how are you, Codey?!"
+str4:	.asciz "Now let's see here..."
+str5:	.asciz "Ah! Now let's just hope it works...!"
 find:	.asciz "heLLo"
 cCR:	.byte 10
 
@@ -27,10 +29,55 @@ _start:
 	bl List_addstr
 
 	mov r0, r4
-	ldr r1, =find
-	ldr r2, =String_containsIgnoreCase
-	ldr r3, =putstring_and_endline
-	bl List_foreach_cmp
+	ldr r1, =str4
+	bl List_addstr
+
+	mov r0, r4
+	ldr r1, =str5
+	bl List_addstr
+
+	// Output the list
+	mov r0, r4
+	ldr r1, =putstring_and_endline
+	bl List_foreach
+	ldr r1, =cCR
+	bl putch
+
+	// Remove from an index
+	mov r0, r4
+	mov r1, #2
+	bl String_remove
+
+	// Output the list
+	mov r0, r4
+	ldr r1, =putstring_and_endline
+	bl List_foreach
+	ldr r1, =cCR
+	bl putch
+
+	// Remove from an index
+	mov r0, r4
+	mov r1, #0
+	bl String_remove
+
+	// Output the list
+	mov r0, r4
+	ldr r1, =putstring_and_endline
+	bl List_foreach
+	ldr r1, =cCR
+	bl putch
+
+	// Remove from an index
+	mov r0, r4
+	mov r1, #2
+	bl String_remove
+
+	// Output the list
+	mov r0, r4
+	ldr r1, =putstring_and_endline
+	bl List_foreach
+	ldr r1, =cCR
+	bl putch
 
 	mov r0, #0
 	mov r7, #1

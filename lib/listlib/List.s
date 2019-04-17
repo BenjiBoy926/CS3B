@@ -56,7 +56,7 @@ void <destructor>(r0 node)
 Free the memory for a node pointed to by r0
 --------------------------
 */
-.global ~Node
+.global d__Node
 
 /*
 r0 =list <constructor>()
@@ -131,7 +131,7 @@ void <destructor>(r0 list)
 Destoy the list by freeing memory of all the nodes in the list
 --------------------------
 */
-.global ~List
+.global d__List
 
 // Let the dynamic linker resolve references
 // to malloc and free

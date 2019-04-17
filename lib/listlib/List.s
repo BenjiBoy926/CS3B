@@ -208,7 +208,7 @@ List_get:
 		// If the current node pointer is null,
 		// branch to fail case
 		cmp r2, #0
-		beq lget__found_case
+		beq lget__fail_case
 
 		// Branch to found case if 
 		// current index is zero

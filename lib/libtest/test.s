@@ -4,6 +4,7 @@
 str1:	.asciz "Hello, world!"
 str2:	.asciz "How are you, world?!"
 str3:	.asciz "I'm good, how are you, Codey?!"
+cCR:	.byte 10
 
 .text
 .balign 4
@@ -45,6 +46,18 @@ _start:
 	add r2, r5, #1
 	bl List_add
 
+	mov r0, r4
+	ldr r1, =putstring_and_endline
+	bl List_foreach
+
 	mov r0, #0
 	mov r7, #1
 	svc 0
+
+// (r1 = string)
+pustring_and_endline:
+	mov r1, r0
+	bl putstring
+	ldr r1, =cCR
+	bl putch
+	bx lr

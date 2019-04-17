@@ -322,7 +322,7 @@ List_setstr:
 	mov r6, r2
 
 	// Get the length of the string
-	mov r1, r5
+	mov r1, r6
 	bl strlen
 	mov r7, r0
 

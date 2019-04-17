@@ -23,6 +23,28 @@ _start:
 	add r2, r5, #1
 	bl List_add
 
+	// Get the length of str1
+	ldr r1, =str2
+	bl strlen
+	mov r5, r0
+
+	// Add str2 to the list
+	mov r0, r4
+	ldr r1, =str2
+	add r2, r5, #1
+	bl List_add
+
+	// Get the length of str1
+	ldr r1, =str3
+	bl strlen
+	mov r5, r0
+
+	// Add str3 to the list
+	mov r0, r4
+	ldr r1, =str3
+	add r2, r5, #1
+	bl List_add
+
 	mov r0, #0
 	mov r7, #1
 	svc 0

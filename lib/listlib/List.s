@@ -155,6 +155,7 @@ Node:
 	// Allocate a data segment of the size of the data
 	mov r0, r5
 	bl malloc
+	mov r7, r0
 
 	// Copy the data given into the new
 	// data allocated
@@ -162,7 +163,6 @@ Node:
 	mov r2, r0
 	mov r3, r5
 	bl memcpy
-	mov r7, r0
 
 	// Move zero into eight - this will be the node's next pointer
 	mov r8, #0

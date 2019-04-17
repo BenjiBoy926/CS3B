@@ -47,8 +47,16 @@ _start:
 	bl List_add
 
 	mov r0, r4
-	ldr r1, =putstring_and_endline
-	bl List_foreach
+	mov r1, #-1
+	bl List_get
+
+	mov r0, r4
+	mov r1, #5
+	bl List_get
+
+	mov r0, r4
+	mov r1, #1
+	bl List_get
 
 	mov r0, #0
 	mov r7, #1

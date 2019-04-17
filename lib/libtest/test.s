@@ -13,50 +13,17 @@ _start:
 	bl List
 	mov r4, r0
 
-	// Get the length of str1
-	ldr r1, =str1
-	bl strlen
-	mov r5, r0
-
-	// Add str1 to the list
 	mov r0, r4
 	ldr r1, =str1
-	add r2, r5, #1
-	bl List_add
-
-	// Get the length of str1
-	ldr r1, =str2
-	bl strlen
-	mov r5, r0
-
-	// Add str2 to the list
+	bl List_addstr
+	
 	mov r0, r4
 	ldr r1, =str2
-	add r2, r5, #1
-	bl List_add
+	bl List_addstr
 
-	// Get the length of str1
-	ldr r1, =str3
-	bl strlen
-	mov r5, r0
-
-	// Add str3 to the list
 	mov r0, r4
 	ldr r1, =str3
-	add r2, r5, #1
-	bl List_add
-
-	mov r0, r4
-	mov r1, #-1
-	bl List_get
-
-	mov r0, r4
-	mov r1, #5
-	bl List_get
-
-	mov r0, r4
-	mov r1, #1
-	bl List_get
+	bl List_addstr
 
 	mov r0, #0
 	mov r7, #1

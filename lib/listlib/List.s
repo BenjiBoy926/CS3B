@@ -90,6 +90,15 @@ that points to the copy of the data that was created
 .global List_add
 
 /*
+void List_addstr(r0 list, r1 dataPtr)
+-------------------------------------
+Special case of the List_add routine that assumes 
+the data points to a null-terminated string of bytes
+-------------------------------------
+*/
+.global List_addstr
+
+/*
 void List_remove(r0 list, r1 index)
 -----------------------------------
 Remove the node at index from the linked list
@@ -275,6 +284,28 @@ List_add:
 
 	ladd__end:
 		pop {r4-r8, r10-r12, pc}
+
+// void List_addstr(r0 list, r1 dataPtr)
+List_addstr:
+	push {r4-r8, r10-r12, lr}
+
+	// Preserve arguments in variable registers
+	mov r4, r0
+	mov r5, r1
+
+	// Get the length of the string
+	mov r1, r5
+	bl strlen
+	mov r6, r0
+
+	// Add the data to the list, plus one
+	// to include null terminator
+	mov r0, r4
+	mov r1, r5
+	add r2, r6, #1
+	bl List_add
+
+	pop {r4-r8, r10-r12, pc}	
 
 // void List_foreach(r0 list, r1 actionRoutine)
 List_foreach:

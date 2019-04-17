@@ -1,4 +1,4 @@
-LIB = string.a
+LIB = list.a
 SOURCES = $(wildcard *.s)
 ASMFLAGS = -g
 

@@ -289,7 +289,7 @@ List_foreach:
 		// Load r1 with the data pointer of the current node
 		// and branch to the action routine
 		ldr r1, [r6]
-		bl r5
+		blx r5
 
 		// Load current node pointer with its own next pointer
 		ldr r6, [r6, #4]

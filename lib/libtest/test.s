@@ -37,8 +37,8 @@ _start:
 	bl putch
 
 	mov r0, r4
-	ldr r1, =replace
-	mov r2, #1
+	mov r1, #1
+	ldr r2, =replace
 	bl List_setstr
 
 	// Print all elements
@@ -49,8 +49,8 @@ _start:
 	bl putch
 
 	mov r0, r4
-	ldr r1, =replace
-	mov r2, #-1
+	mov r1, #-1
+	ldr r2, =replace
 	bl List_setstr
 
 	// Print all elements
@@ -61,8 +61,8 @@ _start:
 	bl putch
 
 	mov r0, r4
-	ldr r1, =replace
-	mov r2, #8
+	mov r1, #8
+	ldr r2, =replace
 	bl List_setstr
 
 	// Print all elements

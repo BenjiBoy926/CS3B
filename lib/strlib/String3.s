@@ -45,7 +45,7 @@ String_indexOfIgnoreCase:
 	// Get the index of the second string in the first string
 	mov r1, r4
 	mov r2, r5
-	bl indexOfString
+	bl String_indexOfString
 	mov r6, r0
 
 	// Free the memory of the string copies

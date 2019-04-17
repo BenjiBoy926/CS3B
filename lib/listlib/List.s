@@ -262,6 +262,7 @@ List_add:
 	ladd__if__first_node:
 		str r0, [r4]
 		str r0, [r4, #4]
+		bal ladd__end
 
 	// Branch here if this is not the first node
 	ladd__elif__not_first_node:
@@ -272,7 +273,8 @@ List_add:
 		// in the "tail" word pointed to by the list pointer
 		str r0, [r4, #4]
 
-	pop {r4-r8, r10-r12, pc}
+	ladd__end:
+		pop {r4-r8, r10-r12, pc}
 
 // void List_foreach(r0 list, r1 actionRoutine)
 List_foreach:

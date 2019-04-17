@@ -263,11 +263,14 @@ List_add:
 		str r0, [r4]
 		str r0, [r4, #4]
 
-	// If this is not the first node, store the pointer
-	// to the newly constructed node in the next
-	// pointer of the tail node
+	// Branch here if this is not the first node
 	ladd__elif__not_first_node:
+		// Store the pointer to the newly constructed node 
+		// in the "next" word pointed to by the tail pointer
 		str r0, [r3, #4]
+		// Store the pointer to the newly constructed node
+		// in the "tail" word pointed to by the list pointer
+		str r0, [r4, #4]
 
 	pop {r4-r8, r10-r12, pc}
 

@@ -29,6 +29,18 @@ _start:
 	ldr r1, =str3
 	bl List_addstr
 
+	mov r0, r4
+	bl List_print
+	ldr r0, =cCR
+	bl putch
+
+	mov r0, r4
+	ldr r1, =find
+	ldr r2, =String_containsIgnoreCase
+	bl List_printMatch
+	ldr r0, =cCR
+	bl putch
+
 	mov r0, #0
 	mov r7, #1
 	svc 0

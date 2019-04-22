@@ -103,7 +103,10 @@ _start:
 		add lcv, lcv, #1
 		bal exm3__while__lcv_le_sentinel
 	exm3__endwhile:
-	
+
+	mov r0, #0
+	mov r7, #1
+	svc 0
 
 /*
 void out_mod_eq(r0 oper1, r1 oper2)

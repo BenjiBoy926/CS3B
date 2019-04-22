@@ -1,5 +1,6 @@
 .global _start
 
+.data
 // Ints input by user as strings
 strInt1:	.skip 13
 strInt2:	.skip 13
@@ -31,12 +32,14 @@ div_by_zero_prompt:	.asciz "Cannot divide by zero\n"
 
 endl:	.byte 10
 
-r4 .req sentinel
-r5 .req lcv
-r6 .req oper1
-r7 .req oper2
-r8 .req mod
+sentinel 	.req r4
+lcv 		.req r5
+oper1 		.req r6
+oper2 		.req r7
+mod 		.req r8
 
+.text
+.balign 4
 _start:
 	mov lcv, #1
 	mov sentinel, #3

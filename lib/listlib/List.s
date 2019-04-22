@@ -60,7 +60,7 @@ void <destructor>(r0 node)
 Free the memory for a node pointed to by r0
 --------------------------
 */
-.global d__Node
+.global d_Node
 
 /*
 r0 =list <constructor>()
@@ -189,7 +189,7 @@ void <destructor>(r0 list)
 Destoy the list by freeing memory of all the nodes in the list
 --------------------------
 */
-.global d__List
+.global d_List
 
 /*
 void print_string_and_endline(r1 str)
@@ -259,7 +259,7 @@ Node:
 	pop {r4-r8, r10-r12, pc}
 
 // void <destructor>(r0 node)
-d__Node:
+d_Node:
 	push {r4, lr}
 
 	mov r4, r0
@@ -536,7 +536,7 @@ List_remove:
 
 	// Destroy the current node
 	mov r0, r1
-	bl d__Node
+	bl d_Node
 
 	pop {r4-r8, r10-r12, pc}
 
@@ -634,7 +634,7 @@ List_printMatch:
 	pop {pc}
 
 // void <destructor>(r0 list)
-d__List:
+d_List:
 	push {r4-r8, r10-r12, lr}
 
 	// Preserve the arguments in non-volatile registers
@@ -655,7 +655,7 @@ d__List:
 		
 		// Delete the previous node
 		mov r0, r5
-		bl d__Node
+		bl d_Node
 
 		// Branch back to loop
 		bal dl__while__current_not_null

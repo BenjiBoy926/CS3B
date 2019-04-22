@@ -27,7 +27,6 @@ remainder:
 	subs remainder, divisor, remainder  
 	// Take the absolute value of the current remainder
 	mov r1, remainder
-	bl abs
 	remainder__end:
 		// Restore the return address and branch back to it
 		pop {r1-r12, pc}

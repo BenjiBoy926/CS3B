@@ -80,6 +80,7 @@ _start:
 		// Check if vs was set or clear
 		cmp r9, #0
 		beq exm3__if__div_clear
+		bal exm3__elif__div_by_zero
 
 		// Put correct output for result or div by zero error
 		exm3__if__div_clear:

@@ -9,8 +9,10 @@ string:		.asciz "cat in the hat\n"
 _start:
 	// Linux syscall to open the file with the name
 	ldr r0, =filename
+
 	mov r1, #1101
 	mov r2, #0644
+
 	mov r7, #5
 	svc 0
 	mov r4, r0

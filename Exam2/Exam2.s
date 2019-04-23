@@ -66,10 +66,10 @@ _start:
 		bal exm3__elif__vs_clear
 
 		exm3__if__vs_set:
-			mov r9, #1
+			mov r10, #1
 			bal exm3__endif__vs_set
 		exm3__elif__vs_clear:
-			mov r9, #0
+			mov r10, #0
 		exm3__endif__vs_set:
 
 		// Output the mod equation
@@ -78,7 +78,7 @@ _start:
 		bl out_mod_eq
 
 		// Check if vs was set or clear
-		cmp r9, #0
+		cmp r10, #0
 		beq exm3__if__div_clear
 		bal exm3__elif__div_by_zero
 

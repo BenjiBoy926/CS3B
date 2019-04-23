@@ -37,7 +37,7 @@ idiv:
 		// Set the overflow flag
 		bl setv
 		// Branch to the end
-		bal _end
+		bal idiv__end
 	idiv__endif__divbyzero:
 
 	/*

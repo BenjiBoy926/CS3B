@@ -152,7 +152,7 @@ out_mod_eq:
 
 	pop {r4-r8, r10-r12, pc}
 
-// r0 =result mod_and_check(r0 oper1, r1 oper2)
+// r0 =result, r1 =vsset mod_and_check(r0 oper1, r1 oper2)
 mod_and_check:
 	push {r4-r8, r10-r12, lr}
 
@@ -169,7 +169,18 @@ mod_and_check:
 	mov r2, r1
 	mov r1, r0
 	bl remainder
-	mov r9, r0
+	push {r0}
+
+	bvs modch__if__vs_set
+	bal modch__elif__vs_clear
+
+	modch__if__vs_set:
+		mov r1, #1
+		bal modch__endif__vs_set
+	modch__elif__vs_clear:
+		mov r1, #0
+	modch__endif__vs_set:
+	push {r1}
 
 	ldr r1, =endl
 	bl putch
@@ -179,50 +190,50 @@ mod_and_check:
 	bl output_int
 	ldr r1, =endl
 	bl putch
-	add r1, r1, #6
 
+	add r1, r1, #6
 	bl putstring
 	mov r0, r5
 	bl output_int
 	ldr r1, =endl
 	bl putch
-	add r1, r1, #6
 
+	add r1, r1, #6
 	bl putstring
 	mov r0, r6
 	bl output_int
 	ldr r1, =endl
 	bl putch
-	add r1, r1, #6
 
+	add r1, r1, #6
 	bl putstring
 	mov r0, r7
 	bl output_int
 	ldr r1, =endl
 	bl putch
-	add r1, r1, #6
 
+	add r1, r1, #6
 	bl putstring
 	mov r0, r8
 	bl output_int
 	ldr r1, =endl
 	bl putch
-	add r1, r1, #6
 
+	add r1, r1, #6
 	bl putstring
 	mov r0, r10
 	bl output_int
 	ldr r1, =endl
 	bl putch
-	add r1, r1, #7
 
+	add r1, r1, #7
 	bl putstring
 	mov r0, r11
 	bl output_int
 	ldr r1, =endl
 	bl putch
-	add r1, r1, #7
 
+	add r1, r1, #7
 	bl putstring
 	mov r0, r12
 	bl output_int
@@ -233,6 +244,8 @@ mod_and_check:
 
 	mov r0, r9
 
+	pop {r1}
+	pop {r0}
 	pop {r4-r8, r10-r12, pc}
 
 // void output_int(r0 int)

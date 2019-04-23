@@ -25,28 +25,6 @@ remainder:
 	mul remainder, dividend, remainder
 	// Subtract the divisor from the remainder
 	subs remainder, divisor, remainder  
-	
-	push {divisor}
-	mov r1, remainder
-	bl abs
-	pop {divisor}
-
-	// Preserve remainder
-	mov r4, remainder
-
-	// Check to see if items have opposite signs
-	mov r1, divisor
-	mov r2, dividend
-	bl oppositesigns
-
-	cmp r0, #0
-	beq remainder__endif__opposite_signs
-
-	remainder__if__opposite_signs:
-		mov r1, r4
-		bl negate
-	remainder__endif__opposite_signs:
-
 	remainder__end:
 		// Restore the return address and branch back to it
 		pop {r1-r12, pc}

@@ -2,7 +2,7 @@
 
 .data 
 // Feedback displayed if user enters invalid option
-inputInvalidPrompt:	.asciz "*** ERROR: input out of valid range ***"
+inputInvalidPrompt:	.asciz "*** ERROR: input out of valid range ***\n"
 
 /*
 r0 GetValueInRange(r0 min, r1 max, r2 valueGenerator)
@@ -36,7 +36,7 @@ GetValueInRange:
 		mov r7, r0
 		
 		// Check to see if the integer input is a valid option
-		mov r7, r6
+		mov r1, r7
 		mov r2, r4
 		mov r3, r5
 		bl inrange

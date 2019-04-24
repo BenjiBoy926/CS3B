@@ -54,7 +54,7 @@ _start:
 	rasm4__endwhile__input_not_7:
 
 	// Destroy the list
-	ldr r0, =list
+	ldr r0, =stringList
 	ldr r0, [r0]
 	bl d_List
 

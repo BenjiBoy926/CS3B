@@ -1,5 +1,9 @@
 .global GetIntInputInRange
 
+.data 
+// Feedback displayed if user enters invalid option
+inputInvalidPrompt:	.asciz "*** ERROR: please input a number between 1 and 7 ***\n"
+
 /*
 r0 GetIntInputInRange(r0 min, r1 max)
 -------------------------------------
@@ -8,6 +12,9 @@ that is in the range of [min, max]. Additionally
 checks overflow and if the string is a valid int
 -------------------------------------
 */
+
+.text
+.balign 4
 GetIntInputInRange:
 	push {r4-r8, r10-r12, lr}
 
@@ -43,3 +50,4 @@ GetIntInputInRange:
 	mov r0, r6
 
 	pop {r4-r8, r10-r12, pc}
+	

@@ -23,16 +23,17 @@ what I mean is that the block of memory at the address 0x10 has two
 words (eight bytes) of data allocated to it.  The first word is the 
 head pointer and the second word is the tail pointer
 	
-	Suppose r0 = 0x10 and it points to a list. If I want to store the 
+	Suppose 0x10 is the address location of a list. If I want to store the 
+	value of, say, r2 as the "tail" pointer, I could write:
 		mov r1, #0x14
-		ldr r1, [r1]
+		ldr r2, [r1]
 	
 	Or, assuming r0 has a pointer to this list, I could write:
-		ldr r1, [r0, #4]
+		ldr r2, [r0, #4]
 
 	In fact, this second piece of code will work to get the tail pointer of ANY list,
 provided that the register points to a block of data that represents a list 
-(otherwise, you could could garbage data or seg faults if (r0 + 8) has not been allocated)
+(otherwise, you could could garbage data or seg faults if (r0 + 4) has not been allocated)
 ---------------------
 */
 

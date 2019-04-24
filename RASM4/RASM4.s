@@ -56,14 +56,31 @@ _start:
 		rasm4__switch__option:
 			// Option 1 displays the list
 			cmp r4, #1
-			beq DisplayList
+			beq rasm4__if__display_list
+			bal rasm4__endif__display_list
+
+			// Display the list
+			rasm4__if__display_list:
+				ldr r0, =stringList
+				ldr r0, [r0]
+				bl DisplayList
+			rasm4__endif__display_list:
+
 			// Branch out of the switch
 			cmp r4, #1
 			beq rasm4__endswitch__options
 
 			// Option 2 allows user to add to list
 			cmp r4, #2
-			bl AddToList
+			beq rasm4__endif__add_to_list
+			bal rasm4__endif__add_to_list
+
+			rasm4__if__add_to_list:
+				ldr r0, =stringList
+				ldr r0, [r0]
+				bl AddToList
+			rasm4__endif__add_to_list:
+
 			// Branch out of the switch
 			cmp r4, #2
 			beq rasm4__endswitch__options

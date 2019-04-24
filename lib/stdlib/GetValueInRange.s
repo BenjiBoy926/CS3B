@@ -1,4 +1,4 @@
-.global GetIntInputInRange
+.global GetValueInRange
 
 .data 
 // Feedback displayed if user enters invalid option
@@ -32,7 +32,7 @@ GetValueInRange:
 
 	rasm4__while__input_out_of_range:
 		// Generate a value and store it in r7
-		bxl r6
+		blx r6
 		mov r7, r0
 		
 		// Check to see if the integer input is a valid option

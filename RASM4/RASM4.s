@@ -54,14 +54,17 @@ _start:
 		beq rasm4__endwhile__input_not_7
 
 		rasm4__switch__option:
+			// Option 1 displays the list
 			cmp r4, #1
-			// beq display list
+			beq DisplayList
 			// Branch out of the switch
 			cmp r4, #1
 			beq rasm4__endswitch__options
 
+			// Option 2 allows user to add to list
 			cmp r4, #2
-			// helper that gets a character and performs correct option
+			bl AddToList
+			// Branch out of the switch
 			cmp r4, #2
 			beq rasm4__endswitch__options
 
@@ -86,10 +89,6 @@ _start:
 			cmp r4, #6
 			// helpers outputs list to output.txt
 		rasm4__endswitch__options:
-
-		// Service call to pause the program
-		mov r7, #29
-		svc 0
 
 		// Branch back to start of loop
 		bal rasm4__while__input_not_7

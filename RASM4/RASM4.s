@@ -72,7 +72,7 @@ _start:
 
 			// Option 2 allows user to add to list
 			cmp r4, #2
-			beq rasm4__endif__add_to_list
+			beq rasm4__if__add_to_list
 			bal rasm4__endif__add_to_list
 
 			rasm4__if__add_to_list:

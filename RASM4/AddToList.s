@@ -1,13 +1,13 @@
 .global AddToList
 
-.equ BUFSIZE, #512
+.equ BUFSIZE, 512
 .equ MIN_CH, 'a'
 .equ MAX_CH, 'b'
 
 .data
-inputCharPrompt:	"Enter a character (a or b): "
-inputStrPrompt:		"Enter the string to add to the list: "
-inputStrConfirm:	"String added!\n"
+inputCharPrompt:	.asciz "Enter a character (a or b): "
+inputStrPrompt:		.asciz "Enter the string to add to the list: "
+inputStrConfirm:	.asciz "String added!\n"
 inBuffer:	.skip BUFSIZE
 inFile:		.asciz "input.txt"
 

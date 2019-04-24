@@ -45,11 +45,53 @@ _start:
 		// Get a valid integer input between the min-max options
 		mov r0, #MIN_OPTION
 		mov r1, #MAX_OPTION
-		bl GetIntInputInRange
+		ldr r2, =GetIntInput
+		bl GetValueInRange
+		mov r4, r0
 
 		// Check integer against the max option (equal to quit)
-		cmp r0, #MAX_OPTION
+		cmp r4, #MAX_OPTION
 		beq rasm4__endwhile__input_not_7
+
+		rasm4__switch__option:
+			cmp r4, #1
+			// beq display list
+			// Branch out of the switch
+			cmp r4, #1
+			beq rasm4__endswitch__options
+
+			cmp r4, #2
+			// helper that gets a character and performs correct option
+			cmp r4, #2
+			beq rasm4__endswitch__options
+
+			cmp r4, #3
+			// helper that gets an index and deletes that node
+			// Branch out of the switch
+			cmp r4, #3
+			beq rasm4__endswitch__options
+
+			cmp r4, #4
+			// helper gets an index and another string and replaces the value at that index with the new string
+			// Branch out of the switch
+			cmp r4, #4
+			beq rasm4__endswitch__options
+
+			cmp r4, #5
+			// helper recieves a substring and displays all string with the substring in them
+			// Branch out of the switch
+			cmp r4, #5
+			beq rasm4__endswitch__options
+
+			cmp r4, #6
+			// helpers outputs list to output.txt
+		rasm4__endswitch__options:
+
+		// Service call to pause the program
+		mov r7, #29
+		svc 0
+
+		// Branch back to start of loop
 		bal rasm4__while__input_not_7
 	rasm4__endwhile__input_not_7:
 

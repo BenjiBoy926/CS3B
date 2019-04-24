@@ -19,6 +19,8 @@ each of the following:
 
 .global _start
 
+
+.data
 .equ MIN_OPTION, 1
 .equ MAX_OPTION, 7
 
@@ -29,6 +31,8 @@ inputInvalidPrompt:	.asciz "*** ERROR: please input a number between 1 and 7 ***
 // Endline ascii code
 endl:	.byte 10
 
+.text
+.balign 4
 _start:
 	// Construct the central list of the program
 	bl List
@@ -46,7 +50,8 @@ _start:
 		// Check integer against the max option (equal to quit)
 		cmp r0, #MAX_OPTION
 		beq rasm4__endwhile__input_not_7
-	rasm4__endwhile__input_not_7
+		bal rasm4__while__input_not_7
+	rasm4__endwhile__input_not_7:
 
 	// Destroy the list
 	ldr r0, =list

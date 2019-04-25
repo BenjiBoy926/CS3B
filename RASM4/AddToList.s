@@ -7,7 +7,7 @@
 .data
 inputCharPrompt:	.asciz "Enter a character (a or b): "
 inputStrPrompt:		.asciz "Enter the string to add to the list: "
-inputStrConfirm:	.asciz "String added!\n"
+inputStrConfirm:	.asciz "String added!\n\n"
 inBuffer:	.skip BUFSIZE
 inFile:		.asciz "input.txt"
 
@@ -97,7 +97,6 @@ AddStringInput:
 	// Output string added confirmation
 	ldr r1, =inputStrConfirm
 	bl putstring
-	ldr r1, =endl
-	bl putch
 
 	pop {r4-r8, r10-r12, pc}
+	

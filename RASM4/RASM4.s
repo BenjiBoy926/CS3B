@@ -37,7 +37,7 @@ endl:	.byte 10
 clearCmd:	.asciz "clear"
 
 // Prompt user for any key
-pausePrompt:	.asciz "Press any key to continue... "
+pausePrompt:	.asciz "Press <ENTER> to continue... "
 // Buffer where user input goes when paused. The buffer is never actually used
 pauseBuffer:	.skip BUFSIZE
 

@@ -127,7 +127,7 @@ _start:
 
 		// Get the pause input
 		ldr r1, =pauseBuffer
-		ldr r2, #BUFSIZE
+		mov r2, #BUFSIZE
 		bl getstring
 
 		// Branch back to start of loop

@@ -70,7 +70,7 @@ getch:
 	mov r2, #BUFSIZE
 	bl getstring
 	// Return the first character in the string
-	ldrb r0, [r0]
+	ldrb r0, [r1]
 
 	pop {r4-r8, r10-r12, pc}
 
@@ -91,7 +91,6 @@ AddStringInput:
 	bl getstring
 
 	// Add the string inputed by the user
-	mov r1, r0
 	mov r0, r4
 	bl List_addstr
 

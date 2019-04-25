@@ -541,6 +541,14 @@ List_remove:
 
 	pop {r4-r8, r10-r12, pc}
 
+@ output_list_to_file:
+@ 	mov r0, //list
+@ 	ldr r1, =output_string_to_file
+@ 	bl List_foreach
+
+// void output_string_to_file(r1 nullTerminatedString)
+// output_string_to_file:
+
 // void List_foreach(r0 list, r1 actionRoutine)
 // void actionRoutine(r1 dataPtr)
 List_foreach:

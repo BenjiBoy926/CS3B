@@ -94,7 +94,10 @@ AddStringInput:
 	mov r0, r4
 	bl List_addstr
 
+	// Output string added confirmation
 	ldr r1, =inputStrConfirm
 	bl putstring
+	ldr r1, =endl
+	bl putch
 
 	pop {r4-r8, r10-r12, pc}

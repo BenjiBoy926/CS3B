@@ -140,6 +140,15 @@ Does nothing if index is out of bounds
 .global List_remove
 
 /*
+r0 =length List_length(r0 list)
+-------------------------------
+Count the length of the list and return the number
+of nodes in the list
+-------------------------------
+*/
+.global List_length
+
+/*
 void List_foreach(r0 list, r1 actionRoutine)
 --------------------------------------------
 Call the given routine for every data pointer in every node
@@ -548,6 +557,32 @@ List_remove:
 
 // void output_string_to_file(r1 nullTerminatedString)
 // output_string_to_file:
+
+// r0 =length List_length(r0 list)
+List_length:
+	push {r4-r8, r10-r12, lr}
+
+	// Store the pointer to the list
+	mov r4, r0
+
+	ldr r5, [r4]	// Initialize the current node to the head pointer
+	mov r6, #0	// Initialize counter to zero
+
+	llen__while__current_not_null:
+		// If current is null, branch to end
+		cmp r5, #0
+		beq llen__endwhile__current_not_null
+
+		// Update current with its own next pointer
+		// and increment length to return
+		ldr r5, [r5, #4]
+		add r6, r6, #1
+	llen__endwhile__current_not_null:
+
+	// Return number of nodes
+	mov r0, r6
+
+	pop {r4-r8, r10-r12, pc}
 
 // void List_foreach(r0 list, r1 actionRoutine)
 // void actionRoutine(r1 dataPtr)

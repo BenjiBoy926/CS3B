@@ -24,6 +24,7 @@ each of the following:
 .data
 .equ MIN_OPTION, 1
 .equ MAX_OPTION, 7
+.equ BUFSIZE, 512
 
 // Stores a pointer to the string list used to dynamically store all of the strings
 stringList:	.word 0
@@ -34,8 +35,11 @@ endl:	.byte 10
 
 // Clear command for the c++ system call
 clearCmd:	.asciz "clear"
-// Pause command for the c++ system call
-pauseCmd:	.asciz "pause"
+
+// Prompt user for any key
+pausePrompt:	.asciz "Press any key to continue... "
+// Buffer where user input goes when paused. The buffer is never actually used
+pauseBuffer:	.skip BUFSIZE
 
 .text
 .balign 4
@@ -117,9 +121,14 @@ _start:
 			// helpers outputs list to output.txt
 		rasm4__endswitch__options:
 
-		// Pause the executable
-		ldr r0, =pauseCmd
-		bl system
+		// Put the pause prompt
+		ldr r1, =pausePrompt
+		bl putstring
+
+		// Get the pause input
+		ldr r1, =pauseBuffer
+		ldr r2, #BUFSIZE
+		bl getstring
 
 		// Branch back to start of loop
 		bal rasm4__while__input_not_7

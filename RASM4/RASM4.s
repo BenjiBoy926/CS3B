@@ -31,8 +31,11 @@ stringList:	.word 0
 inputInvalidPrompt:	.asciz "*** ERROR: please input a number between 1 and 7 ***\n"
 // Endline ascii code
 endl:	.byte 10
+
 // Clear command for the c++ system call
 clearCmd:	.asciz "clear"
+// Pause command for the c++ system call
+pauseCmd:	.asciz "pause"
 
 .text
 .balign 4
@@ -113,6 +116,10 @@ _start:
 			cmp r4, #6
 			// helpers outputs list to output.txt
 		rasm4__endswitch__options:
+
+		// Pause the executable
+		ldr r0, =pauseCmd
+		bl system
 
 		// Branch back to start of loop
 		bal rasm4__while__input_not_7

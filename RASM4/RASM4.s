@@ -19,6 +19,7 @@ each of the following:
 
 .global _start
 
+.extern system
 
 .data
 .equ MIN_OPTION, 1
@@ -30,6 +31,8 @@ stringList:	.word 0
 inputInvalidPrompt:	.asciz "*** ERROR: please input a number between 1 and 7 ***\n"
 // Endline ascii code
 endl:	.byte 10
+// Clear command for the c++ system call
+clearCmd:	.asciz "clear"
 
 .text
 .balign 4
@@ -42,6 +45,10 @@ _start:
 	str r0, [r4]
 
 	rasm4__while__input_not_7:
+		// Clear the screen
+		ldr r0, =clearCmd
+		bl system
+
 		// Get a valid integer input between the min-max options
 		mov r0, #MIN_OPTION
 		mov r1, #MAX_OPTION

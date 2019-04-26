@@ -104,28 +104,76 @@ _start:
 			beq rasm4__endswitch__options
 
 			/*
-			OPTION 3 - delete in the list
+			OPTION 3 - delete from the list
 			*/
 			cmp r4, #3
-			// helper that gets an index and deletes that node
+			beq rasm4__if__delete_from_list
+			bal rasm4__endif__delete_from_list
+
+			rasm4__if__delete_from_list:
+				ldr r0, =stringList
+				ldr r0, [r0]
+				// Branch and link to a function that gets an index from the 
+				// user and deletes that node from the list 
+			rasm4__endif__delete_from_list:
+
 			// Branch out of the switch
 			cmp r4, #3
 			beq rasm4__endswitch__options
 
+			/*
+			OPTION 4 - replace in list
+			*/
 			cmp r4, #4
-			// helper gets an index and another string and replaces the value at that index with the new string
+			beq rasm4__if__replace_in_list
+			bal rasm4__endif__replace_in_list
+
+			rasm4__if__replace_in_list:
+				ldr r0, =stringList
+				ldr r0, [r0]
+				// Branch and link to a function that gets an index from the 
+				// user, gets a string from the user, and replaces
+				// the string at the index
+			rasm4__endif__replace_in_list:
+
 			// Branch out of the switch
 			cmp r4, #4
 			beq rasm4__endswitch__options
 
+			/*
+			OPTION 5 - string search
+			*/
 			cmp r4, #5
+			beq rasm4__if__search_list
+			bal rasm4__endif__search_list
+
+			rasm4__if__search_list:
+				ldr r0, =stringList
+				ldr r0, [r0]
+				// Branch and link to a function that gets a string
+				// from the user and displays all strings that
+				// contain the string input
+			rasm4__endif__search_list:
+			
 			// helper recieves a substring and displays all string with the substring in them
 			// Branch out of the switch
 			cmp r4, #5
 			beq rasm4__endswitch__options
 
+			/*
+			OPTION 6 - output to file "output.txt"
+			*/
 			cmp r4, #6
-			// helpers outputs list to output.txt
+			beq rasm4__if__search_list
+			bal rasm4__endif__search_list
+
+			rasm4__if__search_list:
+				ldr r0, =stringList
+				ldr r0, [r0]
+				// Branch and link to a function that outputs the 
+				// entire list to the file "output.txt"
+			rasm4__endif__search_list:
+			
 		rasm4__endswitch__options:
 
 		// Put the pause prompt

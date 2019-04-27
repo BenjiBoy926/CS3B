@@ -1,5 +1,5 @@
-LIB = std.a
-SOURCES = $(wildcard *.s)
+LIB = cs3blib.a
+SOURCES = $(wildcard */*.s)
 ASFLAGS = -g
 
 # Build the library file

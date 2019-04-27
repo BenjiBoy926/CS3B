@@ -14,7 +14,7 @@
 	
 open_file:
 	push	{R1-R2, R4-R8, R10-R11, LR}
-	push 	{SP}
+	//push {sp}
 
 	mov		R0,R1		@ Move file name into r0
 	mov		R1,R2		@ Move file code into r2
@@ -22,7 +22,7 @@ open_file:
 	mov		R7,#5		@ Code # to open file
 	svc		0
 
-	pop 	{SP}
+	//pop {sp}
 	pop		{R1-R2, R4-R8, R10-R11, LR}
 	bx		LR
 	
@@ -42,12 +42,12 @@ open_file:
 	
 close_file:
 	push	{R4-R8, R10-R11, LR}
-	push 	{SP}
+	//push {sp}
 
 	mov		R7, #6
 	svc		0
 	
-	pop 	{SP}
+	//pop {sp}
 	pop		{R4-R8, R10-R11, LR}
 	bx		LR
 
@@ -68,7 +68,7 @@ close_file:
 	
 write_to_file:
 	push	{R0-R8, R10- R11, LR}
-	push	{SP}
+	//push {sp}
 
 	push	{R0}		@ Save the file handle
 	bl		String_length
@@ -78,7 +78,7 @@ write_to_file:
 	pop		{R0}		@ Load back in the file handle
 	svc		0
 	
-	pop		{SP}
+	//pop {sp}
 	pop		{R0-R8, R10- R11, LR}
 	bx		LR
 
@@ -103,7 +103,7 @@ char:	 .space 1
 
 read_char:
 	push	{R0, R4-R8, R10-R11, LR}
-	push 	{SP}
+	//push {sp}
 
 	ldr		R1, =char	@ Points to where chracter will be stored
 	mov		R2, #1		@ # of bytes being read
@@ -124,7 +124,7 @@ end_of_file:
 	b		return
 
 return:
-	pop 	{SP}
+	//pop {sp}
 	pop		{R0, R4-R8, R10-R11, LR}
 	bx		LR
 
@@ -149,7 +149,7 @@ strBuf: .space 256
 	
 read_line:
 	push	{R0, R3-R8, R10-R11, LR}
-	push 	{SP}
+	//push {sp}
 
 	ldr		R3, =strBuf		@ Point r3 to strBuf
 	mov		R5, #0			@ Store null into r5
@@ -198,7 +198,7 @@ end_of_file1:
 	b		return1
 
 return1:
-	push 	{SP}
+	//push {sp}
 	push	{R0, R3-R8, R10-R11, LR}
 	bx		LR
 	
@@ -218,11 +218,11 @@ return1:
 	
 load_list_from_file:
 	push	{R0-R2, R4-R8, R10- R11, LR}
-	push	{SP}
+	//push {sp}
 
 loop1:
 	push	{R1}		@ Save the list
-	bl		file_readLine
+	//bl		File_readLine
 
 	cmp		R2,#1
 	popeq	{R1}		@ If its the end of the file, we load list
@@ -243,7 +243,7 @@ loop1:
 	b		loop1
 
 loop_exit:
-	pop		{SP}
+	//pop {sp}
 	pop		{R0-R2, R4-R8, R10- R11, LR}
 	bx		LR
 	
@@ -260,11 +260,12 @@ loop_exit:
 @
 @ All required AAPC registers are preserved
 
-	.global 	String_copy
+	// NOTE - already defined in String.a
+	//.global 	String_copy
 
 String_copy:
 	push 	{R4-R8, R10-R11}
-	push 	{sp}
+	//push {sp}
 	push	{R1, R2, LR}
 
 	bl		String_length	@ Calls string length and returns the length into r0
@@ -283,7 +284,7 @@ loop2:
 return2:
 	pop		{r0}			@ Loads the new copied string to be returned
 	pop		{R1, R2, LR}
-	pop 	{sp}
+	//pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx		LR
 	
@@ -299,11 +300,12 @@ return2:
 @
 @ All required AAPC registers are preserved
 
-	.global 	String_length
+	// NOTE - already defined in String.a
+	//.global 	String_length
 
 String_length:
 	push 	{R4-R8, R10-R11}
-	push 	{SP}
+	//push {sp}
 	push	{R1, R2, LR}	@ Saves all registers
 
 	mov		r0, #0		@ Initialize counter
@@ -319,7 +321,7 @@ loop3:
 
 return3:
 	pop		{R1, R2, LR}
-	pop 	{SP}
+	//pop {sp}
 	pop 	{R4-R8, R10-R11} @ Restores all registers
 
 	bx	LR
@@ -337,17 +339,18 @@ return3:
 @ All required AAPC registers are preserved
 
 	.extern		malloc
-	.global 	String_malloc
+	// NOTE - already defined in String.a
+	//.global 	String_malloc
 
 String_malloc:
 	push 	{R4-R8, R10-R11}
-	push 	{sp}
+	//push {sp}
 	push	{R1-R3, R12, LR}
 
 	add		R0, #1	@ Reserve space for null
 	bl		malloc
 
 	pop		{R1-R3, R12, LR}
-	pop 	{sp}
+	//pop {sp}
 	pop 	{R4-R8, R10-R11}
 	bx	LR

@@ -116,14 +116,14 @@ read_char:
 	mov		R2, #0		@ Else, we have not reached the end
 
 	ldrb	R1,[R1]		@ Loads a character from address
-	b		return
+	b		rch__return
 
 end_of_file:
 	mov		R1, #0		@ Return character is null
 	mov		R2, #1		@ Returns true for end of file
-	b		return
+	b		rch__return
 
-return:
+rch__return:
 	//pop {sp}
 	pop		{R0, R4-R8, R10-R11, LR}
 	bx		LR
@@ -154,7 +154,7 @@ read_line:
 	ldr		R3, =strBuf		@ Point r3 to strBuf
 	mov		R5, #0			@ Store null into r5
 
-loop:
+readline__loop:
 	push	{R3}			@ Store strBuf
 
 	bl		read_char
@@ -176,7 +176,7 @@ loop:
 	strb	R1, [R3], #1	@ Store the char into buffer and offset ptr
 	add		R4, #1
 
-	b		loop
+	b		readline__loop
 
 carriage_found:
 	bl		read_char	@ Caridge is always followed by a \n
@@ -191,13 +191,13 @@ make_string:
 	mov		R1, R3
 	bl		String_copy		@ Creates copy of the string
 	mov		R1, R0			@ Return copy of string into r1
-	b		return1
+	b		readline__return
 
 end_of_file1:
 	pop		{R3}
-	b		return1
+	b		readline__return
 
-return1:
+readline__return:
 	//push {sp}
 	push	{R0, R3-R8, R10-R11, LR}
 	bx		LR
@@ -248,6 +248,14 @@ loop_exit:
 	bx		LR
 	
 
+/*
+STRING ROUTINE REPEATS
+----------------------
+Now that this code is included as a dependency with the existing
+string library, we don't need these repeats
+----------------------
+*/
+
 @ Subroutine String_copy: This method will create a new string that is a copy of the string passed into
 @			  the function
 @
@@ -263,94 +271,94 @@ loop_exit:
 	// NOTE - already defined in String.a
 	//.global 	String_copy
 
-String_copy:
-	push 	{R4-R8, R10-R11}
-	//push {sp}
-	push	{R1, R2, LR}
+@ String_copy:
+@ 	push 	{R4-R8, R10-R11}
+@ 	//push {sp}
+@ 	push	{R1, R2, LR}
 
-	bl		String_length	@ Calls string length and returns the length into r0
-	bl		String_malloc	@ Creates a new dynamic string to store copy
-	push	{r0}			@ Saves the new string
+@ 	bl		String_length	@ Calls string length and returns the length into r0
+@ 	bl		String_malloc	@ Creates a new dynamic string to store copy
+@ 	push	{r0}			@ Saves the new string
 
-loop2:
-	ldrb	r2, [r1], #1	@ Loads 1 character from r1 to new string r2
+@ strcpy__loop:
+@ 	ldrb	r2, [r1], #1	@ Loads 1 character from r1 to new string r2
 	
-	cmp		r2, #0			@ Compares r2 with 0	
-	beq		return2			@ If the character in r2 equals 0, then returns
+@ 	cmp		r2, #0			@ Compares r2 with 0	
+@ 	beq		strcpy__return			@ If the character in r2 equals 0, then returns
 	
-	strb	r2, [r0], #1 	@ Stores the charcter from r2 into our new string r0
-	b		loop2			@ Branches back to top of loop
+@ 	strb	r2, [r0], #1 	@ Stores the charcter from r2 into our new string r0
+@ 	b		strcpy__loop			@ Branches back to top of loop
 
-return2:
-	pop		{r0}			@ Loads the new copied string to be returned
-	pop		{R1, R2, LR}
-	//pop {sp}
-	pop 	{R4-R8, R10-R11}
-	bx		LR
-	
-	
-@ Subroutine String_length: This method returns the number os characters in a string
-@
-@ Entering register contents:
-@	R1: Contains the string
-@	LR: Contains return address
-@
-@ Returned register contents:
-@ 	R0: Returns with the length
-@
-@ All required AAPC registers are preserved
-
-	// NOTE - already defined in String.a
-	//.global 	String_length
-
-String_length:
-	push 	{R4-R8, R10-R11}
-	//push {sp}
-	push	{R1, R2, LR}	@ Saves all registers
-
-	mov		r0, #0		@ Initialize counter
-
-loop3:
-	ldrb	r2, [r1], #1
-
-	cmp		r2, #0
-	beq		return3		@ If char equals null then return
-
-	add		r0, #1
-	b		loop3
-
-return3:
-	pop		{R1, R2, LR}
-	//pop {sp}
-	pop 	{R4-R8, R10-R11} @ Restores all registers
-
-	bx	LR
+@ strcpy__return:
+@ 	pop		{r0}			@ Loads the new copied string to be returned
+@ 	pop		{R1, R2, LR}
+@ 	//pop {sp}
+@ 	pop 	{R4-R8, R10-R11}
+@ 	bx		LR
 	
 	
-@ Subroutine String_malloc: This method allocates enough space for a string given the size needed and returns
-@			    the address
-@
-@ Entering register contents:
-@	R0: Contains the string length
-@
-@ Returned register contents:
-@ 	R0: Returns the address
-@
-@ All required AAPC registers are preserved
+@ @ Subroutine String_length: This method returns the number os characters in a string
+@ @
+@ @ Entering register contents:
+@ @	R1: Contains the string
+@ @	LR: Contains return address
+@ @
+@ @ Returned register contents:
+@ @ 	R0: Returns with the length
+@ @
+@ @ All required AAPC registers are preserved
 
-	.extern		malloc
-	// NOTE - already defined in String.a
-	//.global 	String_malloc
+@ 	// NOTE - already defined in String.a
+@ 	//.global 	String_length
 
-String_malloc:
-	push 	{R4-R8, R10-R11}
-	//push {sp}
-	push	{R1-R3, R12, LR}
+@ String_length:
+@ 	push 	{R4-R8, R10-R11}
+@ 	//push {sp}
+@ 	push	{R1, R2, LR}	@ Saves all registers
 
-	add		R0, #1	@ Reserve space for null
-	bl		malloc
+@ 	mov		r0, #0		@ Initialize counter
 
-	pop		{R1-R3, R12, LR}
-	//pop {sp}
-	pop 	{R4-R8, R10-R11}
-	bx	LR
+@ strl__loop:
+@ 	ldrb	r2, [r1], #1
+
+@ 	cmp		r2, #0
+@ 	beq		strl__return		@ If char equals null then return
+
+@ 	add		r0, #1
+@ 	b		strl__loop
+
+@ strl__return:
+@ 	pop		{R1, R2, LR}
+@ 	//pop {sp}
+@ 	pop 	{R4-R8, R10-R11} @ Restores all registers
+
+@ 	bx	LR
+	
+	
+@ @ Subroutine String_malloc: This method allocates enough space for a string given the size needed and returns
+@ @			    the address
+@ @
+@ @ Entering register contents:
+@ @	R0: Contains the string length
+@ @
+@ @ Returned register contents:
+@ @ 	R0: Returns the address
+@ @
+@ @ All required AAPC registers are preserved
+
+@ 	.extern		malloc
+@ 	// NOTE - already defined in String.a
+@ 	//.global 	String_malloc
+
+@ String_malloc:
+@ 	push 	{R4-R8, R10-R11}
+@ 	//push {sp}
+@ 	push	{R1-R3, R12, LR}
+
+@ 	add		R0, #1	@ Reserve space for null
+@ 	bl		malloc
+
+@ 	pop		{R1-R3, R12, LR}
+@ 	//pop {sp}
+@ 	pop 	{R4-R8, R10-R11}
+@ 	bx	LR

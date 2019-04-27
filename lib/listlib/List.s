@@ -204,6 +204,15 @@ the pre-existing contents are overwritten
 .global List_outputToFile
 
 /*
+void List_inputFromFile(r0, r1 fileName)
+----------------------------------------
+Append every string in a file with the given name 
+to the end of the list
+----------------------------------------
+*/
+.global List_inputFromFile
+
+/*
 void List_saveStringAndEndline(r0 cstring)
 ------------------------------------------
 Helper function takes a pointer to a c-string and outputs it to
@@ -729,6 +738,38 @@ List_outputToFile:
 	bl close_file
 
 	pop {r4-r8, r10-r12, pc}
+
+// void List_inputFromFile(r0 list, r1 fileName)
+List_inputFromFile:
+	push {r4-r8, r10-r12, lr}
+
+	// Preserve passed arguments
+	mov r4, r0
+	mov r5, r1
+
+	// Open the file as read-only
+	mov r1, r5
+	mov #0
+	bl open_file
+	mov r6, r0
+
+	lin__while__not_end_of_file:
+		// Read the next line in the file
+		mov r1, r6
+		bl read_line
+		mov r7, r1
+		mov r8, r2
+
+		// Add the line recieved as a null-terminated string
+		mov r0, r4
+		mov r1, r7
+		bl List_addstr
+
+		// Check end of file flag
+		cmp r8, #0
+		beq lin__while__not_end_of_file 
+
+	pop {r4-r8, r10-r12, pc}	
 
 // void List_saveStringAndEndline(r1 cstring)
 List_saveStringAndEndline:

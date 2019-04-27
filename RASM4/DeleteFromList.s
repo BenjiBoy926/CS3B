@@ -38,3 +38,4 @@ DeleteFromList:
 	dlf__endif__list_not_empty:
 
 	pop {r4-r8, r10-r12, pc}
+	

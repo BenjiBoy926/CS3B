@@ -51,8 +51,12 @@ AddToList:
 		cmp r5, #'a'
 		beq atl__endswitch__option
 
+		// If 'b' is input, initialize list from file
+		mov r0, r4
+		ldr r1, =inFile
 		cmp r5, #'b'
-		// Add strings from file to list helper
+		bleq List_inputFromFile
+
 	atl__endswitch__option:
 
 	pop {r4-r8, r10-r12, pc}

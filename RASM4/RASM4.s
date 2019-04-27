@@ -41,6 +41,9 @@ pausePrompt:	.asciz "Press <ENTER> to continue... "
 // Buffer where user input goes when paused. The buffer is never actually used
 pauseBuffer:	.skip BUFSIZE
 
+// Name of the file to output the list to
+outputFileName:	.asciz "output.txt"
+
 .text
 .balign 4
 _start:
@@ -170,8 +173,8 @@ _start:
 			rasm4__if__search_list:
 				ldr r0, =stringList
 				ldr r0, [r0]
-				// Branch and link to a function that outputs the 
-				// entire list to the file "output.txt"
+				ldr r1, =outputFileName
+				bl List_outputToFile
 			rasm4__endif__search_list:
 			
 		rasm4__endswitch__options:

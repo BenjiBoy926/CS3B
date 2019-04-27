@@ -194,6 +194,25 @@ Print all data for which the comparer routine returns true (r0 = 1)
 .global List_printMatch
 
 /*
+void List_outputToFile(r0 list, r1 fileName)
+--------------------------------------------
+Output the data in each node to the file with the name "fileName"
+If the file does not exist, a file is created.  If it does exist,
+the pre-existing contents are overwritten
+--------------------------------------------
+*/
+.global List_outputToFile
+
+/*
+void List_saveStringAndEndline(r0 cstring)
+------------------------------------------
+Helper function takes a pointer to a c-string and outputs it to
+the current file handle being used by the list
+------------------------------------------
+*/
+.global List_saveStringAndEndline
+
+/*
 void <destructor>(r0 list)
 --------------------------
 Destoy the list by freeing memory of all the nodes in the list
@@ -221,6 +240,8 @@ DATA SEGMENT
 
 .data
 cCR:	.byte 10	// Carriage return ascii code
+// File handle of the current file the list is reading from/writing to
+currentFileHandle:	.word 0
 
 /*************
 IMPLEMENTATION
@@ -676,6 +697,54 @@ List_printMatch:
 	bl List_foreachMatch
 
 	pop {pc}
+
+// void List_outputToFile(r0 list, r1 fileName)
+List_outputToFile:
+	push {r4-r8, r10-r12, lr}
+
+	// Preserve arguments passed in
+	mov r4, r0
+	mov r5, r1
+
+	// Open file - write only, create if it doesn't exist,
+	// truncate if it does exist
+	mov r1, r5
+	mov r2, #01101
+	bl open_file
+	mov r6, r0
+
+	// Store the current file handle in the static variable
+	ldr r0, =currentFileHandle
+	str r6, [r0]
+
+	// Call the foreach method, saving each string to the file
+	// in the static variable
+	mov r0, r4
+	ldr r1, =List_saveStringAndEndline
+	bl List_foreach
+
+	// Close the file
+	ldr r0, =currentFileHandle
+	ldr r0, [r0]
+	bl close_file
+
+	pop {r4-r8, r10-r12, pc}
+
+// void List_saveStringAndEndline(r0 cstring)
+List_saveStringAndEndline:
+	push {r4-r8, r10-r12, lr}
+
+	// Store the string passed into the current file
+	mov r1, r0
+	ldr r0, =currentFileHandle
+	ldr r0, [r0]
+	bl write_to_file
+
+	// Put a carriage return
+	ldr r1, =cCR
+	bl putch
+
+	pop {r4-r8, r10-r12, pc}
 
 // void <destructor>(r0 list)
 d_List:

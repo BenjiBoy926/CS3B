@@ -749,7 +749,7 @@ List_inputFromFile:
 
 	// Open the file as read-only
 	mov r1, r5
-	mov #0
+	mov r2, #0
 	bl open_file
 	mov r6, r0
 

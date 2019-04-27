@@ -1,7 +1,7 @@
 EXEC = exec
 SOURCES = $(wildcard *.s)
 OBJS = $(SOURCES:.s=.o)
-LIB = $(wildcard ../lib/*.a) /usr/lib/arm-linux-gnueabihf/libc.so
+LIB = $(wildcard ../lib/*.a) $(wildcard ../lib/*/*.a) /usr/lib/arm-linux-gnueabihf/libc.so
 LINKER = /lib/ld-linux-armhf.so.3
 
 # Compile and link all programs

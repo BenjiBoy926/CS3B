@@ -114,7 +114,7 @@ read_char:
 	// Compare the character read in 
 	// with the ETX character
 	ldr r0, =char
-	ldr r1, [r0]
+	ldr r0, [r0]
 	cmp r0, #3
 	beq	end_of_file @ If it equals 0 then we reached end of file
 

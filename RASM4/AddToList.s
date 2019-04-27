@@ -39,7 +39,7 @@ AddToList:
 	atl__switch__option:
 		// If option 'a' is input, get a string from the user
 		cmp r5, #'a'
-		beq atl__if__add_str_input
+		bne atl__endif__add_str_input
 
 		// Use helper to add a string input
 		atl__if__add_str_input:

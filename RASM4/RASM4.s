@@ -167,15 +167,15 @@ _start:
 			OPTION 6 - output to file "output.txt"
 			*/
 			cmp r4, #6
-			beq rasm4__if__search_list
-			bal rasm4__endif__search_list
+			beq rasm4__if__output_list
+			bal rasm4__endif__output_list
 
-			rasm4__if__search_list:
+			rasm4__if__output_list:
 				ldr r0, =stringList
 				ldr r0, [r0]
 				ldr r1, =outputFileName
 				bl List_outputToFile
-			rasm4__endif__search_list:
+			rasm4__endif__output_list:
 			
 		rasm4__endswitch__options:
 

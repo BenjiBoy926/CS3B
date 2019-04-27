@@ -730,19 +730,22 @@ List_outputToFile:
 
 	pop {r4-r8, r10-r12, pc}
 
-// void List_saveStringAndEndline(r0 cstring)
+// void List_saveStringAndEndline(r1 cstring)
 List_saveStringAndEndline:
 	push {r4-r8, r10-r12, lr}
 
 	// Store the string passed into the current file
-	mov r1, r0
 	ldr r0, =currentFileHandle
 	ldr r0, [r0]
 	bl write_to_file
 
 	// Put a carriage return
+	ldr r0, =currentFileHandle
+	ldr r0, [r0]
 	ldr r1, =cCR
-	bl putch
+	mov r2, #1
+	mov r7, #4
+	svc 0
 
 	pop {r4-r8, r10-r12, pc}
 

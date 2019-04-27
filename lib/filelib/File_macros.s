@@ -220,7 +220,7 @@ load_list_from_file:
 	push	{R0-R2, R4-R8, R10- R11, LR}
 	//push {sp}
 
-loop1:
+llist__loop:
 	push	{R1}		@ Save the list
 	//bl		File_readLine
 
@@ -240,7 +240,7 @@ loop1:
 	mov		R2, R1		@ Put string back into r2
 	mov		R1, R0		@ Put list back into r1
 
-	b		loop1
+	b		llist__loop
 
 loop_exit:
 	//pop {sp}

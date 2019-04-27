@@ -769,6 +769,10 @@ List_inputFromFile:
 		cmp r8, #0
 		beq lin__while__not_end_of_file 
 
+	// Close the file
+	mov r0, r6
+	bl close_file
+
 	pop {r4-r8, r10-r12, pc}	
 
 // void List_saveStringAndEndline(r1 cstring)

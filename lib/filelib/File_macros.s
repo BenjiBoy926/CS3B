@@ -199,7 +199,7 @@ end_of_file1:
 
 readline__return:
 	//push {sp}
-	push	{R0, R3-R8, R10-R11, LR}
+	pop	    {R0, R3-R8, R10-R11, LR}
 	bx		LR
 	
 

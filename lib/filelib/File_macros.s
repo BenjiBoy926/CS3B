@@ -122,7 +122,7 @@ rch__return:
 @ Subroutine read_line: This method reads in a line from a file
 @
 @ Entering register contents:
-@	R1: File handle
+@	R0: File handle
 @	LR: Contains return address
 @
 @ Returned register contents:

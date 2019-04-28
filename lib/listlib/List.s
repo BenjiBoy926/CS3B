@@ -407,7 +407,7 @@ List_setstr:
 
 	// Get the length of the string
 	mov r1, r6
-	bl strlen
+	bl String_length
 	mov r7, r0
 
 	// Set the data in the node,
@@ -520,7 +520,7 @@ List_addstr:
 
 	// Get the length of the string
 	mov r1, r5
-	bl strlen
+	bl String_length
 	mov r6, r0
 
 	// Add the data to the list, plus one

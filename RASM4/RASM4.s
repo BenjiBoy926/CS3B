@@ -26,10 +26,48 @@ each of the following:
 .equ MAX_OPTION, 7
 .equ BUFSIZE, 512
 
+// Menu output
+bytes:	.asciz	" bytes -"
+menu1:	.asciz	"-----------------------------------------------------"
+menu2:	.asciz	"-                 RASM4 TEXT EDITOR                 -"
+menu3:	.asciz	"-----------------------------------------------------"
+menu4:	.asciz	"- Data Structure Memory Consumption: "
+menu5:	.asciz	"-                                                   -"
+menu6:	.asciz	"- <1> View all strings                              -"
+menu7:	.asciz	"- <2> Add string                                    -" 
+menu8:	.asciz	"-	<a> From keyboard                           -"
+menu9:	.asciz	"-	<b> From file (input.txt)                   -"
+menu10:	.asciz	"- <3> Delete string                                 -"
+menu11:	.asciz	"- <4> Edit string                                   -"
+menu12:	.asciz	"- <5> Search string                                 -"
+menu13:	.asciz	"- <6> Save file                                     -"
+menu14:	.asciz	"- <7> Quit                                          -"
+menu15:	.asciz	"-----------------------------------------------------"
+
+// Memory Consumption
+memoryBytes:	.skip 12
+
+// Prompt for user to enter a index #
+stringIndex:	.asciz	"Enter an Index #: "
+
+// Prompt user to enter a string
+stringReplace:	.asciz	"Enter a string to replace old string: "
+
+// Prompt user for string to seach
+stringSearch:	.asciz	"Enter a string you would like to search: "
+
+// Displays String has been deleted
+deleted:	.asciz "String has been DELETED!"
+
+// Displays String has been replaced
+replaced:	.asciz "String has been REPALCED!"
+
 // Stores a pointer to the string list used to dynamically store all of the strings
 stringList:	.word 0
+
 // Feedback displayed if user enters invalid option
 inputInvalidPrompt:	.asciz "*** ERROR: please input a number between 1 and 7 ***\n"
+
 // Endline ascii code
 endl:	.byte 10
 
@@ -38,6 +76,14 @@ clearCmd:	.asciz "clear"
 
 // Prompt user for any key
 pausePrompt:	.asciz "Press <ENTER> to continue... "
+
+// Buffer used for user input
+strBuffer:	.skip BUFSIZE
+
+// User input
+userIndex:	.word 0
+userString:	.skip 512
+
 // Buffer where user input goes when paused. The buffer is never actually used
 pauseBuffer:	.skip BUFSIZE
 
@@ -58,6 +104,86 @@ _start:
 		// Clear the screen
 		ldr r0, =clearCmd
 		bl system
+	
+		// Output menu screen
+		ldr r1, =menu1
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu2
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu3
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu4
+		bl putstring
+
+		// Gets data consumption for menu output
+		ldr r0, =stringList
+		ldr r0, [r0]
+		bl  List_length
+
+		mov r2, #8
+		mul r0, r0, r2
+		ldr r1, =memoryBytes
+		bl intasc32
+
+		ldr r1, =memoryBytes
+		bl putstring
+
+		ldr r1, =bytes
+		bl  putstring
+
+		// Continue with menu
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu5
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu6
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu7
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu8
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu9
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu10
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu11
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu12
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu13
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu14
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =menu15
+		bl putstring
+		ldr r1, =endl
+		bl putch
 
 		// Get a valid integer input between the min-max options
 		mov r0, #MIN_OPTION
@@ -114,10 +240,39 @@ _start:
 			bal rasm4__endif__delete_from_list
 
 			rasm4__if__delete_from_list:
+				// Gets index # input from the user
+				ldr r1, =stringIndex
+				bl putstring
+
+				ldr r1, =strBuffer
+				mov r2, #BUFSIZE
+				bl getstring
+
+				// Converts input from ascii to int
+				ldr r1, =strBuffer
+				bl ascint32
+
+				ldr r1, =userIndex
+				str r0, [r1]
+
+				// r0= string list, r1= index#
+				// Calls List_remove to delete node from list
 				ldr r0, =stringList
 				ldr r0, [r0]
-				// Branch and link to a function that gets an index from the 
-				// user and deletes that node from the list 
+				ldr r1, =userIndex
+				ldr r1, [r1]
+				sub r1, #1	@ Aligns index for user
+				bl  List_remove
+
+				ldr r1, =deleted
+				bl putstring
+
+				ldr r1, =endl
+				bl putch
+
+				ldr r1, =endl
+				bl putch
+
 			rasm4__endif__delete_from_list:
 
 			// Branch out of the switch
@@ -132,11 +287,48 @@ _start:
 			bal rasm4__endif__replace_in_list
 
 			rasm4__if__replace_in_list:
+				// Gets index # input from the user
+				ldr r1, =stringIndex
+				bl putstring
+
+				ldr r1, =strBuffer
+				mov r2, #BUFSIZE
+				bl getstring
+
+				// Converts input from ascii to int
+				ldr r1, =strBuffer
+				bl ascint32
+
+				ldr r1, =userIndex
+				str r0, [r1]
+
+				// Prompt user for the string to replace old string
+				ldr r1, =stringReplace
+				bl putstring
+
+				ldr r1, =userString
+				mov r2, #BUFSIZE
+				bl getstring
+
+				mov r3, r0
 				ldr r0, =stringList
 				ldr r0, [r0]
-				// Branch and link to a function that gets an index from the 
-				// user, gets a string from the user, and replaces
-				// the string at the index
+				ldr r1, =userIndex
+				ldr r1, [r1]
+				sub r1, #1	@ Aligns index for user
+				ldr r2, =userString
+				bl List_set
+
+				ldr r1, =replaced
+				bl putstring
+
+				ldr r1, =endl
+				bl putch
+
+				ldr r1, =endl
+				bl putch
+				
+
 			rasm4__endif__replace_in_list:
 
 			// Branch out of the switch
@@ -151,11 +343,20 @@ _start:
 			bal rasm4__endif__search_list
 
 			rasm4__if__search_list:
+				// Prompt user for the string
+				ldr r1, =stringSearch
+				bl putstring
+
+				ldr r1, =userString
+				mov r2, #BUFSIZE
+				bl getstring
+
 				ldr r0, =stringList
 				ldr r0, [r0]
-				// Branch and link to a function that gets a string
-				// from the user and displays all strings that
-				// contain the string input
+				ldr r1, =userString
+				ldr r2, =String_containsIgnoreCase
+				bl  List_printMatch
+
 			rasm4__endif__search_list:
 			
 			// helper recieves a substring and displays all string with the substring in them

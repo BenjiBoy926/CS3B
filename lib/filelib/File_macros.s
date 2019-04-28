@@ -110,12 +110,12 @@ read_char:
 	mov		R7, #3		@ Read File code #
 	svc		0
 
-	//cmp		R0, #0		@ Compared bytes read, to 0
-	// Compare the character read in 
-	// with the ETX character
-	ldr r0, =char
-	ldrb r0, [r0]
-	cmp r0, #3
+	cmp		R0, #0		@ Compared bytes read, to 0
+	@ // Compare the character read in 
+	@ // with the ETX character
+	@ ldr r0, =char
+	@ ldrb r0, [r0]
+	@ cmp r0, #3
 	beq	end_of_file @ If it equals 0 then we reached end of file
 
 	mov		R2, #0		@ Else, we have not reached the end

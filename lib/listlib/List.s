@@ -760,6 +760,10 @@ List_inputFromFile:
 		mov r7, r1
 		mov r8, r2
 
+		// Check to see if the function returned null terminator
+		cmp r7, #0
+		beq lin__endwhile__not_end_of_file
+
 		// Add the line recieved as a null-terminated string
 		mov r0, r4
 		mov r1, r7
@@ -768,6 +772,8 @@ List_inputFromFile:
 		// Check end of file flag
 		cmp r8, #0
 		beq lin__while__not_end_of_file 
+
+	lin__endwhile__not_end_of_file:
 
 	// Close the file
 	mov r0, r6

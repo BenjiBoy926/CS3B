@@ -755,7 +755,7 @@ List_inputFromFile:
 
 	lin__while__not_end_of_file:
 		// Read the next line in the file
-		mov r1, r6
+		mov r0, r6
 		bl read_line
 		mov r7, r1
 		mov r8, r2

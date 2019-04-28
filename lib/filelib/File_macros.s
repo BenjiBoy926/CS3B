@@ -107,14 +107,14 @@ read_char:
 	mov	R2, #0		@ Else, we have not reached the end
 
 	ldrb	R1,[R1]		@ Loads a character from address
-	b	return
+	b	rch__return
 
 end_of_file:
 	mov	R1, #0		@ Return character is null
 	mov	R2, #1		@ Returns true for end of file
-	b	return
+	b	rch__return
 
-return:
+rch__return:
 	pop	{R0,R7}
 	bx	LR
 
@@ -143,7 +143,7 @@ read_line:
 	ldr	R3, =strBuf		@ Point r3 to strBuf
 	mov	R5, #0			@ Store null into r5
 
-loop:
+readline__loop:
 	push	{R3}		@ Store strBuf
 
 	bl	read_char
@@ -165,7 +165,7 @@ loop:
 	strb	R1, [R3], #1	@ Store the char into buffer and offset ptr
 	add	R4, #1
 
-	b	loop
+	b	readline__loop
 
 
 carriage_found:
@@ -181,13 +181,13 @@ make_string:
 	mov	R1, R3
 	bl	String_copy	@ Creates copy of the string
 	mov	R1, R0		@ Return copy of string into r1
-	b	return1
+	b	readline__return
 
 end_of_file1:
 	pop	{R3}
-	b	return1
+	b	readline__return
 
-return1:
+readline__return:
 	pop	{R0,R3-R5,LR}
 	bx	LR
 	
@@ -208,7 +208,7 @@ return1:
 load_list_from_file:
 	push	{R0-R2,LR}
 
-loop1:
+llist__loop:
 	push	{R1}		@ Save the list
 	bl	read_line
 
@@ -228,7 +228,7 @@ loop1:
 	mov	R2, R1		@ Put string back into r2
 	mov	R1, R0		@ Put list back into r1
 
-	b	loop1
+	b	llist__loop
 
 loop_exit:
 	pop	{R0-R2,LR}

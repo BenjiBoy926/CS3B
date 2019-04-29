@@ -607,6 +607,10 @@ List_length:
 		// and increment length to return
 		ldr r5, [r5, #4]
 		add r6, r6, #1
+
+		// Branch back to the loop
+		bal llen__while__current_not_null
+		
 	llen__endwhile__current_not_null:
 
 	// Return number of nodes

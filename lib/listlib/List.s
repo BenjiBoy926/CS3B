@@ -610,7 +610,7 @@ List_length:
 
 		// Branch back to the loop
 		bal llen__while__current_not_null
-		
+
 	llen__endwhile__current_not_null:
 
 	// Return number of nodes
@@ -674,8 +674,7 @@ List_foreachMatch:
 		// Do the action if r0 is true,
 		// otherwise skip the action
 		cmp r0, #0
-		bne lforeachmatch__do_action
-		bal lforeachmatch__skip_action
+		beq lforeachmatch__skip_action
 
 		// Load r1 with the data pointer of the current node
 		// and branch to the action routine

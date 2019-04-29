@@ -87,6 +87,9 @@ userString:	.skip 512
 // Buffer where user input goes when paused. The buffer is never actually used
 pauseBuffer:	.skip BUFSIZE
 
+// Confirm to the user that the list was saved
+outputConfirmPrompt:	.asciz "List saved to file "
+
 // Name of the file to output the list to
 outputFileName:	.asciz "output.txt"
 
@@ -372,10 +375,23 @@ _start:
 			bal rasm4__endif__output_list
 
 			rasm4__if__output_list:
+				// Output the list to the file
 				ldr r0, =stringList
 				ldr r0, [r0]
 				ldr r1, =outputFileName
 				bl List_outputToFile
+
+				// Confirm to the user that the list was saved
+				ldr r1, =outputConfirmPrompt
+				bl putstring
+				ldr r1, =outputFileName
+				bl putstring
+
+				// Put two endlinds
+				ldr r1, =endl
+				bl putch
+				ldr r1, =endl
+				bl putch
 			rasm4__endif__output_list:
 			
 		rasm4__endswitch__options:

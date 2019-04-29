@@ -152,6 +152,9 @@ loop2:
 	b	loop2		@ Branches back to top of loop
 
 return2:
+	// Store the null terminator in the last byte of r0
+	strb r2, [r0]
+	
 	pop	{r0}		@ Loads the new copied string to be returned
 	pop	{R1, R2, LR}
 	// pop {sp}

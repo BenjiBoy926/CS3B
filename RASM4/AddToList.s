@@ -11,6 +11,7 @@ inputStrConfirm:	.asciz "String added!\n\n"
 inputFileConfirm:	.asciz "Strings added from "
 inBuffer:	.skip BUFSIZE
 inFile:		.asciz "input.txt"
+endl:	.byte 10
 
 /*
 void AddToList(r0 list)

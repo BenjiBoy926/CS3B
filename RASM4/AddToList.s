@@ -8,6 +8,7 @@
 inputCharPrompt:	.asciz "Enter a character (a or b): "
 inputStrPrompt:		.asciz "Enter the string to add to the list: "
 inputStrConfirm:	.asciz "String added!\n\n"
+inputFileConfirm:	.asciz "Strings added from "
 inBuffer:	.skip BUFSIZE
 inFile:		.asciz "input.txt"
 
@@ -53,9 +54,8 @@ AddToList:
 
 		// If 'b' is input, initialize list from file
 		mov r0, r4
-		ldr r1, =inFile
 		cmp r5, #'b'
-		bleq List_inputFromFile
+		bleq AddStringsFromFile
 
 	atl__endswitch__option:
 
@@ -103,4 +103,25 @@ AddStringInput:
 	bl putstring
 
 	pop {r4-r8, r10-r12, pc}
-	
+
+// void AddStringsFromFile(r0 list)
+AddStringsFromFile:
+	push {r4-r8, r10-r12, lr}
+
+	// Initialize the list from the file
+	ldr r1, =inFile
+	bl List_inputFromFile
+
+	// Confirm that input succeeded to the user
+	ldr r1, =inputFileConfirm
+	bl putstring
+	ldr r1, =inFile
+	bl putstring
+
+	// Put two endlines
+	ldr r1, =endl
+	bl putch
+	ldr r1, =endl
+	bl putch
+
+	pop {r4-r8, r10-r12, pc}

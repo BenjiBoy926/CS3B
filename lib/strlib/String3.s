@@ -19,6 +19,13 @@ Ignore uppercase-lowercase difference
 // Let the dynamic linker resolve references to free 
 .extern free
 
+.data
+return0Str:	.asciz "Returning 0\n"
+return1Str:	.asciz "Returning 1\n"
+
+.text
+.balign 4
+
 // r0 =index String_indexOfIgnoreCase(r1 str, r2 otherStr)
 String_indexOfIgnoreCase:
 	push {r4-r8, r10-r12, lr}
@@ -61,7 +68,7 @@ String_indexOfIgnoreCase:
 
 // r0 =boolean String_containsIgnoreCase(r1 str, r2 otherStr)
 String_containsIgnoreCase:
-	push {lr}
+	push {r4-r8, r10-r12, lr}
 
 	// Get the index of the first string in the other string
 	bl String_indexOfIgnoreCase
@@ -74,9 +81,13 @@ String_containsIgnoreCase:
 	// If index not negative, return 1
 	strcontainsignore__if__index_not_negative:
 		mov r0, #1
+		ldr r1, =return1Str
+		bl putstring
 		bal strcontainsignore__end
 	// If index is negative, return 0
 	strcontainsignore__if__index_negative:
 		mov r0, #0
+		ldr r1, =return0Str
+		bl putstring
 	strcontainsignore__end:
-		pop {pc}
+		pop {r4-r8, r10-r12, pc}

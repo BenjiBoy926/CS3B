@@ -75,19 +75,14 @@ String_containsIgnoreCase:
 
 	// Branch according to index of other string in this string
 	cmp r0, #0
-	bge strcontainsignore__if__index_not_negative
-	bal strcontainsignore__if__index_negative
+	blt strcontainsignore__if__index_negative
 
 	// If index not negative, return 1
 	strcontainsignore__if__index_not_negative:
 		mov r0, #1
-		ldr r1, =return1Str
-		bl putstring
 		bal strcontainsignore__end
 	// If index is negative, return 0
 	strcontainsignore__if__index_negative:
 		mov r0, #0
-		ldr r1, =return0Str
-		bl putstring
 	strcontainsignore__end:
 		pop {r4-r8, r10-r12, pc}

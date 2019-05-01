@@ -70,6 +70,10 @@ String_indexOfIgnoreCase:
 String_containsIgnoreCase:
 	push {r4-r8, r10-r12, lr}
 
+	// Preserve arguments
+	mov r4, r1
+	mov r5, r2
+
 	// Get the index of the first string in the other string
 	bl String_indexOfIgnoreCase
 

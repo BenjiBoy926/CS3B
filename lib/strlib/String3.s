@@ -82,6 +82,8 @@ String_containsIgnoreCase:
 	cmp r0, #0
 	blt strcontainsignore__if__index_negative
 
+	movnv r8, #0
+
 	// If index not negative, return 1
 	strcontainsignore__if__index_not_negative:
 

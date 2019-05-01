@@ -32,15 +32,15 @@ String_indexOfIgnoreCase:
 	push {r4-r8, r10-r12, lr}
 
 	// Preserve arguments
-	mov r4, r1
-	mov r5, r2
+	mov r7, r1
+	mov r8, r2
 
 	// Copy the first string
 	bl String_copy
 	mov r4, r0
 
 	// Copy the second string
-	mov r1, r5
+	mov r1, r8
 	bl String_copy
 	mov r5, r0
 
@@ -55,6 +55,13 @@ String_indexOfIgnoreCase:
 	mov r2, r5
 	bl String_indexOfString
 	mov r6, r0
+
+	cmp r0, #0
+	blt skip_debug_statement
+
+	mov r10, #0
+
+	skip_debug_statement:
 
 	// Free the memory of the string copies
 	mov r0, r4
@@ -82,24 +89,10 @@ String_containsIgnoreCase:
 	cmp r0, #0
 	blt strcontainsignore__if__index_negative
 
-	movnv r8, #0
+	mov r8, #0
 
 	// If index not negative, return 1
 	strcontainsignore__if__index_not_negative:
-
-		ldr r1, =endl
-		bl putch
-		mov r1, r4
-		bl putstring
-		ldr r1, =endl
-		bl putch
-		mov r1, r5
-		bl putstring
-		ldr r1, =endl
-		bl putch
-		ldr r1, =endl
-		bl putch
-
 		mov r0, #1
 		bal strcontainsignore__end
 	// If index is negative, return 0

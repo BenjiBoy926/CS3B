@@ -22,6 +22,7 @@ Ignore uppercase-lowercase difference
 .data
 return0Str:	.asciz "Returning 0\n"
 return1Str:	.asciz "Returning 1\n"
+endl:	.byte 10
 
 .text
 .balign 4
@@ -83,6 +84,20 @@ String_containsIgnoreCase:
 
 	// If index not negative, return 1
 	strcontainsignore__if__index_not_negative:
+
+		ldr r1, =endl
+		bl putch
+		mov r1, r4
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		mov r1, r5
+		bl putstring
+		ldr r1, =endl
+		bl putch
+		ldr r1, =endl
+		bl putch
+
 		mov r0, #1
 		bal strcontainsignore__end
 	// If index is negative, return 0

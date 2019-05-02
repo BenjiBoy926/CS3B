@@ -102,7 +102,7 @@ String_contains:
 		beq _if__bytes_unequal__OR__big_null_encountered
 
 		// Compare the two bytes together
-		cmp r4, r5
+		cmp r1, r2
 		bne _if__bytes_unequal__OR__big_null_encountered
 
 		// Branch back to the start of the loop
@@ -647,16 +647,20 @@ getting the length of a null-terminated string
 strlen:
 	mov r0, #0
 	mov r2, r1
+
 	len__while__byte_not_zero:
 		// Load the byte pointed to by r1
 		// Increment r1's address after
 		ldrb r2, [r1], #1
+
 		// If the current byte is zero,
 		// exit the loop
 		cmp r2, #0
 		beq len__endwhile__byte_not_zero
+
 		// Increment each time an unequal byte is compared
 		add r0, r0, #1
 		bal len__while__byte_not_zero
+
 	len__endwhile__byte_not_zero:
 		bx lr

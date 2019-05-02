@@ -320,7 +320,7 @@ _start:
 				ldr r1, [r1]
 				sub r1, #1	@ Aligns index for user
 				ldr r2, =userString
-				bl List_set
+				bl List_setstr
 
 				ldr r1, =replaced
 				bl putstring

@@ -106,7 +106,7 @@ String_contains:
 		bne _if__bytes_unequal__OR__big_null_encountered
 
 		// Branch back to the start of the loop
-		bal _while__bytes_equal__AND__neither_null_encountered
+		bal _while__bytes_equal__AND__big_null_not_encountered
 
 	// Branch here if we reached the end of the smaller string
 	// before finding unequal characters

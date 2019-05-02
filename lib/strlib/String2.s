@@ -1,7 +1,7 @@
 // Global definitions of all the functions in String2.s
 .global memcpy
 
-.global String_compare
+.global String_contains
 
 .global String_concat
 
@@ -67,7 +67,7 @@ memcpy:
 		bx lr
 
 /*
-r0 String_compare(r1 str, r2 otherStr)
+r0 String_contains(r1 str, r2 otherStr)
 --------------------------------------
 Compare the two strings. r0 = 1 if they are equal 
 and 0 if they are unequal
@@ -80,35 +80,48 @@ at the beginning of the other
 --------------------------------------
 */
 
-String_compare:
+String_contains:
 	// Preserve r4, r5 and the link register
-	push {r4, r5, lr}
-	_while__bytes_equal__AND__neither_null_encountered:
+	push {r4-r8, lr}
+
+	// Preserve arguments
+	mov r4, r1
+	mov r5, r2
+
+	_while__bytes_equal__AND__big_null_not_encountered:
 		// Store bytes pointed to by r1 and r2 in r4 and r5, respectively
-		ldrb r4, [r1], #1
-		ldrb r5, [r2], #1
-		// Branch to label if the current byte of either
-		// string is the null terminator
-		cmp r4, #0
-		beq _if__either_null_encountered
-		cmp r5, #0
-		beq _if__either_null_encountered
+		ldrb r1, [r4], #1
+		ldrb r2, [r5], #1
+
+		// Branch if the end of the smaller string was found
+		cmp r2, #0
+		beq _if__small_null_encountered
+
+		// Branch if null reached in the bigger string
+		cmp r1, #0
+		beq _if__bytes_unequal__OR__big_null_encountered
+
 		// Compare the two bytes together
 		cmp r4, r5
-		bne _if__bytes_unequal
+		bne _if__bytes_unequal__OR__big_null_encountered
+
 		// Branch back to the start of the loop
 		bal _while__bytes_equal__AND__neither_null_encountered
-	// Branch here if we reached the end of either string
+
+	// Branch here if we reached the end of the smaller string
 	// before finding unequal characters
-	_if__either_null_encountered:
+	_if__small_null_encountered:
 		mov r0, #1
 		bal cmp__end
+
 	// Branch here if unequal bytes are found in the strings
-	_if__bytes_unequal:
+	// or the end of the big string was reached
+	_if__bytes_unequal__OR__big_null_encountered:
 		mov r0, #0
+
 	cmp__end:
 		// Restore r4/r5 and put lr value in the pc
-		pop {r4, r5, pc}
+		pop {r4-r8, pc}
 
 /*
 r0 String_concat(r1 str1, r2 str2)
@@ -309,7 +322,7 @@ String_indexOfString:
 		// Compare string at r1 with string at r2
 		mov r1, r4
 		mov r2, r5
-		bl String_compare
+		bl String_contains
 
 		// If strings are equal, we found the string
 		cmp r0, #1

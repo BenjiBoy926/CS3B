@@ -125,12 +125,9 @@ _start:
 		bl putstring
 
 		// Gets data consumption for menu output
-		ldr r0, =stringList
-		ldr r0, [r0]
-		bl  List_length
-
-		mov r2, #8
-		mul r0, r0, r2
+		bl data_usage
+		@ mov r2, #8
+		@ mul r0, r0, r2
 		ldr r1, =memoryBytes
 		bl intasc32
 

@@ -341,6 +341,10 @@ d_Node:
 List:
 	push {r4-r8, r10-r12, lr}
 
+	// Increase data usage by 8
+	mov r0, #8
+	bl update_data_usage
+
 	// Allocate eight bytes - four for "head"
 	// and four for "tail"
 	mov r0, #8
@@ -351,10 +355,6 @@ List:
 	str r1, [r0]
 	// Store null pointer in "tail" data word
 	str r1, [r0, #4]
-
-	// Increase data usage by 8
-	mov r0, #8
-	bl update_data_usage
 
 	pop {r4-r8, r10-r12, pc}
 
@@ -893,3 +893,4 @@ update_data_usage:
 
 	pop {r4}
 	bx lr
+	

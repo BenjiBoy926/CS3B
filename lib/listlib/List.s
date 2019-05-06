@@ -256,7 +256,7 @@ DATA SEGMENT
 ************/
 
 .data
-.global dataUsage:	.word 0	// Total data usage of the list
+dataUsage:	.word 0	// Total data usage of the list
 cCR:	.byte 10	// Carriage return ascii code
 // File handle of the current file the list is reading from/writing to
 currentFileHandle:	.word 0
@@ -267,6 +267,12 @@ IMPLEMENTATION
 
 .text
 .balign 4
+
+.global data_usage 
+data_usage:
+	ldr r0, =dataUsage
+	ldr r0, [r0]
+	bx lr
 
 // r0 =node <constructor>(r0 dataPtr, r1 dataLen)
 Node:

@@ -238,6 +238,14 @@ followed by a carriage return
 */
 .global print_string_and_endline
 
+/*
+void update_data_usage(r0 difference)
+-------------------------------------
+Add the number to the data usage. To decrease, pass negative
+-------------------------------------
+*/
+.global update_data_usage
+
 // Let the dynamic linker resolve references
 // to malloc and free
 .extern malloc
@@ -248,6 +256,7 @@ DATA SEGMENT
 ************/
 
 .data
+.global dataUsage:	.word 0	// Total data usage of the list
 cCR:	.byte 10	// Carriage return ascii code
 // File handle of the current file the list is reading from/writing to
 currentFileHandle:	.word 0
@@ -293,6 +302,10 @@ Node:
 	str r7, [r6]
 	str r8, [r6, #4]
 
+	// Increase data usage by 8
+	mov r0, #8
+	bl update_data_usage
+
 	// Move the node pointer r6 into r0 and return
 	mov r0, r6
 
@@ -312,6 +325,10 @@ d_Node:
 	mov r0, r4
 	bl free
 
+	// Reduce data usage by 8
+	mov r0, #-8
+	bl update_data_usage
+
 	pop {r4, pc}
 
 // r0 =list <constructor>()
@@ -328,6 +345,10 @@ List:
 	str r1, [r0]
 	// Store null pointer in "tail" data word
 	str r1, [r0, #4]
+
+	// Increase data usage by 8
+	mov r0, #8
+	bl update_data_usage
 
 	pop {r4-r8, r10-r12, pc}
 
@@ -477,6 +498,7 @@ List_add:
 
 	// Preserve the list pointer in r4
 	mov r4, r0
+	mov r5, r2
 
 	// Construct a node from the given data
 	mov r0, r1
@@ -508,6 +530,10 @@ List_add:
 		str r0, [r4, #4]
 
 	ladd__end:
+
+		mov r0, r5
+		bl update_data_usage
+
 		pop {r4-r8, r10-r12, pc}
 
 // void List_addstr(r0 list, r1 dataPtr)
@@ -845,3 +871,19 @@ print_string_and_endline:
 	bl putch
 
 	pop {pc}
+
+update_data_usage:
+	push {r4}
+	
+	mov r4, r0
+
+	ldr r0, =dataUsage
+	ldr r0, [r0]
+
+	add r0, r0, r4
+	
+	ldr r1, =dataUsage
+	str r0, [r1]
+
+	pop {r4}
+	bx lr

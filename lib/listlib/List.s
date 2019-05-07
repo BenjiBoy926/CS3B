@@ -329,6 +329,7 @@ d_Node:
 
 	// Reduce data usage
 	mvn r0, r0
+	add r0, r0, #1
 	bl update_data_usage
 
 	// Free the memory pointed to by the node's data pointer

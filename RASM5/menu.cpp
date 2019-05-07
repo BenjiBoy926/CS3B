@@ -41,22 +41,20 @@ int get_menu_input()
 
 void display_menu_header(int fileCount, chrono::seconds cppBubblesortTime, chrono::seconds asmBubblesortTime)
 {
-	const int BUBBLESORT_TIME_REPORT_WIDTH = 20;
-
 	output_centered("RASM5 C vs Assembly", MENU_WIDTH);
 	cout << endl;
 
 	output_centered("File Element Count: " + to_string(fileCount), MENU_WIDTH);
 	cout << endl;
 
-	ouptut_characters('-', MENU_WIDTH);
+	output_characters('-', MENU_WIDTH);
 	cout << endl;
 
 	cout << "Cpp Bubblesort Time: " << cppBubblesortTime.count() << endl;
 
 	cout << "Asm Bubblesort Time: " << asmBubblesortTime.count() << endl;
 
-	ouptut_characters('-', MENU_WIDTH);
+	output_characters('-', MENU_WIDTH);
 	cout << endl;
 }
 

@@ -23,6 +23,6 @@ void display_menu_header(int fileCount, std::chrono::seconds cppBubblesortTime,
 	std::chrono::seconds asmBubblesortTime);
 
 void output_characters(char ch, int numChars);
-void ouptut_centered(const std::string& str, int space);
+void output_centered(const std::string& str, int space);
 
 #endif // MENU_H_

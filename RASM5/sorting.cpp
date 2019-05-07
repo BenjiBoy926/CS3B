@@ -1,11 +1,12 @@
 #include "sorting.h"
+//#include <fstream>
 using namespace std;
 
 chrono::seconds timed_sort(int ar[], int length)
 {
-	auto start = chrono::system_clock::time_now();
-	c_bubble_sort(ar, length);
-	auto end = chrono::system_clock::time_now();
+	auto start = chrono::system_clock::now();
+	cpp_bubble_sort(ar, length);
+	auto end = chrono::system_clock::now();
 	return chrono::duration_cast<chrono::seconds>(end - start);
 }
 

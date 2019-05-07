@@ -405,6 +405,18 @@ List_set:
 	cmp r1, #0
 	beq lset__end
 
+	// Reduce data usage by previous string length
+	ldr r0, [r1]
+	bl String_length
+
+	mvn r0, r0
+	add r0, r0, #1
+	bl update_data_usage
+
+	// Increase data usage by new string length
+	mov r0, r7
+	bl update_data_usage
+
 	lset__if__current_not_null:
 		// Store current node
 		mov r8, r1

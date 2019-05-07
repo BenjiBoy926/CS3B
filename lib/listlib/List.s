@@ -323,6 +323,14 @@ d_Node:
 
 	mov r4, r0
 
+	// get string length of node data ptr
+	mov r0, r1
+	bl String_length
+
+	// Reduce data usage
+	mvn r0, r0
+	bl update_data_usage
+
 	// Free the memory pointed to by the node's data pointer
 	ldr r0, [r4]
 	bl free
@@ -537,6 +545,8 @@ List_add:
 
 	ladd__end:
 
+		// Increase data usage global var
+		// by data length added
 		mov r0, r5
 		bl update_data_usage
 

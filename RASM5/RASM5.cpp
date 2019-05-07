@@ -2,7 +2,7 @@
 #include "sorting.h"
 using namespace std;
 
-const int ARRAY_SIZE = 200000;
+const int ARRAY_SIZE = 20000;
 const string INPUT_FILE = "input.txt";
 const string CPP_OUTPUT_FILE = "cpp_output.txt";
 const string ASM_OUTPUT_FILE = "asm_output.txt";
@@ -17,7 +17,7 @@ int main()
 	do // while(input != TOTAL_MENU_OPTIONS)
 	{
 		// Clear screen
-		system("cls");
+		system("clear");
 
 		// Display menu and get the input
 		display_menu(ARRAY_SIZE, cppSortTime, asmSortTime);

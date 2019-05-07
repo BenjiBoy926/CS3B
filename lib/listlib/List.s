@@ -406,6 +406,9 @@ List_set:
 	beq lset__end
 
 	lset__if__current_not_null:
+		// Store current node
+		mov r8, r1
+
 		// Allocate a data segment of the size of the data
 		mov r0, r7
 		bl malloc

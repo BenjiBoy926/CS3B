@@ -400,23 +400,10 @@ List_set:
 
 	// Get the node pair at the given index
 	bl List_getNodePair
-	mov r8, r1
 
 	// Branch to end if current is null
-	cmp r8, #0
+	cmp r1, #0
 	beq lset__end
-
-	// Reduce data usage by previous string length
-	ldr r0, [r8]
-	bl String_length
-
-	mvn r0, r0
-	add r0, r0, #1
-	bl update_data_usage
-
-	// Increase data usage by new string length
-	mov r0, r7
-	bl update_data_usage
 
 	lset__if__current_not_null:
 		// Allocate a data segment of the size of the data

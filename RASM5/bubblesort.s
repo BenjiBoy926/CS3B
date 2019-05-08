@@ -53,7 +53,7 @@ asm_bubble_sort:
 
 			// If laterElement >= earlierElement, branch over the swap
 			cmp laterElement, earlierElement
-			blt bbl__endif__later_lt_earlier
+			bge bbl__endif__later_lt_earlier
 
 			bbl__if__later_lt_earlier:
 				// Swap the valus in the array

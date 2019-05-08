@@ -50,9 +50,9 @@ void display_menu_header(int fileCount, chrono::seconds cppBubblesortTime, chron
 	output_characters('-', MENU_WIDTH);
 	cout << endl;
 
-	cout << "Cpp Bubblesort Time: " << cppBubblesortTime.count() << endl;
+	cout << "Cpp Bubblesort Time: " << cppBubblesortTime.count() << " seconds" << endl;
 
-	cout << "Asm Bubblesort Time: " << asmBubblesortTime.count() << endl;
+	cout << "Asm Bubblesort Time: " << asmBubblesortTime.count() << " seconds" << endl;
 
 	output_characters('-', MENU_WIDTH);
 	cout << endl;

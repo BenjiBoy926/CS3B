@@ -39,6 +39,7 @@ void input_from_file(int ar[], int length, const std::string& filename)
 		while(current < length && !fin.eof())
 		{
 			fin >> ar[current];
+			current++;
 		}
 
 		fin.close();

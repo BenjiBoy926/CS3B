@@ -14,8 +14,8 @@ $(EXE): $(OBJS)
 %.o: %.cpp %.h
 	$(CC) $(FLAGS) -c $< -o $@
 
-%.o: %.s
-	as -g -o $@ $<
+#%.o: %.s
+#	as -g -o $@ $<
 
 clean:
 	rm $(OBJS) $(EXE) $(EXE).scr

@@ -28,6 +28,7 @@ int get_menu_input()
 		{
 			cout << "*** ERROR: please input an integer ***" << endl;
 			cin.clear();
+			cin.ignore(100, '\n');
 		}
 		else if(input <= 0 || input > TOTAL_MENU_OPTIONS)
 		{
@@ -58,7 +59,7 @@ void display_menu_header(int fileCount, chrono::seconds cppBubblesortTime, chron
 	cout << endl;
 }
 
-void ouptut_characters(char ch, int numChars)
+void output_characters(char ch, int numChars)
 {
 	cout << setfill(ch); 
 	cout << setw(numChars) << ch;

@@ -6,7 +6,7 @@
 #include <chrono>
 #include <string>
 
-const int MENU_WIDTH = 30;
+const int MENU_WIDTH = 45;
 const int TOTAL_MENU_OPTIONS = 4;
 const std::string MENU_OPTIONS[TOTAL_MENU_OPTIONS] = {
 	"Load input file (integers)",

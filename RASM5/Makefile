@@ -1,9 +1,21 @@
+NAME = CH
+
+# COMPILING
 CC = g++
 FLAGS = -std=c++17 -Wall -g
-SOURCES = $(wildcard *.cpp) $(wildcard *.s)
-OBJS = $(SOURCES:.cpp=.o) $(SOURCES:.s=.o)
+
+# SOURCES
+CPP_SOURCES = $(wildcard *.cpp)
+ASM_SOURCES = $(wildcard *.s)
+SOURCES = $(CPP_SOURCES) $(ASM_SOURCES)
+
+# OBJECTS
+CPP_OBJS = $(CPP_SOURCES:.cpp=.o)
+ASM_OBJS = $(ASM_SOURCES:.s=.o)
+OBJS = $(CPP_OBJS) $(ASM_OBJS)
+
+# EXECUTABLE / SUBMISSION
 EXE = $(notdir $(CURDIR))
-NAME = CH
 TAR = $(NAME)$(EXE)
 
 all: $(EXE)

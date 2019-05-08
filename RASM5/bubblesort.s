@@ -28,7 +28,7 @@ asm_bubble_sort:
 	bbl__for__i_lt_length:
 		// Branch out if i >= length
 		cmp i, length
-		bge bbl__endfor__i_lt_sentinel
+		bge bbl__endfor__i_lt_length
 
 		// Initialize inner index
 		mov j, #0

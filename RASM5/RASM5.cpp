@@ -2,6 +2,8 @@
 #include "sorting.h"
 using namespace std;
 
+extern "C" void asm_bubble_sort(int array[], int length);
+
 const int ARRAY_SIZE = 20000;
 const string INPUT_FILE = "input.txt";
 const string CPP_OUTPUT_FILE = "cpp_output.txt";
@@ -9,7 +11,8 @@ const string ASM_OUTPUT_FILE = "asm_output.txt";
 
 int main()
 {
-	int array[ARRAY_SIZE];
+	int cpp_array[ARRAY_SIZE];
+	int asm_array[ARRAY_SIZE];
 	chrono::seconds cppSortTime = 0s;
 	chrono::seconds asmSortTime = 0s;
 	int input = 0;
@@ -26,16 +29,16 @@ int main()
 		switch(input)
 		{
 			case 1:
-				input_from_file(array, ARRAY_SIZE, INPUT_FILE);
-				// init assembly array from file
+				input_from_file(cpp_array, ARRAY_SIZE, INPUT_FILE);
+				input_from_file(asm_array, ARRAY_SIZE, INPUT_FILE);
 				break;
 			case 2:
-				cppSortTime = timed_sort(array, ARRAY_SIZE);
-				output_to_file(array, ARRAY_SIZE, CPP_OUTPUT_FILE);
+				cppSortTime = timed_sort(cpp_array, ARRAY_SIZE, cpp_bubble_sort);
+				output_to_file(cpp_array, ARRAY_SIZE, CPP_OUTPUT_FILE);
 				break;
 			case 3:
-				// asm bubble sort
-				// asm output to file
+				asmSortTime = timed_sort(asm_array, ARRAY_SIZE, asm_bubble_sort);
+				output_to_file(asm_array, ARRAY_SIZE, ASM_OUTPUT_FILE);
 				break;	
 		}
 

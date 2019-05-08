@@ -1,7 +1,7 @@
 CC = g++
 FLAGS = -std=c++17 -Wall -g
-SOURCES = $(wildcard *.cpp) #$(wildcard *.s)
-OBJS = $(SOURCES:.cpp=.o) #$(SOURCES:.s=.o)
+SOURCES = $(wildcard *.cpp) $(wildcard *.s)
+OBJS = $(SOURCES:.cpp=.o) $(SOURCES:.s=.o)
 EXE = $(notdir $(CURDIR))
 NAME = CH
 TAR = $(NAME)$(EXE)
@@ -14,8 +14,8 @@ $(EXE): $(OBJS)
 %.o: %.cpp %.h
 	$(CC) $(FLAGS) -c $< -o $@
 
-#%.o: %.s
-#	as -g -o $@ $<
+%.o: %.s
+	as -g -o $@ $<
 
 clean:
 	rm $(OBJS) $(EXE) $(EXE).scr

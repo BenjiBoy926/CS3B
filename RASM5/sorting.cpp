@@ -2,10 +2,10 @@
 //#include <fstream>
 using namespace std;
 
-chrono::seconds timed_sort(int ar[], int length)
+chrono::seconds timed_sort(int ar[], int length, void(*sort)(int[], int))
 {
 	auto start = chrono::system_clock::now();
-	cpp_bubble_sort(ar, length);
+	sort(ar, length);
 	auto end = chrono::system_clock::now();
 	return chrono::duration_cast<chrono::seconds>(end - start);
 }

@@ -69,6 +69,6 @@ asm_bubble_sort:
 		// Update LCV
 		add i, i, #1
 
-	bbl__endfor__i:
+	bbl__endfor__i_lt_length:
 
 	pop {r4-r8, r10-r12, pc}

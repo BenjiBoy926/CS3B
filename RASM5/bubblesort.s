@@ -63,11 +63,13 @@ asm_bubble_sort:
 
 			// Update LCV
 			add j, j, #1
+			bal bbl__for__j_lt_sentinel
 
 		bbl__endfor__j_lt_sentinel:
 
 		// Update LCV
 		add i, i, #1
+		bal bbl__for__i_lt_length
 
 	bbl__endfor__i_lt_length:
 
